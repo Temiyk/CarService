@@ -54,7 +54,7 @@
             textBoxEmployeeFN.Location = new Point(168, 272);
             textBoxEmployeeFN.MaxLength = 15;
             textBoxEmployeeFN.Name = "textBoxEmployeeFN";
-            textBoxEmployeeFN.PlaceholderText = "Иван";
+            textBoxEmployeeFN.PlaceholderText = "Иван*";
             textBoxEmployeeFN.Size = new Size(184, 30);
             textBoxEmployeeFN.TabIndex = 3;
             // 
@@ -64,7 +64,7 @@
             textBoxEmloyeeLN.Location = new Point(168, 320);
             textBoxEmloyeeLN.MaxLength = 15;
             textBoxEmloyeeLN.Name = "textBoxEmloyeeLN";
-            textBoxEmloyeeLN.PlaceholderText = "Иванов";
+            textBoxEmloyeeLN.PlaceholderText = "Иванов*";
             textBoxEmloyeeLN.Size = new Size(184, 30);
             textBoxEmloyeeLN.TabIndex = 4;
             // 
@@ -74,12 +74,13 @@
             textBox2.Location = new Point(168, 368);
             textBox2.MaxLength = 15;
             textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "Инженер";
+            textBox2.PlaceholderText = "Инженер*";
             textBox2.Size = new Size(184, 30);
             textBox2.TabIndex = 5;
             // 
             // pictureBoxEmployee
             // 
+            pictureBoxEmployee.BorderStyle = BorderStyle.FixedSingle;
             pictureBoxEmployee.Location = new Point(192, 112);
             pictureBoxEmployee.Name = "pictureBoxEmployee";
             pictureBoxEmployee.Size = new Size(125, 125);
@@ -94,6 +95,7 @@
             buttonAddEmployee.TabIndex = 8;
             buttonAddEmployee.Text = "Подтвердить";
             buttonAddEmployee.UseVisualStyleBackColor = true;
+            buttonAddEmployee.Click += buttonAddEmployee_Click;
             // 
             // AddEmployee
             // 
