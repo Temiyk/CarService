@@ -29,21 +29,21 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddService));
-            buttonCompleteAdding = new Button();
+            buttonAddService = new Button();
             textBoxServicePrice = new TextBox();
             textBoxServiceDescription = new TextBox();
             textBoxServiceName = new TextBox();
             labelNewService = new Label();
             SuspendLayout();
             // 
-            // buttonCompleteAdding
+            // buttonAddService
             // 
-            buttonCompleteAdding.Location = new Point(191, 433);
-            buttonCompleteAdding.Name = "buttonCompleteAdding";
-            buttonCompleteAdding.Size = new Size(152, 48);
-            buttonCompleteAdding.TabIndex = 13;
-            buttonCompleteAdding.Text = "Подтвердить";
-            buttonCompleteAdding.UseVisualStyleBackColor = true;
+            buttonAddService.Location = new Point(191, 433);
+            buttonAddService.Name = "buttonAddService";
+            buttonAddService.Size = new Size(152, 48);
+            buttonAddService.TabIndex = 13;
+            buttonAddService.Text = "Подтвердить";
+            buttonAddService.UseVisualStyleBackColor = true;
             // 
             // textBoxServicePrice
             // 
@@ -91,7 +91,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(534, 561);
-            Controls.Add(buttonCompleteAdding);
+            Controls.Add(buttonAddService);
             Controls.Add(textBoxServicePrice);
             Controls.Add(textBoxServiceDescription);
             Controls.Add(textBoxServiceName);
@@ -105,7 +105,7 @@
 
         #endregion
 
-        private Button buttonCompleteAdding;
+        private Button buttonAddService;
         private TextBox textBoxServicePrice;
         private TextBox textBoxServiceDescription;
         private TextBox textBoxServiceName;

@@ -53,7 +53,7 @@
             textBoxClientFN.Location = new Point(72, 136);
             textBoxClientFN.MaxLength = 15;
             textBoxClientFN.Name = "textBoxClientFN";
-            textBoxClientFN.PlaceholderText = "Иван";
+            textBoxClientFN.PlaceholderText = "Иван*";
             textBoxClientFN.Size = new Size(184, 30);
             textBoxClientFN.TabIndex = 2;
             // 
@@ -63,7 +63,7 @@
             textBoxClientLN.Location = new Point(72, 192);
             textBoxClientLN.MaxLength = 20;
             textBoxClientLN.Name = "textBoxClientLN";
-            textBoxClientLN.PlaceholderText = "Иванов";
+            textBoxClientLN.PlaceholderText = "Иванов*";
             textBoxClientLN.Size = new Size(184, 30);
             textBoxClientLN.TabIndex = 3;
             // 
@@ -73,7 +73,7 @@
             textBoxPhoneNumber.Location = new Point(352, 136);
             textBoxPhoneNumber.MaxLength = 15;
             textBoxPhoneNumber.Name = "textBoxPhoneNumber";
-            textBoxPhoneNumber.PlaceholderText = "+375123456789";
+            textBoxPhoneNumber.PlaceholderText = "+375123456789*";
             textBoxPhoneNumber.Size = new Size(184, 30);
             textBoxPhoneNumber.TabIndex = 4;
             // 
@@ -95,6 +95,7 @@
             buttonCompleteAdding.TabIndex = 6;
             buttonCompleteAdding.Text = "Добавить";
             buttonCompleteAdding.UseVisualStyleBackColor = true;
+            buttonCompleteAdding.Click += buttonCompleteAdding_Click;
             // 
             // AddClient
             // 

@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddNewOrder));
-            buttonAddVehicle = new Button();
+            buttonAddOrder = new Button();
             labelNewOrder = new Label();
             SuspendLayout();
             // 
-            // buttonAddVehicle
+            // buttonAddOrder
             // 
-            buttonAddVehicle.Location = new Point(184, 648);
-            buttonAddVehicle.Name = "buttonAddVehicle";
-            buttonAddVehicle.Size = new Size(152, 48);
-            buttonAddVehicle.TabIndex = 22;
-            buttonAddVehicle.Text = "Подтвердить";
-            buttonAddVehicle.UseVisualStyleBackColor = true;
+            buttonAddOrder.Location = new Point(184, 648);
+            buttonAddOrder.Name = "buttonAddOrder";
+            buttonAddOrder.Size = new Size(152, 48);
+            buttonAddOrder.TabIndex = 22;
+            buttonAddOrder.Text = "Подтвердить";
+            buttonAddOrder.UseVisualStyleBackColor = true;
             // 
             // labelNewOrder
             // 
@@ -58,7 +58,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(517, 753);
             Controls.Add(labelNewOrder);
-            Controls.Add(buttonAddVehicle);
+            Controls.Add(buttonAddOrder);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddNewOrder";
             Text = "MotorbreathMaster";
@@ -67,7 +67,7 @@
         }
 
         #endregion
-        private Button buttonAddVehicle;
+        private Button buttonAddOrder;
         private Label labelNewOrder;
     }
 }
