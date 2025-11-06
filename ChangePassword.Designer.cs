@@ -47,7 +47,7 @@
             // 
             // buttonCompleteAdding
             // 
-            buttonCompleteAdding.Location = new Point(152, 248);
+            buttonCompleteAdding.Location = new Point(152, 232);
             buttonCompleteAdding.Name = "buttonCompleteAdding";
             buttonCompleteAdding.Size = new Size(152, 48);
             buttonCompleteAdding.TabIndex = 7;
@@ -57,7 +57,7 @@
             // textBoxNewPassword
             // 
             textBoxNewPassword.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxNewPassword.Location = new Point(136, 176);
+            textBoxNewPassword.Location = new Point(136, 168);
             textBoxNewPassword.MaxLength = 15;
             textBoxNewPassword.Name = "textBoxNewPassword";
             textBoxNewPassword.PasswordChar = '*';
@@ -80,7 +80,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(453, 371);
+            ClientSize = new Size(453, 330);
             Controls.Add(textBoxNewPassword);
             Controls.Add(textBoxOldPassword);
             Controls.Add(buttonCompleteAdding);

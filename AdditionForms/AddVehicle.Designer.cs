@@ -82,7 +82,7 @@
             // 
             textBoxCarBrand.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
             textBoxCarBrand.Location = new Point(144, 280);
-            textBoxCarBrand.MaxLength = 15;
+            textBoxCarBrand.MaxLength = 20;
             textBoxCarBrand.Name = "textBoxCarBrand";
             textBoxCarBrand.PlaceholderText = "Марка";
             textBoxCarBrand.Size = new Size(230, 30);

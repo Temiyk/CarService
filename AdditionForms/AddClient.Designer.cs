@@ -61,7 +61,7 @@
             // 
             textBoxClientLN.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
             textBoxClientLN.Location = new Point(72, 192);
-            textBoxClientLN.MaxLength = 15;
+            textBoxClientLN.MaxLength = 20;
             textBoxClientLN.Name = "textBoxClientLN";
             textBoxClientLN.PlaceholderText = "Иванов";
             textBoxClientLN.Size = new Size(184, 30);
@@ -81,7 +81,7 @@
             // 
             textBoxEMail.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
             textBoxEMail.Location = new Point(352, 192);
-            textBoxEMail.MaxLength = 15;
+            textBoxEMail.MaxLength = 30;
             textBoxEMail.Name = "textBoxEMail";
             textBoxEMail.PlaceholderText = "example@mail.com";
             textBoxEMail.Size = new Size(184, 30);
