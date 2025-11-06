@@ -34,45 +34,47 @@
             textBoxServiceDescription = new TextBox();
             textBoxServiceName = new TextBox();
             labelNewService = new Label();
+            textBoxSpecialization = new TextBox();
             SuspendLayout();
             // 
             // buttonAddService
             // 
-            buttonAddService.Location = new Point(191, 433);
+            buttonAddService.Location = new Point(104, 424);
             buttonAddService.Name = "buttonAddService";
             buttonAddService.Size = new Size(152, 48);
             buttonAddService.TabIndex = 13;
             buttonAddService.Text = "Подтвердить";
             buttonAddService.UseVisualStyleBackColor = true;
+            buttonAddService.Click += buttonAddService_Click;
             // 
             // textBoxServicePrice
             // 
             textBoxServicePrice.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxServicePrice.Location = new Point(144, 304);
+            textBoxServicePrice.Location = new Point(57, 303);
             textBoxServicePrice.MaxLength = 15;
             textBoxServicePrice.Name = "textBoxServicePrice";
-            textBoxServicePrice.PlaceholderText = "Стоимость";
+            textBoxServicePrice.PlaceholderText = "Стоимость*";
             textBoxServicePrice.Size = new Size(248, 30);
             textBoxServicePrice.TabIndex = 12;
             // 
             // textBoxServiceDescription
             // 
             textBoxServiceDescription.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxServiceDescription.Location = new Point(144, 200);
+            textBoxServiceDescription.Location = new Point(57, 199);
             textBoxServiceDescription.MaxLength = 80;
             textBoxServiceDescription.Multiline = true;
             textBoxServiceDescription.Name = "textBoxServiceDescription";
-            textBoxServiceDescription.PlaceholderText = "Описание";
+            textBoxServiceDescription.PlaceholderText = "Описание*";
             textBoxServiceDescription.Size = new Size(248, 88);
             textBoxServiceDescription.TabIndex = 11;
             // 
             // textBoxServiceName
             // 
             textBoxServiceName.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxServiceName.Location = new Point(144, 152);
+            textBoxServiceName.Location = new Point(57, 151);
             textBoxServiceName.MaxLength = 15;
             textBoxServiceName.Name = "textBoxServiceName";
-            textBoxServiceName.PlaceholderText = "Название";
+            textBoxServiceName.PlaceholderText = "Название*";
             textBoxServiceName.Size = new Size(248, 30);
             textBoxServiceName.TabIndex = 10;
             // 
@@ -80,17 +82,28 @@
             // 
             labelNewService.AutoSize = true;
             labelNewService.Font = new Font("Garamond", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            labelNewService.Location = new Point(128, 40);
+            labelNewService.Location = new Point(41, 39);
             labelNewService.Name = "labelNewService";
             labelNewService.Size = new Size(281, 50);
             labelNewService.TabIndex = 9;
             labelNewService.Text = "Новая услуга";
             // 
+            // textBoxSpecialization
+            // 
+            textBoxSpecialization.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            textBoxSpecialization.Location = new Point(56, 352);
+            textBoxSpecialization.MaxLength = 15;
+            textBoxSpecialization.Name = "textBoxSpecialization";
+            textBoxSpecialization.PlaceholderText = "Специализация сотрудника*";
+            textBoxSpecialization.Size = new Size(248, 30);
+            textBoxSpecialization.TabIndex = 14;
+            // 
             // AddService
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(534, 561);
+            ClientSize = new Size(367, 512);
+            Controls.Add(textBoxSpecialization);
             Controls.Add(buttonAddService);
             Controls.Add(textBoxServicePrice);
             Controls.Add(textBoxServiceDescription);
@@ -110,5 +123,6 @@
         private TextBox textBoxServiceDescription;
         private TextBox textBoxServiceName;
         private Label labelNewService;
+        private TextBox textBoxSpecialization;
     }
 }

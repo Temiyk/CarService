@@ -51,7 +51,9 @@ namespace coursa4
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при добавлении сотрудника: {ex.Message}");
+                MessageBox.Show($"Ошибка при добавлении сотрудника: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 

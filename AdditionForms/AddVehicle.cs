@@ -49,13 +49,10 @@ namespace coursa4
         private void buttonAddVehicle_Click(object sender, EventArgs e)
         {
             int clientId;
-
-            // Проверяем, выбран ли существующий клиент или нужно создать нового
             if ((int)comboBoxClient.SelectedValue == -1)
             {
-                // Создаем нового клиента
                 clientId = CreateNewClient();
-                if (clientId == -1) // Если создание клиента отменено
+                if (clientId == -1) 
                     return;
             }
             else

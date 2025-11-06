@@ -44,7 +44,9 @@ namespace coursa4
                 this.Close();
             }
             catch (Exception ex) { 
-                MessageBox.Show($"Ошибка при добавлении клиента: {ex.Message}");
+                MessageBox.Show($"Ошибка при добавлении клиента: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
     }
