@@ -38,6 +38,7 @@
             textBoxCarVIN = new TextBox();
             textBoxCarPlate = new TextBox();
             textBoxCarMileage = new TextBox();
+            comboBoxClient = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxNewVehicle).BeginInit();
             SuspendLayout();
             // 
@@ -49,14 +50,17 @@
             buttonAddVehicle.TabIndex = 14;
             buttonAddVehicle.Text = "Подтвердить";
             buttonAddVehicle.UseVisualStyleBackColor = true;
+            buttonAddVehicle.Click += buttonAddVehicle_Click;
             // 
             // pictureBoxNewVehicle
             // 
+            pictureBoxNewVehicle.BorderStyle = BorderStyle.FixedSingle;
             pictureBoxNewVehicle.Location = new Point(168, 112);
             pictureBoxNewVehicle.Name = "pictureBoxNewVehicle";
             pictureBoxNewVehicle.Size = new Size(183, 125);
             pictureBoxNewVehicle.TabIndex = 13;
             pictureBoxNewVehicle.TabStop = false;
+            pictureBoxNewVehicle.Click += pictureBoxNewVehicle_Click;
             // 
             // textBoxCarYear
             // 
@@ -64,7 +68,7 @@
             textBoxCarYear.Location = new Point(144, 376);
             textBoxCarYear.MaxLength = 4;
             textBoxCarYear.Name = "textBoxCarYear";
-            textBoxCarYear.PlaceholderText = "Год выпуска";
+            textBoxCarYear.PlaceholderText = "Год выпуска*";
             textBoxCarYear.Size = new Size(230, 30);
             textBoxCarYear.TabIndex = 12;
             // 
@@ -74,7 +78,7 @@
             textBoxCarModel.Location = new Point(144, 328);
             textBoxCarModel.MaxLength = 15;
             textBoxCarModel.Name = "textBoxCarModel";
-            textBoxCarModel.PlaceholderText = "Модель";
+            textBoxCarModel.PlaceholderText = "Модель*";
             textBoxCarModel.Size = new Size(230, 30);
             textBoxCarModel.TabIndex = 11;
             // 
@@ -84,7 +88,7 @@
             textBoxCarBrand.Location = new Point(144, 280);
             textBoxCarBrand.MaxLength = 20;
             textBoxCarBrand.Name = "textBoxCarBrand";
-            textBoxCarBrand.PlaceholderText = "Марка";
+            textBoxCarBrand.PlaceholderText = "Марка*";
             textBoxCarBrand.Size = new Size(230, 30);
             textBoxCarBrand.TabIndex = 10;
             // 
@@ -104,7 +108,7 @@
             textBoxCarVIN.Location = new Point(144, 424);
             textBoxCarVIN.MaxLength = 12;
             textBoxCarVIN.Name = "textBoxCarVIN";
-            textBoxCarVIN.PlaceholderText = "VIN-номер";
+            textBoxCarVIN.PlaceholderText = "VIN-номер*";
             textBoxCarVIN.Size = new Size(230, 30);
             textBoxCarVIN.TabIndex = 15;
             // 
@@ -114,7 +118,7 @@
             textBoxCarPlate.Location = new Point(144, 472);
             textBoxCarPlate.MaxLength = 20;
             textBoxCarPlate.Name = "textBoxCarPlate";
-            textBoxCarPlate.PlaceholderText = "Гос. номер";
+            textBoxCarPlate.PlaceholderText = "Гос. номер*";
             textBoxCarPlate.Size = new Size(230, 30);
             textBoxCarPlate.TabIndex = 16;
             // 
@@ -124,15 +128,26 @@
             textBoxCarMileage.Location = new Point(144, 520);
             textBoxCarMileage.MaxLength = 7;
             textBoxCarMileage.Name = "textBoxCarMileage";
-            textBoxCarMileage.PlaceholderText = "Пробег(км.)";
+            textBoxCarMileage.PlaceholderText = "Пробег(км.)*";
             textBoxCarMileage.Size = new Size(230, 30);
             textBoxCarMileage.TabIndex = 17;
+            // 
+            // comboBoxClient
+            // 
+            comboBoxClient.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            comboBoxClient.FormattingEnabled = true;
+            comboBoxClient.Location = new Point(144, 568);
+            comboBoxClient.Name = "comboBoxClient";
+            comboBoxClient.Size = new Size(232, 31);
+            comboBoxClient.TabIndex = 18;
+            comboBoxClient.Text = "Владелец*";
             // 
             // AddVehicle
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(517, 753);
+            Controls.Add(comboBoxClient);
             Controls.Add(textBoxCarMileage);
             Controls.Add(textBoxCarPlate);
             Controls.Add(textBoxCarVIN);
@@ -161,5 +176,6 @@
         private TextBox textBoxCarVIN;
         private TextBox textBoxCarPlate;
         private TextBox textBoxCarMileage;
+        private ComboBox comboBoxClient;
     }
 }
