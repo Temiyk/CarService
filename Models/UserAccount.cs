@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace coursa4.Models
+{
+    internal class UserAccount
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Login { get; set; }
+        public int PasswordHash { get; set; }
+    }
+}

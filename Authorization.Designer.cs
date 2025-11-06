@@ -68,7 +68,7 @@
             // 
             labelAuth.AutoSize = true;
             labelAuth.Font = new Font("Garamond", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelAuth.Location = new Point(48, 64);
+            labelAuth.Location = new Point(48, 48);
             labelAuth.Name = "labelAuth";
             labelAuth.Size = new Size(379, 68);
             labelAuth.TabIndex = 3;

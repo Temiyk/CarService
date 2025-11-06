@@ -16,6 +16,7 @@ namespace coursa4.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<UserAccount> UserAccounts { get; set; }
 
         public void ApplicationContext() 
         { 
@@ -154,6 +155,14 @@ namespace coursa4.Data
                 entity.Property(c => c.Name).IsRequired().HasMaxLength(100);
                 entity.Property(c => c.Price).IsRequired().HasColumnType("decimal(18,2)"); 
                 entity.Property(c => c.QuantityInStock).IsRequired();
+            });
+            // Конфигурация аккаунта
+            modelBuilder.Entity<UserAccount>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+                entity.Property(c => c.Name).IsRequired().HasMaxLength(15);
+                entity.Property(c => c.Login).IsRequired().HasMaxLength(20);
+                entity.Property(c => c.PasswordHash).IsRequired();
             });
         }
     }
