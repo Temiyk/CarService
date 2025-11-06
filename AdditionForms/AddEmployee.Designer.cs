@@ -86,6 +86,7 @@
             pictureBoxEmployee.Size = new Size(125, 125);
             pictureBoxEmployee.TabIndex = 6;
             pictureBoxEmployee.TabStop = false;
+            pictureBoxEmployee.Click += pictureBoxEmployee_Click;
             // 
             // buttonAddEmployee
             // 
