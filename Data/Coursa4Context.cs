@@ -32,7 +32,7 @@ namespace coursa4.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Client configuration
+            // Конфигурация клиента
             modelBuilder.Entity<Client>(entity =>
             {
                 entity.HasKey(c => c.Id);
@@ -42,7 +42,7 @@ namespace coursa4.Data
                 entity.Property(c => c.Email).HasMaxLength(100);
                 entity.HasIndex(e => e.PhoneNumber).IsUnique();
 
-                // Relationships
+                // Связи
                 entity.HasMany(c => c.Vehicles)
                       .WithOne(v => v.Client)
                       .HasForeignKey(v => v.ClientId)
@@ -54,7 +54,7 @@ namespace coursa4.Data
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // Vehicle configuration
+            // Конфигурация для авто
             modelBuilder.Entity<Vehicle>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -68,7 +68,7 @@ namespace coursa4.Data
                 entity.HasIndex(e => e.VIN).IsUnique();
                 entity.HasIndex(e => e.LicensePlate).IsUnique();
 
-                // Relationships
+                // Связи
                 entity.HasOne(v => v.Client)
                       .WithMany(c => c.Vehicles)
                       .HasForeignKey(v => v.ClientId)
@@ -80,7 +80,7 @@ namespace coursa4.Data
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // Employee configuration
+            // Конфигурация сотрудника
             modelBuilder.Entity<Employee>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -89,14 +89,14 @@ namespace coursa4.Data
                 entity.Property(e => e.Specialization).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Status).IsRequired().HasMaxLength(50);
 
-                // Relationships
+                // Связи
                 entity.HasMany(e => e.Orders)
                       .WithOne(o => o.Employee)
                       .HasForeignKey(o => o.EmployeeId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // Order configuration
+            // Конфигурация заказа
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -105,7 +105,7 @@ namespace coursa4.Data
                 entity.Property(e => e.Status).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.Price).IsRequired().HasColumnType("decimal(18,2)");
 
-                // Relationships
+                // Связи
                 entity.HasOne(o => o.Client)
                       .WithMany(c => c.Orders)
                       .HasForeignKey(o => o.ClientId)
@@ -122,17 +122,15 @@ namespace coursa4.Data
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // Service configuration
+            // Конфигурация услуги
             modelBuilder.Entity<Service>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Description).HasMaxLength(500);
                 entity.Property(e => e.Price).IsRequired().HasColumnType("decimal(18,2)");
+                entity.Property(e => e.RequiredSpecialization).IsRequired().HasMaxLength(100);
 
-                // Связь с Order удалена, так как у Service больше нет OrderId и Order
-
-                // Many-to-many relationship with CarPart
                 entity.HasMany(s => s.CarParts)
                       .WithMany()
                       .UsingEntity<Dictionary<string, object>>(
@@ -149,7 +147,7 @@ namespace coursa4.Data
                               .OnDelete(DeleteBehavior.Cascade));
             });
 
-            // CarPart configuration
+            // Конфигурация запчасти
             modelBuilder.Entity<CarPart>(entity =>
             {
                 entity.HasKey(c => c.Id);
