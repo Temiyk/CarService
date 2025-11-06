@@ -14,7 +14,7 @@ namespace coursa4.Data
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<CarPart> CarParts { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Service> OrderItems { get; set; }
+        public DbSet<Service> Services { get; set; }
         public DbSet<Employee> Employees { get; set; }
 
         public void ApplicationContext() 
@@ -120,11 +120,6 @@ namespace coursa4.Data
                       .WithMany(e => e.Orders)
                       .HasForeignKey(o => o.EmployeeId)
                       .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasMany(o => o.Services)
-                      .WithOne(s => s.Order)
-                      .HasForeignKey(s => s.OrderId)
-                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             // Service configuration
@@ -135,11 +130,7 @@ namespace coursa4.Data
                 entity.Property(e => e.Description).HasMaxLength(500);
                 entity.Property(e => e.Price).IsRequired().HasColumnType("decimal(18,2)");
 
-                // Relationships
-                entity.HasOne(s => s.Order)
-                      .WithMany(o => o.Services)
-                      .HasForeignKey(s => s.OrderId)
-                      .OnDelete(DeleteBehavior.Cascade);
+                // Связь с Order удалена, так как у Service больше нет OrderId и Order
 
                 // Many-to-many relationship with CarPart
                 entity.HasMany(s => s.CarParts)
@@ -163,7 +154,7 @@ namespace coursa4.Data
             {
                 entity.HasKey(c => c.Id);
                 entity.Property(c => c.Name).IsRequired().HasMaxLength(100);
-                entity.Property(c => c.Price).IsRequired();
+                entity.Property(c => c.Price).IsRequired().HasColumnType("decimal(18,2)"); 
                 entity.Property(c => c.QuantityInStock).IsRequired();
             });
         }
