@@ -11,6 +11,6 @@ namespace coursa4.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Login { get; set; }
-        public int PasswordHash { get; set; }
+        public string PasswordHash { get; set; }
     }
 }

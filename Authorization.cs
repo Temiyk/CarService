@@ -13,7 +13,7 @@ namespace coursa4
             InitializeComponent();
             LoadUsers();
         }
-        public static int GetHash(string s)
+        public static string GetHash(string s)
         {
             long sum = 0;
             for (int i = 0; i < s.Length; i++)
@@ -21,9 +21,9 @@ namespace coursa4
                 sum += ((int)s[i]) * ((int)s[i]) * 3 / (i + 1);
             }
             sum *= sum;
-            return (int)sum;
+            return sum.ToString();
         }
-        private void LoadUsers()
+        public void LoadUsers()
         {
             using var context = new Coursa4Context();
             users = context.UserAccounts.ToList();
@@ -76,6 +76,7 @@ namespace coursa4
                         "Успешная регистрация", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+            LoadUsers();
             this.Show();
         }
     }

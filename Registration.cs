@@ -19,7 +19,7 @@ namespace coursa4.Data
         {
             InitializeComponent();
         }
-        public static int GetHash(string s)
+        public static string GetHash(string s)
         {
             long sum = 0;
             for (int i = 0; i < s.Length; i++)
@@ -27,7 +27,7 @@ namespace coursa4.Data
                 sum += ((int)s[i]) * ((int)s[i]) * 3 / (i + 1);
             }
             sum *= sum;
-            return (int)sum;
+            return sum.ToString();
         }
         private void buttonRegistrationComplete_Click(object sender, EventArgs e)
         {

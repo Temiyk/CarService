@@ -42,8 +42,9 @@
             // 
             textBoxNewUserPassRep.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
             textBoxNewUserPassRep.Location = new Point(144, 272);
-            textBoxNewUserPassRep.MaxLength = 12;
+            textBoxNewUserPassRep.MaxLength = 15;
             textBoxNewUserPassRep.Name = "textBoxNewUserPassRep";
+            textBoxNewUserPassRep.PasswordChar = '*';
             textBoxNewUserPassRep.PlaceholderText = "Повторите пароль*";
             textBoxNewUserPassRep.Size = new Size(230, 30);
             textBoxNewUserPassRep.TabIndex = 25;
@@ -61,8 +62,9 @@
             // 
             textBoxNewUserPass.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
             textBoxNewUserPass.Location = new Point(144, 224);
-            textBoxNewUserPass.MaxLength = 4;
+            textBoxNewUserPass.MaxLength = 15;
             textBoxNewUserPass.Name = "textBoxNewUserPass";
+            textBoxNewUserPass.PasswordChar = '*';
             textBoxNewUserPass.PlaceholderText = "Пароль*";
             textBoxNewUserPass.Size = new Size(230, 30);
             textBoxNewUserPass.TabIndex = 22;
