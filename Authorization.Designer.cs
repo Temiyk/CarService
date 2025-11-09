@@ -33,6 +33,7 @@
             textBoxAuthLogin = new TextBox();
             textBoxPassAuth = new TextBox();
             labelAuth = new Label();
+            buttonRegistration = new Button();
             SuspendLayout();
             // 
             // buttonAuth
@@ -74,12 +75,23 @@
             labelAuth.TabIndex = 3;
             labelAuth.Text = "Авторизация";
             // 
+            // buttonRegistration
+            // 
+            buttonRegistration.Location = new Point(168, 336);
+            buttonRegistration.Name = "buttonRegistration";
+            buttonRegistration.Size = new Size(128, 37);
+            buttonRegistration.TabIndex = 4;
+            buttonRegistration.Text = "Регистрация";
+            buttonRegistration.UseVisualStyleBackColor = true;
+            buttonRegistration.Click += buttonRegistration_Click;
+            // 
             // Authorization
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(474, 393);
+            ClientSize = new Size(474, 412);
+            Controls.Add(buttonRegistration);
             Controls.Add(labelAuth);
             Controls.Add(textBoxPassAuth);
             Controls.Add(textBoxAuthLogin);
@@ -97,5 +109,6 @@
         private TextBox textBoxAuthLogin;
         private TextBox textBoxPassAuth;
         private Label labelAuth;
+        private Button buttonRegistration;
     }
 }

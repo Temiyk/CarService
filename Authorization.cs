@@ -13,7 +13,6 @@ namespace coursa4
             InitializeComponent();
             LoadUsers();
         }
-
         public static int GetHash(string s)
         {
             long sum = 0;
@@ -24,7 +23,8 @@ namespace coursa4
             sum *= sum;
             return (int)sum;
         }
-        private void LoadUsers() { 
+        private void LoadUsers()
+        {
             using var context = new Coursa4Context();
             users = context.UserAccounts.ToList();
         }
@@ -65,5 +65,18 @@ namespace coursa4
 
         }
 
+        private void buttonRegistration_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (var regForm = new Registration())
+            {
+                if (regForm.ShowDialog() == DialogResult.OK)
+                {
+                    MessageBox.Show("Теперь вы можете войти с вашими данными",
+                        "Успешная регистрация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            this.Show();
+        }
     }
 }
