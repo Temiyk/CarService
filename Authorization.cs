@@ -38,8 +38,7 @@ namespace coursa4
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
-
-            if (string.IsNullOrWhiteSpace(textBoxPassAuth.Text))
+            else if (string.IsNullOrWhiteSpace(textBoxPassAuth.Text))
             {
                 MessageBox.Show("Пароль не может быть пустым!",
                     "Повторите ввод",
@@ -47,21 +46,21 @@ namespace coursa4
                     MessageBoxIcon.Error);
             }
 
-            foreach (var user in users) {
-                if ((user.Login == (textBoxAuthLogin.Text).ToString().Trim()) && user.PasswordHash == GetHash(textBoxPassAuth.Text))
-                {
-                    MessageBox.Show("Успешный вход",
-                    $"Добро пожаловать, {user.Name}",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-                }
-                else 
-                {
-                    MessageBox.Show("Повторите ввод",
-                    "Неверный логин или пароль!",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                }
+            var user = users.FirstOrDefault(u =>
+            u.Login == textBoxAuthLogin.Text.Trim() &&
+            u.PasswordHash == GetHash(textBoxPassAuth.Text));
+
+            if (user != null)
+            {
+                MessageBox.Show("Успешный вход", $"Добро пожаловать, {user.Name}",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Hide();
+                new MainMenu().Show();
+            }
+            else
+            {
+                MessageBox.Show("Неверный логин или пароль!", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
