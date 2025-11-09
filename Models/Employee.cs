@@ -12,7 +12,7 @@ namespace coursa4.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Specialization { get; set; }
-        public string Status { get; set; }
+        public string Status { get; set; } = "Свободен";
         public List<Order> Orders { get; set; } = new List<Order>();
     }
 }

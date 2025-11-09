@@ -18,7 +18,7 @@ namespace coursa4.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<UserAccount> UserAccounts { get; set; }
 
-        public void ApplicationContext() 
+        public Coursa4Context() 
         { 
             Database.EnsureCreated();
         }
