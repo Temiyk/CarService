@@ -30,9 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChangePassword));
             labelAddClient = new Label();
-            buttonCompleteAdding = new Button();
+            buttonCompletePassChange = new Button();
             textBoxNewPassword = new TextBox();
             textBoxOldPassword = new TextBox();
+            textBoxNewPasswordRep = new TextBox();
             SuspendLayout();
             // 
             // labelAddClient
@@ -45,14 +46,15 @@
             labelAddClient.TabIndex = 1;
             labelAddClient.Text = "Смена пароля";
             // 
-            // buttonCompleteAdding
+            // buttonCompletePassChange
             // 
-            buttonCompleteAdding.Location = new Point(152, 232);
-            buttonCompleteAdding.Name = "buttonCompleteAdding";
-            buttonCompleteAdding.Size = new Size(152, 48);
-            buttonCompleteAdding.TabIndex = 7;
-            buttonCompleteAdding.Text = "Подтвердить";
-            buttonCompleteAdding.UseVisualStyleBackColor = true;
+            buttonCompletePassChange.Location = new Point(152, 280);
+            buttonCompletePassChange.Name = "buttonCompletePassChange";
+            buttonCompletePassChange.Size = new Size(152, 48);
+            buttonCompletePassChange.TabIndex = 7;
+            buttonCompletePassChange.Text = "Подтвердить";
+            buttonCompletePassChange.UseVisualStyleBackColor = true;
+            buttonCompletePassChange.Click += buttonCompletePassChange_Click;
             // 
             // textBoxNewPassword
             // 
@@ -61,7 +63,7 @@
             textBoxNewPassword.MaxLength = 15;
             textBoxNewPassword.Name = "textBoxNewPassword";
             textBoxNewPassword.PasswordChar = '*';
-            textBoxNewPassword.PlaceholderText = "Новый_пароль";
+            textBoxNewPassword.PlaceholderText = "Новый пароль*";
             textBoxNewPassword.Size = new Size(184, 30);
             textBoxNewPassword.TabIndex = 9;
             // 
@@ -72,18 +74,30 @@
             textBoxOldPassword.MaxLength = 15;
             textBoxOldPassword.Name = "textBoxOldPassword";
             textBoxOldPassword.PasswordChar = '*';
-            textBoxOldPassword.PlaceholderText = "Старый_пароль";
+            textBoxOldPassword.PlaceholderText = "Старый пароль*";
             textBoxOldPassword.Size = new Size(184, 30);
             textBoxOldPassword.TabIndex = 8;
+            // 
+            // textBoxNewPasswordRep
+            // 
+            textBoxNewPasswordRep.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            textBoxNewPasswordRep.Location = new Point(136, 216);
+            textBoxNewPasswordRep.MaxLength = 15;
+            textBoxNewPasswordRep.Name = "textBoxNewPasswordRep";
+            textBoxNewPasswordRep.PasswordChar = '*';
+            textBoxNewPasswordRep.PlaceholderText = "Повторите пароль*";
+            textBoxNewPasswordRep.Size = new Size(184, 30);
+            textBoxNewPasswordRep.TabIndex = 10;
             // 
             // ChangePassword
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(453, 330);
+            ClientSize = new Size(453, 372);
+            Controls.Add(textBoxNewPasswordRep);
             Controls.Add(textBoxNewPassword);
             Controls.Add(textBoxOldPassword);
-            Controls.Add(buttonCompleteAdding);
+            Controls.Add(buttonCompletePassChange);
             Controls.Add(labelAddClient);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ChangePassword";
@@ -95,8 +109,9 @@
         #endregion
 
         private Label labelAddClient;
-        private Button buttonCompleteAdding;
+        private Button buttonCompletePassChange;
         private TextBox textBoxNewPassword;
         private TextBox textBoxOldPassword;
+        private TextBox textBoxNewPasswordRep;
     }
 }

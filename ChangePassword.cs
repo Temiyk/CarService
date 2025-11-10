@@ -16,5 +16,10 @@ namespace coursa4
         {
             InitializeComponent();
         }
+
+        private void buttonCompletePassChange_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -52,8 +52,9 @@ namespace coursa4
 
             if (user != null)
             {
-                MessageBox.Show("Успешный вход", $"Добро пожаловать, {user.Name}",
+                MessageBox.Show($"Добро пожаловать, {user.Name}", "Успешный вход",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Program.CurrentUser.SetUser(user.Id, user.Name);
                 this.Hide();
                 new MainMenu().Show();
             }

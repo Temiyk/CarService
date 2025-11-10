@@ -16,5 +16,54 @@ namespace coursa4
         {
             InitializeComponent();
         }
+
+        private void buttonClients_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonLogout_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonVehicles_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonOrders_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonEmployees_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonServices_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonReports_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonChangePassword_Click(object sender, EventArgs e)
+        {
+            using var changePasswordForm = new ChangePassword();
+            {
+                this.Hide();
+                if (changePasswordForm.ShowDialog() == DialogResult.OK) { 
+                    
+                }
+
+
+                this.Show();
+            }
+        }
     }
 }
