@@ -25,7 +25,25 @@ namespace coursa4
 
         private void buttonLogout_Click(object sender, EventArgs e)
         {
+            try
+            {
+                var result = MessageBox.Show("Вы уверены, что хотите выйти из системы?",
+                    "Подтверждение выхода", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
+                if (result == DialogResult.Yes)
+                {
+                    Program.CurrentUser.Clear();
+                    this.Hide();
+                    var authForm = new Authorization();
+                    authForm.Closed += (s, args) => this.Close();
+                    authForm.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при выходе из системы: {ex.Message}",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonVehicles_Click(object sender, EventArgs e)
@@ -55,14 +73,15 @@ namespace coursa4
 
         private void buttonChangePassword_Click(object sender, EventArgs e)
         {
-            using var changePasswordForm = new ChangePassword();
+            try
             {
-                this.Hide();
-                if (changePasswordForm.ShowDialog() == DialogResult.OK)
-                {
-
-                }
-                this.Show();
+                var changePasswordForm = new ChangePassword();
+                changePasswordForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при открытии формы смены пароля: {ex.Message}",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
