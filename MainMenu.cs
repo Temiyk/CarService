@@ -1,4 +1,5 @@
-﻿using System;
+﻿using coursa4.UserControls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,15 +13,53 @@ namespace coursa4
 {
     public partial class MainMenu : Form
     {
+        private ClientsControl clientsControl;
+        private UserControl currentControl;
         public MainMenu()
         {
             InitializeComponent();
             labelWelcome.Text = $"Добро пожаловать, {Program.CurrentUser.Name}";
+            InitializeControls();
+        }
+        private void InitializeControls()
+        {
+            clientsControl = new ClientsControl();
+
+
+            clientsControl.Dock = DockStyle.Fill;
+
+        }
+        private void ShowControl(UserControl control, string title)
+        {
+            try
+            {
+                if (currentControl != null)
+                {
+                    panelContent.Controls.Remove(currentControl);
+                    currentControl.Visible = false;
+                }
+
+                currentControl = control;
+
+                if (!panelContent.Controls.Contains(control))
+                {
+                    panelContent.Controls.Add(control);
+                }
+
+                control.Visible = true;
+                control.BringToFront();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при отображении контрола: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonClients_Click(object sender, EventArgs e)
         {
-
+            ShowControl(clientsControl, "MotorbreathMaster - Клиенты");
         }
 
         private void buttonLogout_Click(object sender, EventArgs e)
@@ -95,7 +134,9 @@ namespace coursa4
         private void buttonExit_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Вы уверены, что хотите выйти?", "Подтвердите выход", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            if (result == DialogResult.Yes) { 
+            if (result == DialogResult.Yes)
+            {
+                Program.CurrentUser.Clear();
                 Application.Exit();
             }
         }

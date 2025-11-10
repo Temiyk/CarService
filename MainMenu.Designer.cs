@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenu));
             panelSideBar = new Panel();
+            pictureBox1 = new PictureBox();
             buttonClients = new Button();
             buttonVehicles = new Button();
             buttonOrders = new Button();
@@ -49,18 +50,30 @@
             panelContent = new Panel();
             timerDateTime = new System.Windows.Forms.Timer(components);
             panelSideBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panelHeader.SuspendLayout();
             SuspendLayout();
             // 
             // panelSideBar
             // 
             panelSideBar.BackColor = Color.FromArgb(40, 40, 40);
+            panelSideBar.Controls.Add(pictureBox1);
             panelSideBar.Controls.Add(buttonClients);
             panelSideBar.Dock = DockStyle.Left;
             panelSideBar.Location = new Point(0, 0);
             panelSideBar.Name = "panelSideBar";
             panelSideBar.Size = new Size(220, 753);
             panelSideBar.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(10, 8);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(200, 88);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 2;
+            pictureBox1.TabStop = false;
             // 
             // buttonClients
             // 
@@ -241,11 +254,11 @@
             // labelTitle
             // 
             labelTitle.AutoSize = true;
-            labelTitle.Font = new Font("Garamond", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelTitle.Font = new Font("Trebuchet MS", 24F, FontStyle.Bold, GraphicsUnit.Point, 204);
             labelTitle.ForeColor = Color.SteelBlue;
             labelTitle.Location = new Point(30, 25);
             labelTitle.Name = "labelTitle";
-            labelTitle.Size = new Size(354, 45);
+            labelTitle.Size = new Size(379, 49);
             labelTitle.TabIndex = 16;
             labelTitle.Text = "MotorbreathMaster";
             // 
@@ -332,6 +345,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MotorbreathMaster - Главное меню";
             panelSideBar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panelHeader.ResumeLayout(false);
             panelHeader.PerformLayout();
             ResumeLayout(false);
@@ -357,5 +371,6 @@
         private Label labelTitle;
         private Panel panelContent;
         private System.Windows.Forms.Timer timerDateTime;
+        private PictureBox pictureBox1;
     }
 }
