@@ -204,6 +204,7 @@
             buttonExit.TextAlign = ContentAlignment.MiddleLeft;
             buttonExit.TextImageRelation = TextImageRelation.ImageBeforeText;
             buttonExit.UseVisualStyleBackColor = false;
+            buttonExit.Click += buttonExit_Click;
             // 
             // buttonChangePassword
             // 

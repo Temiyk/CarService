@@ -10,8 +10,6 @@ using System.Windows.Forms;
 
 namespace coursa4
 {
-
-
     public partial class MainMenu : Form
     {
         public MainMenu()
@@ -64,8 +62,6 @@ namespace coursa4
                 {
 
                 }
-
-
                 this.Show();
             }
         }
@@ -75,6 +71,14 @@ namespace coursa4
             DateTime dt = DateTime.Now;
             labelDate.Text = $"Дата: {dt.ToString().Substring(0, 10)}";
             labelTime.Text = $"Время: {dt.ToString().Substring(11)}";
+        }
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Вы уверены, что хотите выйти?", "Подтвердите выход", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (result == DialogResult.Yes) { 
+                Application.Exit();
+            }
         }
     }
 }
