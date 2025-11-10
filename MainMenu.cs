@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace coursa4
 {
-    
+
 
     public partial class MainMenu : Form
     {
@@ -60,13 +60,21 @@ namespace coursa4
             using var changePasswordForm = new ChangePassword();
             {
                 this.Hide();
-                if (changePasswordForm.ShowDialog() == DialogResult.OK) { 
-                    
+                if (changePasswordForm.ShowDialog() == DialogResult.OK)
+                {
+
                 }
 
 
                 this.Show();
             }
+        }
+
+        private void timerDateTime_Tick(object sender, EventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            labelDate.Text = $"Дата: {dt.ToString().Substring(0, 10)}";
+            labelTime.Text = $"Время: {dt.ToString().Substring(11)}";
         }
     }
 }

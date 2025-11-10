@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenu));
             panelSideBar = new Panel();
             buttonClients = new Button();
@@ -45,6 +46,8 @@
             labelDate = new Label();
             labelRole = new Label();
             labelWelcome = new Label();
+            panelContent = new Panel();
+            timerDateTime = new System.Windows.Forms.Timer(components);
             panelSideBar.SuspendLayout();
             panelHeader.SuspendLayout();
             SuspendLayout();
@@ -289,12 +292,28 @@
             labelWelcome.TabIndex = 12;
             labelWelcome.Text = "Добро пожаловать";
             // 
+            // panelContent
+            // 
+            panelContent.BackColor = SystemColors.ButtonFace;
+            panelContent.Dock = DockStyle.Fill;
+            panelContent.Location = new Point(220, 100);
+            panelContent.Name = "panelContent";
+            panelContent.Size = new Size(962, 653);
+            panelContent.TabIndex = 11;
+            // 
+            // timerDateTime
+            // 
+            timerDateTime.Enabled = true;
+            timerDateTime.Interval = 1000;
+            timerDateTime.Tick += timerDateTime_Tick;
+            // 
             // MainMenu
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1182, 753);
+            Controls.Add(panelContent);
             Controls.Add(panelHeader);
             Controls.Add(buttonChangePassword);
             Controls.Add(buttonExit);
@@ -335,5 +354,7 @@
         private Label labelRole;
         private Label labelTime;
         private Label labelTitle;
+        private Panel panelContent;
+        private System.Windows.Forms.Timer timerDateTime;
     }
 }
