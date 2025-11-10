@@ -64,6 +64,7 @@
             textBoxPassAuth.PlaceholderText = "*********";
             textBoxPassAuth.Size = new Size(160, 27);
             textBoxPassAuth.TabIndex = 2;
+            textBoxPassAuth.UseSystemPasswordChar = true;
             // 
             // labelAuth
             // 

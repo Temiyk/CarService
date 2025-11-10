@@ -66,6 +66,7 @@
             textBoxNewPassword.PlaceholderText = "Новый пароль*";
             textBoxNewPassword.Size = new Size(184, 30);
             textBoxNewPassword.TabIndex = 9;
+            textBoxNewPassword.UseSystemPasswordChar = true;
             // 
             // textBoxOldPassword
             // 
@@ -77,6 +78,7 @@
             textBoxOldPassword.PlaceholderText = "Старый пароль*";
             textBoxOldPassword.Size = new Size(184, 30);
             textBoxOldPassword.TabIndex = 8;
+            textBoxOldPassword.UseSystemPasswordChar = true;
             // 
             // textBoxNewPasswordRep
             // 
@@ -88,6 +90,7 @@
             textBoxNewPasswordRep.PlaceholderText = "Повторите пароль*";
             textBoxNewPasswordRep.Size = new Size(184, 30);
             textBoxNewPasswordRep.TabIndex = 10;
+            textBoxNewPasswordRep.UseSystemPasswordChar = true;
             // 
             // ChangePassword
             // 

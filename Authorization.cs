@@ -37,6 +37,8 @@ namespace coursa4
                     "Повторите ввод",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+                textBoxAuthLogin.Focus();
+                return;
             }
             else if (string.IsNullOrWhiteSpace(textBoxPassAuth.Text))
             {
@@ -44,6 +46,8 @@ namespace coursa4
                     "Повторите ввод",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+                textBoxPassAuth.Focus();
+                return;
             }
 
             var user = users.FirstOrDefault(u =>

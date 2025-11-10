@@ -10,11 +10,14 @@ using System.Windows.Forms;
 
 namespace coursa4
 {
+    
+
     public partial class MainMenu : Form
     {
         public MainMenu()
         {
             InitializeComponent();
+            labelWelcome.Text = $"Добро пожаловать, {Program.CurrentUser.Name}";
         }
 
         private void buttonClients_Click(object sender, EventArgs e)
