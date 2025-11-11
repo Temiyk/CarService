@@ -90,5 +90,24 @@ namespace coursa4
                 );
             }
         }
+        protected override void buttonAdd_Click(object sender, EventArgs e)
+        {
+            var addClientForm = new AddClient();
+            if (addClientForm.ShowDialog() == DialogResult.OK)
+            {
+                LoadData();
+                SearchFilter.ClearSearch();
+            }
+        }
+        protected override void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            LoadData();
+            SearchFilter.ResetAll();
+        }
+        protected override void buttonDelete_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Удаление сотрудников в разработке", "Информация",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

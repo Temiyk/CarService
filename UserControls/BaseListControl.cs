@@ -57,17 +57,17 @@ namespace coursa4.UserControls
             //ApplyFilter(searchFilterControl1.SearchText, searchFilterControl1.FilterBy, searchFilterControl1.SortBy, searchFilterControl1.SortOrder);
         }
 
-        private void searchFilterControl_FilterReset(object sender, EventArgs e)
+        internal void searchFilterControl_FilterReset(object sender, EventArgs e)
         {
             LoadData();
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        protected virtual void buttonAdd_Click(object sender, EventArgs e)
         {
             AddButtonClicked?.Invoke(this, EventArgs.Empty);
         }
 
-        private void buttonEdit_Click(object sender, EventArgs e)
+        protected void buttonEdit_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
@@ -79,8 +79,7 @@ namespace coursa4.UserControls
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
-        private void buttonDelete_Click(object sender, EventArgs e)
+        protected virtual void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
@@ -98,7 +97,7 @@ namespace coursa4.UserControls
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        private void buttonUpdate_Click(object sender, EventArgs e)
+        protected virtual void buttonUpdate_Click(object sender, EventArgs e)
         {
             RefreshButtonClicked?.Invoke(this, EventArgs.Empty);
         }

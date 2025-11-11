@@ -84,7 +84,6 @@
             // comboBoxOrder
             // 
             comboBoxOrder.FormattingEnabled = true;
-            comboBoxOrder.Items.AddRange(new object[] { "По возрастанию", "По убыванию" });
             comboBoxOrder.Location = new Point(490, 25);
             comboBoxOrder.Name = "comboBoxOrder";
             comboBoxOrder.Size = new Size(130, 28);
