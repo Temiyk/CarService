@@ -67,7 +67,7 @@ namespace coursa4.UserControls
             AddButtonClicked?.Invoke(this, EventArgs.Empty);
         }
 
-        protected void buttonEdit_Click(object sender, EventArgs e)
+        protected virtual void buttonEdit_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {

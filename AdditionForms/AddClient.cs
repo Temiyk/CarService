@@ -40,8 +40,9 @@ namespace coursa4
 
                 context.Clients.Add(client);
                 context.SaveChanges();
-                MessageBox.Show("Клиент успешно добвален!");
+                MessageBox.Show($"Клиент {textBoxClientFN.Text} {textBoxClientLN.Text} успешно добавлен!", "Новый клиент", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
+                return;
             }
             catch (Exception ex) { 
                 MessageBox.Show($"Ошибка при добавлении клиента: {ex.Message}", "Ошибка",
