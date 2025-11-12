@@ -64,14 +64,14 @@ namespace coursa4.UserControls
 
         protected virtual void buttonAdd_Click(object sender, EventArgs e)
         {
-            AddButtonClicked?.Invoke(this, EventArgs.Empty);
+            
         }
 
         protected virtual void buttonEdit_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                EditButtonClicked?.Invoke(this, EventArgs.Empty);
+                
             }
             else
             {
@@ -88,7 +88,6 @@ namespace coursa4.UserControls
 
                 if (result == DialogResult.Yes)
                 {
-                    DeleteButtonClicked?.Invoke(this, EventArgs.Empty);
                 }
             }
             else
@@ -99,7 +98,6 @@ namespace coursa4.UserControls
         }
         protected virtual void buttonUpdate_Click(object sender, EventArgs e)
         {
-            RefreshButtonClicked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

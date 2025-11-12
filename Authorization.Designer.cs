@@ -99,6 +99,7 @@
             Controls.Add(buttonAuth);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Authorization";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MotorbreathMaster";
             ResumeLayout(false);
             PerformLayout();

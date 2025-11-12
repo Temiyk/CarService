@@ -41,7 +41,7 @@
             // 
             labelAddClient.AutoSize = true;
             labelAddClient.Font = new Font("Garamond", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            labelAddClient.Location = new Point(144, 48);
+            labelAddClient.Location = new Point(128, 48);
             labelAddClient.Name = "labelAddClient";
             labelAddClient.Size = new Size(308, 50);
             labelAddClient.TabIndex = 0;
@@ -50,7 +50,7 @@
             // textBoxClientFN
             // 
             textBoxClientFN.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxClientFN.Location = new Point(72, 136);
+            textBoxClientFN.Location = new Point(56, 136);
             textBoxClientFN.MaxLength = 15;
             textBoxClientFN.Name = "textBoxClientFN";
             textBoxClientFN.PlaceholderText = "Иван*";
@@ -60,7 +60,7 @@
             // textBoxClientLN
             // 
             textBoxClientLN.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxClientLN.Location = new Point(72, 192);
+            textBoxClientLN.Location = new Point(56, 192);
             textBoxClientLN.MaxLength = 20;
             textBoxClientLN.Name = "textBoxClientLN";
             textBoxClientLN.PlaceholderText = "Иванов*";
@@ -70,17 +70,17 @@
             // textBoxPhoneNumber
             // 
             textBoxPhoneNumber.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxPhoneNumber.Location = new Point(352, 136);
-            textBoxPhoneNumber.MaxLength = 15;
+            textBoxPhoneNumber.Location = new Point(336, 136);
+            textBoxPhoneNumber.MaxLength = 12;
             textBoxPhoneNumber.Name = "textBoxPhoneNumber";
-            textBoxPhoneNumber.PlaceholderText = "+375123456789*";
+            textBoxPhoneNumber.PlaceholderText = "+37512345678*";
             textBoxPhoneNumber.Size = new Size(184, 30);
             textBoxPhoneNumber.TabIndex = 4;
             // 
             // textBoxEMail
             // 
             textBoxEMail.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxEMail.Location = new Point(352, 192);
+            textBoxEMail.Location = new Point(336, 192);
             textBoxEMail.MaxLength = 30;
             textBoxEMail.Name = "textBoxEMail";
             textBoxEMail.PlaceholderText = "example@mail.com";
@@ -89,7 +89,7 @@
             // 
             // buttonCompleteAdding
             // 
-            buttonCompleteAdding.Location = new Point(224, 256);
+            buttonCompleteAdding.Location = new Point(208, 256);
             buttonCompleteAdding.Name = "buttonCompleteAdding";
             buttonCompleteAdding.Size = new Size(152, 48);
             buttonCompleteAdding.TabIndex = 6;
@@ -102,7 +102,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(595, 351);
+            ClientSize = new Size(582, 353);
             Controls.Add(buttonCompleteAdding);
             Controls.Add(textBoxEMail);
             Controls.Add(textBoxPhoneNumber);
@@ -111,7 +111,7 @@
             Controls.Add(labelAddClient);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddClient";
-            Text = "Form1";
+            Text = "MotorbreathMaster";
             ResumeLayout(false);
             PerformLayout();
         }

@@ -97,11 +97,37 @@ namespace coursa4
             {
                 LoadData();
                 SearchFilter.ClearSearch();
+                return;
             }
         }
         protected override void buttonEdit_Click(object sender, EventArgs e)
         {
-
+            if (DataGridView.SelectedRows.Count > 0)
+            {
+                var clientId = (int)DataGridView.SelectedRows[0].Cells["Id"].Value;
+                var clientName = DataGridView.SelectedRows[0].Cells["FirstName"].Value + " " +
+                               DataGridView.SelectedRows[0].Cells["LastName"].Value;
+                try
+                {
+                    using var editClientForm = new EditClient(clientId);
+                    if (editClientForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadData();
+                        MessageBox.Show($"Данные клиента {clientName} успешно обновлены!", "Успех",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при открытии формы редактирования: {ex.Message}", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите клиента для редактирования", "Информация",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
         protected override void buttonUpdate_Click(object sender, EventArgs e)
         {
