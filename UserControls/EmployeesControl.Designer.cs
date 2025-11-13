@@ -35,7 +35,6 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Name = "EmployeesControl";
-            Size = new Size(1000, 700);
             ResumeLayout(false);
         }
 

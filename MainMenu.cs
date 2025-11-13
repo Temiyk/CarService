@@ -13,8 +13,11 @@ namespace coursa4
 {
     public partial class MainMenu : Form
     {
-        private ClientsControl clientsControl;
         private UserControl currentControl;
+        private ClientsControl clientsControl;
+        private ServicesControl servicesControl;
+        private VehiclesControl vehiclesControl;
+        private EmployeesControl employeesControl;
         public MainMenu()
         {
             InitializeComponent();
@@ -24,10 +27,13 @@ namespace coursa4
         private void InitializeControls()
         {
             clientsControl = new ClientsControl();
-
-
+            servicesControl = new ServicesControl();
+            vehiclesControl = new VehiclesControl();
+            employeesControl = new EmployeesControl();
             clientsControl.Dock = DockStyle.Fill;
-
+            servicesControl.Dock = DockStyle.Fill;
+            vehiclesControl.Dock = DockStyle.Fill;
+            employeesControl.Dock = DockStyle.Fill;
         }
         private void ShowControl(UserControl control, string title)
         {
@@ -59,7 +65,7 @@ namespace coursa4
 
         private void buttonClients_Click(object sender, EventArgs e)
         {
-            ShowControl(clientsControl, "MotorbreathMaster - Клиенты");
+            ShowControl(clientsControl, "MotorbreathMaster - Услуги");
         }
 
         private void buttonLogout_Click(object sender, EventArgs e)
@@ -87,22 +93,22 @@ namespace coursa4
 
         private void buttonVehicles_Click(object sender, EventArgs e)
         {
-
+            ShowControl(vehiclesControl, "MotorbreathMaster - Автомобили");
         }
 
         private void buttonOrders_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void buttonEmployees_Click(object sender, EventArgs e)
         {
-
+            ShowControl(employeesControl, "MotorbreathMaster - Сотрудники");
         }
 
         private void buttonServices_Click(object sender, EventArgs e)
         {
-
+            ShowControl(servicesControl, "MotorbreathMaster - Клиенты");
         }
 
         private void buttonReports_Click(object sender, EventArgs e)

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace coursa4.UserControls
 {
-    public partial class VehiclesControl : UserControl
+    public partial class VehiclesControl : BaseListControl
     {
         public VehiclesControl()
         {

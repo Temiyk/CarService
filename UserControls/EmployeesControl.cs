@@ -7,10 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using coursa4.Models;
+using coursa4.Data;
 
 namespace coursa4.UserControls
 {
-    public partial class EmployeesControl : UserControl
+    public partial class EmployeesControl : BaseListControl
     {
         public EmployeesControl()
         {
