@@ -85,12 +85,15 @@ namespace coursa4
 
                 if (existingService != null)
                 {
-                    var nameExists = context.Services.Any(c => c.Name == textBoxServiceName.Text.Trim());
-                    if (nameExists)
+                    if (existingService.Name != textBoxServiceName.Text.Trim())
                     {
-                        MessageBox.Show("Сервис с таким названием уже существует!", "Ошибка",
-                           MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        var nameExists = context.Services.Any(c => c.Name == textBoxServiceName.Text.Trim());
+                        if (nameExists)
+                        {
+                            MessageBox.Show("Сервис с таким названием уже существует!", "Ошибка",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
                     }
 
                     existingService.Name = textBoxServiceName.Text.Trim();

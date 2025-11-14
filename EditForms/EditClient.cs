@@ -81,15 +81,19 @@ namespace coursa4
 
                 if (existingClient != null)
                 {
-                    var phoneExists = context.Clients
-                        .Any(c => c.PhoneNumber == textBoxPhoneNumber.Text.Trim() && c.Id != clientId);
-
-                    if (phoneExists)
+                    if (existingClient.PhoneNumber != textBoxPhoneNumber.Text.Trim())
                     {
-                        MessageBox.Show("Клиент с таким телефоном уже существует!", "Ошибка",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        var phoneExists = context.Clients
+                            .Any(c => c.PhoneNumber == textBoxPhoneNumber.Text.Trim() && c.Id != clientId);
+
+                        if (phoneExists)
+                        {
+                            MessageBox.Show("Клиент с таким телефоном уже существует!", "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
                     }
+
 
                     existingClient.FirstName = textBoxClientFN.Text.Trim();
                     existingClient.LastName = textBoxClientLN.Text.Trim();
@@ -99,9 +103,6 @@ namespace coursa4
                         : textBoxEMail.Text.Trim();
 
                     context.SaveChanges();
-
-                    MessageBox.Show("Данные клиента успешно обновлены!", "Успех",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     this.DialogResult = DialogResult.OK;
                     this.Close();

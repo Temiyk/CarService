@@ -106,7 +106,21 @@ namespace coursa4.UserControls
                 var serviceId = (int)DataGridView.SelectedRows[0].Cells["Id"].Value;
                 var serviceName = DataGridView.SelectedRows[0].Cells["Name"].Value.ToString();
 
-                var editServiceForm = new EditService(serviceId);
+                try
+                {
+                    var editServiceForm = new EditService(serviceId);
+                    if (editServiceForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadData();
+                        MessageBox.Show($"Данные услуги {serviceName} успешно обновлены!", "Успех",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при открытии формы редактирования: {ex.Message}", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {

@@ -57,6 +57,12 @@ namespace coursa4
         {
             try
             {
+                int? selectedClientId = null;
+                if (DataGridView.SelectedRows.Count > 0)
+                {
+                    selectedClientId = (int)DataGridView.SelectedRows[0].Cells["Id"].Value;
+                }
+
                 using var context = new Coursa4Context();
                 clients = context.Clients
                     .Include(c => c.Vehicles)
@@ -66,6 +72,18 @@ namespace coursa4
 
                 filteredClients = new List<Client>(clients);
                 DisplayClients();
+
+                if (selectedClientId.HasValue)
+                {
+                    foreach (DataGridViewRow row in DataGridView.Rows)
+                    {
+                        if ((int)row.Cells["Id"].Value == selectedClientId.Value)
+                        {
+                            row.Selected = true;
+                            break;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -89,6 +107,7 @@ namespace coursa4
                     client.Orders?.Count ?? 0
                 );
             }
+            DataGridView.ClearSelection();
         }
         protected override void buttonAdd_Click(object sender, EventArgs e)
         {
@@ -113,8 +132,8 @@ namespace coursa4
                     if (editClientForm.ShowDialog() == DialogResult.OK)
                     {
                         LoadData();
-                        MessageBox.Show($"Данные клиента {clientName} успешно обновлены!", "Успех",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        SearchFilter.ClearSearch();
+                        
                     }
                 }
                 catch (Exception ex)

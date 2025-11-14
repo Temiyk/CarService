@@ -24,7 +24,6 @@ namespace coursa4.UserControls
         {
             InitializeComponent();
             SetupDataGridView();
-            SubscribeToEvents();
         }
         virtual public void LoadData() {}
 
@@ -40,18 +39,6 @@ namespace coursa4.UserControls
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.BorderStyle = BorderStyle.None;
         }
-        private void SubscribeToEvents()
-        {
-            buttonAdd.Click += buttonAdd_Click;
-            buttonEdit.Click += buttonEdit_Click;
-            buttonDelete.Click += buttonDelete_Click;
-            buttonUpdate.Click += buttonUpdate_Click;
-
-            searchFilterControl1.SearchApplied += searchFilterControl_SearchApplied;
-            searchFilterControl1.FilterReset += searchFilterControl_FilterReset;
-        }
-
-
         private void searchFilterControl_SearchApplied(object sender, EventArgs e)
         {
             //ApplyFilter(searchFilterControl1.SearchText, searchFilterControl1.FilterBy, searchFilterControl1.SortBy, searchFilterControl1.SortOrder);
