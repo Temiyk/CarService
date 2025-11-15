@@ -102,8 +102,6 @@ namespace coursa4
                     existingService.Description = textBoxServiceDescription.Text.Trim();
 
                     context.SaveChanges();
-                    MessageBox.Show("Данные услуги успешно обновлены!", "Успех",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }

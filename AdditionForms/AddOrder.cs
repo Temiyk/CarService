@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace coursa4
 {
-    public partial class AddNewOrder : Form
+    public partial class AddOrder : Form
     {
-        public AddNewOrder()
+        public AddOrder()
         {
             InitializeComponent();
         }
