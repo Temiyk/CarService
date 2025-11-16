@@ -18,6 +18,7 @@ namespace coursa4
         private ServicesControl servicesControl;
         private VehiclesControl vehiclesControl;
         private EmployeesControl employeesControl;
+        private OrdersControl ordersControl;
         public MainMenu()
         {
             InitializeComponent();
@@ -30,6 +31,7 @@ namespace coursa4
             servicesControl = new ServicesControl();
             vehiclesControl = new VehiclesControl();
             employeesControl = new EmployeesControl();
+            ordersControl = new OrdersControl();
             clientsControl.Dock = DockStyle.Fill;
             servicesControl.Dock = DockStyle.Fill;
             vehiclesControl.Dock = DockStyle.Fill;
@@ -98,7 +100,7 @@ namespace coursa4
 
         private void buttonOrders_Click(object sender, EventArgs e)
         {
-            
+            ShowControl(ordersControl, "MotorbreathMaster - Заказы");
         }
 
         private void buttonEmployees_Click(object sender, EventArgs e)
@@ -145,6 +147,11 @@ namespace coursa4
                 Program.CurrentUser.Clear();
                 Application.Exit();
             }
+        }
+        private void MainMenu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Program.CurrentUser.Clear();
+            Application.Exit();
         }
     }
 }
