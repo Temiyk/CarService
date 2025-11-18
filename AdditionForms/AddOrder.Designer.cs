@@ -32,27 +32,27 @@
             buttonAddOrder = new Button();
             labelNewOrder = new Label();
             groupBoxClient = new GroupBox();
-            labelСlient = new Label();
+            comboBoxClients = new ComboBox();
             buttonAddNewClient = new Button();
-            comboBoxClient = new ComboBox();
+            labelСlient = new Label();
             groupBoxVehicle = new GroupBox();
-            buttonAddNewVehicle = new Button();
-            labelVehicle = new Label();
             comboBoxVehicles = new ComboBox();
+            labelVehicle = new Label();
+            buttonAddNewVehicle = new Button();
             groupBoxServices = new GroupBox();
             dataGridViewServices = new DataGridView();
-            labelTotalPrice = new Label();
-            textBoxTotalPrice = new TextBox();
-            buttonCalculateTotal = new Button();
-            groupBoxDates = new GroupBox();
-            labelAcceptDate = new Label();
-            labelEstimatedDate = new Label();
-            dateTimePickerAcceptanceDate = new DateTimePicker();
-            dateTimePickerEstimatedDate = new DateTimePicker();
             colSelect = new DataGridViewCheckBoxColumn();
             colServiceName = new DataGridViewTextBoxColumn();
             colPrice = new DataGridViewTextBoxColumn();
             colSpecialization = new DataGridViewTextBoxColumn();
+            labelTotalPrice = new Label();
+            textBoxTotalPrice = new TextBox();
+            buttonCalculateTotal = new Button();
+            groupBoxDates = new GroupBox();
+            dateTimePickerEstimatedDate = new DateTimePicker();
+            dateTimePickerAcceptanceDate = new DateTimePicker();
+            labelEstimatedDate = new Label();
+            labelAcceptDate = new Label();
             groupBoxClient.SuspendLayout();
             groupBoxVehicle.SuspendLayout();
             groupBoxServices.SuspendLayout();
@@ -69,6 +69,7 @@
             buttonAddOrder.TabIndex = 22;
             buttonAddOrder.Text = "Создать заказ";
             buttonAddOrder.UseVisualStyleBackColor = false;
+            buttonAddOrder.Click += buttonAddOrder_Click;
             // 
             // labelNewOrder
             // 
@@ -82,7 +83,7 @@
             // 
             // groupBoxClient
             // 
-            groupBoxClient.Controls.Add(comboBoxClient);
+            groupBoxClient.Controls.Add(comboBoxClients);
             groupBoxClient.Controls.Add(buttonAddNewClient);
             groupBoxClient.Controls.Add(labelСlient);
             groupBoxClient.Location = new Point(50, 90);
@@ -92,14 +93,15 @@
             groupBoxClient.TabStop = false;
             groupBoxClient.Text = "Клиент";
             // 
-            // labelСlient
+            // comboBoxClients
             // 
-            labelСlient.AutoSize = true;
-            labelСlient.Location = new Point(30, 45);
-            labelСlient.Name = "labelСlient";
-            labelСlient.Size = new Size(58, 20);
-            labelСlient.TabIndex = 0;
-            labelСlient.Text = "Клиент";
+            comboBoxClients.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxClients.FormattingEnabled = true;
+            comboBoxClients.Location = new Point(150, 45);
+            comboBoxClients.Name = "comboBoxClients";
+            comboBoxClients.Size = new Size(350, 28);
+            comboBoxClients.TabIndex = 2;
+            comboBoxClients.SelectedIndexChanged += comboBoxClients_SelectedIndexChanged;
             // 
             // buttonAddNewClient
             // 
@@ -110,15 +112,16 @@
             buttonAddNewClient.TabIndex = 1;
             buttonAddNewClient.Text = "Добавить...";
             buttonAddNewClient.UseVisualStyleBackColor = false;
+            buttonAddNewClient.Click += buttonAddNewClient_Click;
             // 
-            // comboBoxClient
+            // labelСlient
             // 
-            comboBoxClient.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxClient.FormattingEnabled = true;
-            comboBoxClient.Location = new Point(150, 45);
-            comboBoxClient.Name = "comboBoxClient";
-            comboBoxClient.Size = new Size(350, 28);
-            comboBoxClient.TabIndex = 2;
+            labelСlient.AutoSize = true;
+            labelСlient.Location = new Point(30, 45);
+            labelСlient.Name = "labelСlient";
+            labelСlient.Size = new Size(58, 20);
+            labelСlient.TabIndex = 0;
+            labelСlient.Text = "Клиент";
             // 
             // groupBoxVehicle
             // 
@@ -132,15 +135,14 @@
             groupBoxVehicle.TabStop = false;
             groupBoxVehicle.Text = "Автомобиль";
             // 
-            // buttonAddNewVehicle
+            // comboBoxVehicles
             // 
-            buttonAddNewVehicle.BackColor = Color.LightSeaGreen;
-            buttonAddNewVehicle.Location = new Point(550, 40);
-            buttonAddNewVehicle.Name = "buttonAddNewVehicle";
-            buttonAddNewVehicle.Size = new Size(120, 35);
-            buttonAddNewVehicle.TabIndex = 0;
-            buttonAddNewVehicle.Text = "Добавить...";
-            buttonAddNewVehicle.UseVisualStyleBackColor = false;
+            comboBoxVehicles.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxVehicles.FormattingEnabled = true;
+            comboBoxVehicles.Location = new Point(150, 45);
+            comboBoxVehicles.Name = "comboBoxVehicles";
+            comboBoxVehicles.Size = new Size(350, 28);
+            comboBoxVehicles.TabIndex = 2;
             // 
             // labelVehicle
             // 
@@ -151,14 +153,16 @@
             labelVehicle.TabIndex = 1;
             labelVehicle.Text = "Автомобиль";
             // 
-            // comboBoxVehicles
+            // buttonAddNewVehicle
             // 
-            comboBoxVehicles.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxVehicles.FormattingEnabled = true;
-            comboBoxVehicles.Location = new Point(150, 45);
-            comboBoxVehicles.Name = "comboBoxVehicles";
-            comboBoxVehicles.Size = new Size(350, 28);
-            comboBoxVehicles.TabIndex = 2;
+            buttonAddNewVehicle.BackColor = Color.LightSeaGreen;
+            buttonAddNewVehicle.Location = new Point(550, 40);
+            buttonAddNewVehicle.Name = "buttonAddNewVehicle";
+            buttonAddNewVehicle.Size = new Size(120, 35);
+            buttonAddNewVehicle.TabIndex = 0;
+            buttonAddNewVehicle.Text = "Добавить...";
+            buttonAddNewVehicle.UseVisualStyleBackColor = false;
+            buttonAddNewVehicle.Click += buttonAddNewVehicle_Click;
             // 
             // groupBoxServices
             // 
@@ -182,79 +186,7 @@
             dataGridViewServices.RowHeadersWidth = 51;
             dataGridViewServices.Size = new Size(694, 224);
             dataGridViewServices.TabIndex = 0;
-            // 
-            // labelTotalPrice
-            // 
-            labelTotalPrice.AutoSize = true;
-            labelTotalPrice.Location = new Point(50, 698);
-            labelTotalPrice.Name = "labelTotalPrice";
-            labelTotalPrice.Size = new Size(136, 20);
-            labelTotalPrice.TabIndex = 26;
-            labelTotalPrice.Text = "Общая стоимость:";
-            // 
-            // textBoxTotalPrice
-            // 
-            textBoxTotalPrice.Location = new Point(230, 698);
-            textBoxTotalPrice.Name = "textBoxTotalPrice";
-            textBoxTotalPrice.ReadOnly = true;
-            textBoxTotalPrice.Size = new Size(100, 27);
-            textBoxTotalPrice.TabIndex = 27;
-            textBoxTotalPrice.Text = "0";
-            // 
-            // buttonCalculateTotal
-            // 
-            buttonCalculateTotal.BackColor = Color.Goldenrod;
-            buttonCalculateTotal.Location = new Point(600, 696);
-            buttonCalculateTotal.Name = "buttonCalculateTotal";
-            buttonCalculateTotal.Size = new Size(150, 35);
-            buttonCalculateTotal.TabIndex = 28;
-            buttonCalculateTotal.Text = "Рассчитать итог";
-            buttonCalculateTotal.UseVisualStyleBackColor = false;
-            // 
-            // groupBoxDates
-            // 
-            groupBoxDates.Controls.Add(dateTimePickerEstimatedDate);
-            groupBoxDates.Controls.Add(dateTimePickerAcceptanceDate);
-            groupBoxDates.Controls.Add(labelEstimatedDate);
-            groupBoxDates.Controls.Add(labelAcceptDate);
-            groupBoxDates.Location = new Point(50, 600);
-            groupBoxDates.Name = "groupBoxDates";
-            groupBoxDates.Size = new Size(700, 80);
-            groupBoxDates.TabIndex = 29;
-            groupBoxDates.TabStop = false;
-            groupBoxDates.Text = "Даты";
-            // 
-            // labelAcceptDate
-            // 
-            labelAcceptDate.AutoSize = true;
-            labelAcceptDate.Location = new Point(30, 35);
-            labelAcceptDate.Name = "labelAcceptDate";
-            labelAcceptDate.Size = new Size(102, 20);
-            labelAcceptDate.TabIndex = 0;
-            labelAcceptDate.Text = "Дата приёма:";
-            // 
-            // labelEstimatedDate
-            // 
-            labelEstimatedDate.AutoSize = true;
-            labelEstimatedDate.Location = new Point(370, 35);
-            labelEstimatedDate.Name = "labelEstimatedDate";
-            labelEstimatedDate.Size = new Size(67, 20);
-            labelEstimatedDate.TabIndex = 1;
-            labelEstimatedDate.Text = "Срок до:";
-            // 
-            // dateTimePickerAcceptanceDate
-            // 
-            dateTimePickerAcceptanceDate.Location = new Point(150, 35);
-            dateTimePickerAcceptanceDate.Name = "dateTimePickerAcceptanceDate";
-            dateTimePickerAcceptanceDate.Size = new Size(200, 27);
-            dateTimePickerAcceptanceDate.TabIndex = 2;
-            // 
-            // dateTimePickerEstimatedDate
-            // 
-            dateTimePickerEstimatedDate.Location = new Point(450, 35);
-            dateTimePickerEstimatedDate.Name = "dateTimePickerEstimatedDate";
-            dateTimePickerEstimatedDate.Size = new Size(200, 27);
-            dateTimePickerEstimatedDate.TabIndex = 3;
+            dataGridViewServices.CellContentClick += dataGridViewServices_CellContentClick;
             // 
             // colSelect
             // 
@@ -287,6 +219,80 @@
             colSpecialization.ReadOnly = true;
             colSpecialization.Width = 125;
             // 
+            // labelTotalPrice
+            // 
+            labelTotalPrice.AutoSize = true;
+            labelTotalPrice.Location = new Point(50, 698);
+            labelTotalPrice.Name = "labelTotalPrice";
+            labelTotalPrice.Size = new Size(136, 20);
+            labelTotalPrice.TabIndex = 26;
+            labelTotalPrice.Text = "Общая стоимость:";
+            // 
+            // textBoxTotalPrice
+            // 
+            textBoxTotalPrice.Location = new Point(230, 698);
+            textBoxTotalPrice.Name = "textBoxTotalPrice";
+            textBoxTotalPrice.ReadOnly = true;
+            textBoxTotalPrice.Size = new Size(100, 27);
+            textBoxTotalPrice.TabIndex = 27;
+            textBoxTotalPrice.Text = "0";
+            // 
+            // buttonCalculateTotal
+            // 
+            buttonCalculateTotal.BackColor = Color.Goldenrod;
+            buttonCalculateTotal.Location = new Point(600, 696);
+            buttonCalculateTotal.Name = "buttonCalculateTotal";
+            buttonCalculateTotal.Size = new Size(150, 35);
+            buttonCalculateTotal.TabIndex = 28;
+            buttonCalculateTotal.Text = "Рассчитать итог";
+            buttonCalculateTotal.UseVisualStyleBackColor = false;
+            buttonCalculateTotal.Click += buttonCalculateTotal_Click;
+            // 
+            // groupBoxDates
+            // 
+            groupBoxDates.Controls.Add(dateTimePickerEstimatedDate);
+            groupBoxDates.Controls.Add(dateTimePickerAcceptanceDate);
+            groupBoxDates.Controls.Add(labelEstimatedDate);
+            groupBoxDates.Controls.Add(labelAcceptDate);
+            groupBoxDates.Location = new Point(50, 600);
+            groupBoxDates.Name = "groupBoxDates";
+            groupBoxDates.Size = new Size(700, 80);
+            groupBoxDates.TabIndex = 29;
+            groupBoxDates.TabStop = false;
+            groupBoxDates.Text = "Даты";
+            // 
+            // dateTimePickerEstimatedDate
+            // 
+            dateTimePickerEstimatedDate.Location = new Point(450, 35);
+            dateTimePickerEstimatedDate.Name = "dateTimePickerEstimatedDate";
+            dateTimePickerEstimatedDate.Size = new Size(200, 27);
+            dateTimePickerEstimatedDate.TabIndex = 3;
+            // 
+            // dateTimePickerAcceptanceDate
+            // 
+            dateTimePickerAcceptanceDate.Location = new Point(150, 35);
+            dateTimePickerAcceptanceDate.Name = "dateTimePickerAcceptanceDate";
+            dateTimePickerAcceptanceDate.Size = new Size(200, 27);
+            dateTimePickerAcceptanceDate.TabIndex = 2;
+            // 
+            // labelEstimatedDate
+            // 
+            labelEstimatedDate.AutoSize = true;
+            labelEstimatedDate.Location = new Point(370, 35);
+            labelEstimatedDate.Name = "labelEstimatedDate";
+            labelEstimatedDate.Size = new Size(67, 20);
+            labelEstimatedDate.TabIndex = 1;
+            labelEstimatedDate.Text = "Срок до:";
+            // 
+            // labelAcceptDate
+            // 
+            labelAcceptDate.AutoSize = true;
+            labelAcceptDate.Location = new Point(30, 35);
+            labelAcceptDate.Name = "labelAcceptDate";
+            labelAcceptDate.Size = new Size(102, 20);
+            labelAcceptDate.TabIndex = 0;
+            labelAcceptDate.Text = "Дата приёма:";
+            // 
             // AddOrder
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -305,6 +311,7 @@
             Name = "AddOrder";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MotorbreathMaster - Новый заказ";
+            Load += AddOrder_Load;
             groupBoxClient.ResumeLayout(false);
             groupBoxClient.PerformLayout();
             groupBoxVehicle.ResumeLayout(false);
@@ -321,7 +328,7 @@
         private Button buttonAddOrder;
         private Label labelNewOrder;
         private GroupBox groupBoxClient;
-        private ComboBox comboBoxClient;
+        private ComboBox comboBoxClients;
         private Button buttonAddNewClient;
         private Label labelСlient;
         private GroupBox groupBoxVehicle;
