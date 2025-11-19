@@ -53,17 +53,21 @@
             dateTimePickerAcceptanceDate = new DateTimePicker();
             labelEstimatedDate = new Label();
             labelAcceptDate = new Label();
+            groupBoxEmployee = new GroupBox();
+            buttonAutoAssignEmployee = new Button();
+            labelAssignedEmployee = new Label();
             groupBoxClient.SuspendLayout();
             groupBoxVehicle.SuspendLayout();
             groupBoxServices.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewServices).BeginInit();
             groupBoxDates.SuspendLayout();
+            groupBoxEmployee.SuspendLayout();
             SuspendLayout();
             // 
             // buttonAddOrder
             // 
             buttonAddOrder.BackColor = Color.SteelBlue;
-            buttonAddOrder.Location = new Point(296, 776);
+            buttonAddOrder.Location = new Point(296, 888);
             buttonAddOrder.Name = "buttonAddOrder";
             buttonAddOrder.Size = new Size(200, 50);
             buttonAddOrder.TabIndex = 22;
@@ -167,7 +171,7 @@
             // groupBoxServices
             // 
             groupBoxServices.Controls.Add(dataGridViewServices);
-            groupBoxServices.Location = new Point(50, 330);
+            groupBoxServices.Location = new Point(50, 458);
             groupBoxServices.Name = "groupBoxServices";
             groupBoxServices.Size = new Size(700, 250);
             groupBoxServices.TabIndex = 25;
@@ -222,7 +226,7 @@
             // labelTotalPrice
             // 
             labelTotalPrice.AutoSize = true;
-            labelTotalPrice.Location = new Point(50, 698);
+            labelTotalPrice.Location = new Point(50, 826);
             labelTotalPrice.Name = "labelTotalPrice";
             labelTotalPrice.Size = new Size(136, 20);
             labelTotalPrice.TabIndex = 26;
@@ -230,7 +234,7 @@
             // 
             // textBoxTotalPrice
             // 
-            textBoxTotalPrice.Location = new Point(230, 698);
+            textBoxTotalPrice.Location = new Point(230, 826);
             textBoxTotalPrice.Name = "textBoxTotalPrice";
             textBoxTotalPrice.ReadOnly = true;
             textBoxTotalPrice.Size = new Size(100, 27);
@@ -240,7 +244,7 @@
             // buttonCalculateTotal
             // 
             buttonCalculateTotal.BackColor = Color.Goldenrod;
-            buttonCalculateTotal.Location = new Point(600, 696);
+            buttonCalculateTotal.Location = new Point(600, 824);
             buttonCalculateTotal.Name = "buttonCalculateTotal";
             buttonCalculateTotal.Size = new Size(150, 35);
             buttonCalculateTotal.TabIndex = 28;
@@ -254,7 +258,7 @@
             groupBoxDates.Controls.Add(dateTimePickerAcceptanceDate);
             groupBoxDates.Controls.Add(labelEstimatedDate);
             groupBoxDates.Controls.Add(labelAcceptDate);
-            groupBoxDates.Location = new Point(50, 600);
+            groupBoxDates.Location = new Point(50, 728);
             groupBoxDates.Name = "groupBoxDates";
             groupBoxDates.Size = new Size(700, 80);
             groupBoxDates.TabIndex = 29;
@@ -293,11 +297,46 @@
             labelAcceptDate.TabIndex = 0;
             labelAcceptDate.Text = "Дата приёма:";
             // 
+            // groupBoxEmployee
+            // 
+            groupBoxEmployee.Controls.Add(labelAssignedEmployee);
+            groupBoxEmployee.Controls.Add(buttonAutoAssignEmployee);
+            groupBoxEmployee.Location = new Point(50, 336);
+            groupBoxEmployee.Name = "groupBoxEmployee";
+            groupBoxEmployee.Size = new Size(700, 100);
+            groupBoxEmployee.TabIndex = 30;
+            groupBoxEmployee.TabStop = false;
+            groupBoxEmployee.Text = "Сотрудник";
+            // 
+            // buttonAutoAssignEmployee
+            // 
+            buttonAutoAssignEmployee.BackColor = Color.MediumPurple;
+            buttonAutoAssignEmployee.FlatAppearance.BorderSize = 0;
+            buttonAutoAssignEmployee.FlatStyle = FlatStyle.Flat;
+            buttonAutoAssignEmployee.ForeColor = Color.White;
+            buttonAutoAssignEmployee.Location = new Point(240, 24);
+            buttonAutoAssignEmployee.Name = "buttonAutoAssignEmployee";
+            buttonAutoAssignEmployee.Size = new Size(200, 35);
+            buttonAutoAssignEmployee.TabIndex = 0;
+            buttonAutoAssignEmployee.Text = "Подобрать сотрудника";
+            buttonAutoAssignEmployee.UseVisualStyleBackColor = false;
+            buttonAutoAssignEmployee.Click += buttonAutoAssignEmployee_Click;
+            // 
+            // labelAssignedEmployee
+            // 
+            labelAssignedEmployee.AutoSize = true;
+            labelAssignedEmployee.Location = new Point(160, 72);
+            labelAssignedEmployee.Name = "labelAssignedEmployee";
+            labelAssignedEmployee.Size = new Size(358, 20);
+            labelAssignedEmployee.TabIndex = 1;
+            labelAssignedEmployee.Text = "Назначенный сотрудник: автоматический подбор";
+            // 
             // AddOrder
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(782, 853);
+            ClientSize = new Size(782, 987);
+            Controls.Add(groupBoxEmployee);
             Controls.Add(groupBoxDates);
             Controls.Add(buttonCalculateTotal);
             Controls.Add(textBoxTotalPrice);
@@ -311,7 +350,6 @@
             Name = "AddOrder";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MotorbreathMaster - Новый заказ";
-            Load += AddOrder_Load;
             groupBoxClient.ResumeLayout(false);
             groupBoxClient.PerformLayout();
             groupBoxVehicle.ResumeLayout(false);
@@ -320,6 +358,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewServices).EndInit();
             groupBoxDates.ResumeLayout(false);
             groupBoxDates.PerformLayout();
+            groupBoxEmployee.ResumeLayout(false);
+            groupBoxEmployee.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -349,5 +389,7 @@
         private DataGridViewTextBoxColumn colServiceName;
         private DataGridViewTextBoxColumn colPrice;
         private DataGridViewTextBoxColumn colSpecialization;
+        private GroupBox groupBoxEmployee;
+        private Button buttonAutoAssignEmployee;
     }
 }

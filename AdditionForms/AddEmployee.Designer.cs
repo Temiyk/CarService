@@ -35,6 +35,7 @@
             textBox2 = new TextBox();
             pictureBoxEmployee = new PictureBox();
             buttonAddEmployee = new Button();
+            openFileDialog = new OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)pictureBoxEmployee).BeginInit();
             SuspendLayout();
             // 
@@ -98,6 +99,12 @@
             buttonAddEmployee.UseVisualStyleBackColor = true;
             buttonAddEmployee.Click += buttonAddEmployee_Click;
             // 
+            // openFileDialog
+            // 
+            openFileDialog.FileName = "openFileDialog1";
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+            openFileDialog.Title = "Выберите фото сотрудника";
+            // 
             // AddEmployee
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -125,5 +132,6 @@
         private TextBox textBox2;
         private PictureBox pictureBoxEmployee;
         private Button buttonAddEmployee;
+        private OpenFileDialog openFileDialog;
     }
 }

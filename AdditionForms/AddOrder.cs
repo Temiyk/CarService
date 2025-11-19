@@ -416,5 +416,39 @@ namespace coursa4
 
             return specializations;
         }
+
+        private void buttonAutoAssignEmployee_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var requiredSpecializations = GetRequiredSpecializations();
+
+                if (requiredSpecializations.Count == 0)
+                {
+                    MessageBox.Show("Сначала выберите услуги", "Информация",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                assignedEmployee = FindEmployeeForOrder();
+
+                if (assignedEmployee != null)
+                {
+                    UpdateAssignedEmployeeLabel();
+                    MessageBox.Show($"Назначен сотрудник: {assignedEmployee.FirstName} {assignedEmployee.LastName} ({assignedEmployee.Specialization})", "Успех",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Не удалось найти подходящего сотрудника", "Внимание",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при подборе сотрудника: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
