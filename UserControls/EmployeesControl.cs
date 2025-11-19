@@ -57,5 +57,29 @@ namespace coursa4.UserControls
                 }
             }
         }
+        private void DeleteEmployeePhoto(int employeeId)
+        {
+            try
+            {
+                var photosDir = Path.Combine(Application.StartupPath, "EmployeePhotos");
+
+                var possibleExtensions = new[] { ".jpg", ".jpeg", ".png", ".bmp" };
+
+                foreach (var extension in possibleExtensions)
+                {
+                    var photoPath = Path.Combine(photosDir, $"employee_{employeeId}{extension}");
+                    if (File.Exists(photoPath))
+                    {
+                        File.Delete(photoPath);
+                        Console.WriteLine($"Удалено фото: {photoPath}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении фото сотрудника: {ex.Message}", "Ошибка",
+                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

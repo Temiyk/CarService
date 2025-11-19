@@ -22,45 +22,6 @@ namespace coursa4.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ServiceCarPart", b =>
-                {
-                    b.Property<int>("CarPartId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("CarPartId", "ServiceId");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("ServiceCarPart");
-                });
-
-            modelBuilder.Entity("coursa4.Models.CarPart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("QuantityInStock")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CarParts");
-                });
-
             modelBuilder.Entity("coursa4.Models.Client", b =>
                 {
                     b.Property<int>("Id")
@@ -284,21 +245,6 @@ namespace coursa4.Migrations
                         .IsUnique();
 
                     b.ToTable("Vehicles");
-                });
-
-            modelBuilder.Entity("ServiceCarPart", b =>
-                {
-                    b.HasOne("coursa4.Models.CarPart", null)
-                        .WithMany()
-                        .HasForeignKey("CarPartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("coursa4.Models.Service", null)
-                        .WithMany()
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("coursa4.Models.Order", b =>

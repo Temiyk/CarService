@@ -15,11 +15,12 @@ namespace coursa4
     public partial class AddEmployee : Form
     {
         private string tempPhotoPath;
-
+        
         public AddEmployee()
         {
             InitializeComponent();
             CreatePhotosDirectory();
+            var context = new Coursa4Context();
         }
         private void CreatePhotosDirectory()
         {
@@ -73,7 +74,6 @@ namespace coursa4
                 var photosDir = Path.Combine(Application.StartupPath, "EmployeePhotos");
                 var photoPath = Path.Combine(photosDir, $"employee_{employeeId}.jpg");
 
-                // Сохраняем изображение в формате JPG
                 pictureBoxEmployee.Image.Save(photoPath, System.Drawing.Imaging.ImageFormat.Jpeg);
             }
             catch (Exception ex)
@@ -88,7 +88,6 @@ namespace coursa4
             {
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // Проверяем размер файла перед загрузкой
                     var fileInfo = new FileInfo(openFileDialog.FileName);
                     if (fileInfo.Length > 5 * 1024 * 1024) // 5MB
                     {
@@ -97,7 +96,6 @@ namespace coursa4
                         return;
                     }
 
-                    // Проверяем формат файла
                     var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".bmp" };
                     var fileExtension = Path.GetExtension(openFileDialog.FileName).ToLower();
                     if (!allowedExtensions.Contains(fileExtension))
@@ -107,15 +105,12 @@ namespace coursa4
                         return;
                     }
 
-                    // Загружаем изображение
-                    var image = Image.FromFile(openFileDialog.FileName);
-
-                    // Ресайз изображения до 200x200 пикселей
-                    var resizedImage = ResizeImage(image, 200, 200);
-                    pictureBoxEmployee.Image = resizedImage;
-
-                    // Сохраняем временный путь
-                    tempPhotoPath = openFileDialog.FileName;
+                    using (var originalImage = Image.FromFile(openFileDialog.FileName))
+                    {
+                        var resizedImage = new Bitmap(originalImage, new Size(200, 200));
+                        pictureBoxEmployee.Image = resizedImage;
+                        tempPhotoPath = openFileDialog.FileName;
+                    }
                 }
             }
             catch (Exception ex)
@@ -124,29 +119,8 @@ namespace coursa4
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void SaveEmployeeImage(int employeeId, string imagePath)
-        {
-            try
-            {
-                string imagesFolder = Path.Combine(Application.StartupPath, "EmployeeImages");
-                if (!Directory.Exists(imagesFolder))
-                {
-                    Directory.CreateDirectory(imagesFolder);
-                }
-                string extension = Path.GetExtension(imagePath);
-                string newFileName = $"employee_{employeeId}{extension}";
-                string destinationPath = Path.Combine(imagesFolder, newFileName);
-
-                File.Copy(imagePath, destinationPath, true);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при сохранении изображения: {ex.Message}");
-            }
-        }
         private bool ValidateInput()
         {
-            // Валидация имени
             if (string.IsNullOrWhiteSpace(textBoxEmployeeFN.Text))
             {
                 MessageBox.Show("Введите имя сотрудника", "Ошибка",
@@ -172,8 +146,6 @@ namespace coursa4
                 textBoxEmployeeFN.SelectAll();
                 return false;
             }
-
-            // Валидация фамилии
             if (string.IsNullOrWhiteSpace(textBoxEmloyeeLN.Text))
             {
                 MessageBox.Show("Введите фамилию сотрудника", "Ошибка",
@@ -200,7 +172,6 @@ namespace coursa4
                 return false;
             }
 
-            // Валидация специализации
             if (string.IsNullOrWhiteSpace(textBox2.Text))
             {
                 MessageBox.Show("Введите специализацию сотрудника", "Ошибка",
@@ -227,13 +198,12 @@ namespace coursa4
                 return false;
             }
 
-            // Валидация фото (если загружено)
             if (!string.IsNullOrEmpty(tempPhotoPath))
             {
                 try
                 {
                     var fileInfo = new FileInfo(tempPhotoPath);
-                    if (fileInfo.Length > 5 * 1024 * 1024) // 5MB limit
+                    if (fileInfo.Length > 5 * 1024 * 1024) 
                     {
                         MessageBox.Show("Размер фото не должен превышать 5MB", "Ошибка",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -248,7 +218,6 @@ namespace coursa4
                 }
             }
 
-            // Проверка на уникальность сотрудника
             if (IsEmployeeExists(textBoxEmployeeFN.Text.Trim(), textBoxEmloyeeLN.Text.Trim()))
             {
                 MessageBox.Show("Сотрудник с таким именем и фамилией уже существует", "Ошибка",
@@ -260,7 +229,22 @@ namespace coursa4
 
             return true;
         }
-
+        public bool IsEmployeeExists(string firstName, string lastName)
+        {
+            try
+            {
+                using var context = new Coursa4Context();
+                return context.Employees
+                    .Any(e =>
+                        e.FirstName.ToLower() == firstName.Trim().ToLower() &&
+                        e.LastName.ToLower() == lastName.Trim().ToLower());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при проверке сотрудника: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
 
     }
 }

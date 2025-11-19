@@ -12,7 +12,6 @@ namespace coursa4.Data
     {
         public DbSet<Client> Clients { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
-        public DbSet<CarPart> CarParts { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Employee> Employees { get; set; }
@@ -131,30 +130,6 @@ namespace coursa4.Data
                 entity.Property(e => e.Description).HasMaxLength(500);
                 entity.Property(e => e.Price).IsRequired().HasColumnType("decimal(18,2)");
                 entity.Property(e => e.RequiredSpecialization).IsRequired().HasMaxLength(100);
-
-                entity.HasMany(s => s.CarParts)
-                      .WithMany()
-                      .UsingEntity<Dictionary<string, object>>(
-                          "ServiceCarPart",
-                          j => j
-                              .HasOne<CarPart>()
-                              .WithMany()
-                              .HasForeignKey("CarPartId")
-                              .OnDelete(DeleteBehavior.Cascade),
-                          j => j
-                              .HasOne<Service>()
-                              .WithMany()
-                              .HasForeignKey("ServiceId")
-                              .OnDelete(DeleteBehavior.Cascade));
-            });
-
-            // Конфигурация запчасти
-            modelBuilder.Entity<CarPart>(entity =>
-            {
-                entity.HasKey(c => c.Id);
-                entity.Property(c => c.Name).IsRequired().HasMaxLength(100);
-                entity.Property(c => c.Price).IsRequired().HasColumnType("decimal(18,2)"); 
-                entity.Property(c => c.QuantityInStock).IsRequired();
             });
             // Конфигурация аккаунта
             modelBuilder.Entity<UserAccount>(entity =>
