@@ -24,8 +24,52 @@ namespace coursa4.UserControls
             SetupDataGridViewColumns();
             SetupSearchFilter();
             LoadData();
+            SearchFilter.SearchApplied += SearchFilter_SearchApplied;
+        }
+        private void SearchFilter_SearchApplied(object sender, EventArgs e)
+        {
+            ApplyFilter(SearchFilter.SearchText, SearchFilter.FilterBy);
         }
 
+        protected override void ApplyFilter(string searchText, string filterBy)
+        {
+            if (string.IsNullOrEmpty(searchText))
+            {
+                filteredVehicles = new List<Vehicle>(vehicles);
+            }
+            else
+            {
+                filteredVehicles = vehicles.Where(vehicle =>
+                {
+                    switch (filterBy)
+                    {
+                        case "Марка":
+                            return vehicle.Brand?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Модель":
+                            return vehicle.Model?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "VIN":
+                            return vehicle.VIN?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Гос. номер":
+                            return vehicle.LicensePlate?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Владелец":
+                            var ownerName = $"{vehicle.Client?.FirstName} {vehicle.Client?.LastName}";
+                            return ownerName.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Все":
+                        default:
+                            var ownerNameAll = $"{vehicle.Client?.FirstName} {vehicle.Client?.LastName}";
+                            return (vehicle.Brand?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (vehicle.Model?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (vehicle.VIN?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (vehicle.LicensePlate?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (ownerNameAll.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (vehicle.Year.ToString().IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (vehicle.Mileage.ToString().IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0);
+                    }
+                }).ToList();
+            }
+
+            DisplayVehicles();
+        }
         private void SetupDataGridViewColumns()
         {
             DataGridView.Columns.Clear();

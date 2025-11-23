@@ -23,6 +23,48 @@ namespace coursa4.UserControls
             SetupDataGridViewColumns();
             SetupSearchFilter();
             LoadData();
+            SearchFilter.SearchApplied += SearchFilter_SearchApplied;
+        }
+        public void SetupSearchFilter()
+        {
+            string[] filterOptions = { "Все", "Название", "Описание", "Специализация" };
+            SearchFilter.SetFilterOptions(filterOptions);
+        }
+
+        private void SearchFilter_SearchApplied(object sender, EventArgs e)
+        {
+            ApplyFilter(SearchFilter.SearchText, SearchFilter.FilterBy);
+        }
+
+        protected override void ApplyFilter(string searchText, string filterBy)
+        {
+            if (string.IsNullOrEmpty(searchText))
+            {
+                filteredServices = new List<Service>(services);
+            }
+            else
+            {
+                filteredServices = services.Where(service =>
+                {
+                    switch (filterBy)
+                    {
+                        case "Название":
+                            return service.Name?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Описание":
+                            return service.Description?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Специализация":
+                            return service.RequiredSpecialization?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Все":
+                        default:
+                            return (service.Name?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (service.Description?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (service.RequiredSpecialization?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (service.Price.ToString().IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0);
+                    }
+                }).ToList();
+            }
+
+            DisplayServices();
         }
         private void SetupDataGridViewColumns() {
             DataGridView.Columns.Clear();
@@ -177,6 +219,5 @@ namespace coursa4.UserControls
             LoadData();
             SearchFilter.ResetAll();
         }
-        public void SetupSearchFilter() { }
     }
 }

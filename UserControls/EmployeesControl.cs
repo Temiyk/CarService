@@ -15,7 +15,9 @@ namespace coursa4.UserControls
 {
     public partial class EmployeesControl : BaseListControl
     {
-        private const int PHOTO_SIZE = 80; // Размер фото в пикселях
+        private const int PHOTO_SIZE = 80;
+        private List<Employee> employees;
+        private List<Employee> filteredEmployees;
 
         public EmployeesControl()
         {
@@ -23,8 +25,44 @@ namespace coursa4.UserControls
             SetupDataGridViewColumns();
             SetupSearchFilter();
             LoadData();
+            SearchFilter.SearchApplied += SearchFilter_SearchApplied;
         }
+        private void SearchFilter_SearchApplied(object sender, EventArgs e)
+        {
+            ApplyFilter(SearchFilter.SearchText, SearchFilter.FilterBy);
+        }
+        protected override void ApplyFilter(string searchText, string filterBy)
+        {
+            if (string.IsNullOrEmpty(searchText))
+            {
+                filteredEmployees = new List<Employee>(employees);
+            }
+            else
+            {
+                filteredEmployees = employees.Where(employee =>
+                {
+                    switch (filterBy)
+                    {
+                        case "Имя":
+                            return employee.FirstName?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Фамилия":
+                            return employee.LastName?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Специализация":
+                            return employee.Specialization?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Статус":
+                            return employee.Status?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Все":
+                        default:
+                            return (employee.FirstName?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (employee.LastName?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (employee.Specialization?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (employee.Status?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0);
+                    }
+                }).ToList();
+            }
 
+            DisplayEmployees();
+        }
         private void SetupDataGridViewColumns()
         {
             DataGridView.Columns.Clear();
@@ -190,32 +228,37 @@ namespace coursa4.UserControls
             try
             {
                 using var context = new Coursa4Context();
-                var employees = context.Employees
+                employees = context.Employees
                     .Include(e => e.Orders)
                     .AsNoTracking()
                     .ToList();
 
-                DataGridView.Rows.Clear();
-
-                foreach (var employee in employees)
-                {
-                    var employeePhoto = LoadEmployeePhoto(employee.Id);
-
-                    DataGridView.Rows.Add(
-                        employeePhoto, // Фото (может быть null)
-                        employee.Id,
-                        employee.FirstName,
-                        employee.LastName,
-                        employee.Specialization,
-                        employee.Status,
-                        employee.Orders.Count(o => o.Status != "Завершен" && o.Status != "Отменен")
-                    );
-                }
+                filteredEmployees = new List<Employee>(employees);
+                DisplayEmployees();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при загрузке сотрудников: {ex.Message}", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void DisplayEmployees()
+        {
+            DataGridView.Rows.Clear();
+
+            foreach (var employee in filteredEmployees)
+            {
+                var employeePhoto = LoadEmployeePhoto(employee.Id);
+
+                DataGridView.Rows.Add(
+                    employeePhoto,
+                    employee.Id,
+                    employee.FirstName,
+                    employee.LastName,
+                    employee.Specialization,
+                    employee.Status,
+                    employee.Orders.Count(o => o.Status != "Завершен" && o.Status != "Отменен")
+                );
             }
         }
     }

@@ -24,6 +24,11 @@ namespace coursa4
             SetupDataGridViewColumns();
             SetupSearchFilter();
             LoadData();
+            SearchFilter.SearchApplied += SearchFilter_SearchApplied;
+        }
+        private void SearchFilter_SearchApplied(object sender, EventArgs e)
+        {
+            ApplyFilter(SearchFilter.SearchText, SearchFilter.FilterBy);
         }
         private void SetupDataGridViewColumns()
         {
@@ -189,6 +194,38 @@ namespace coursa4
                     }
                 }
             }
+        }
+        protected override void ApplyFilter(string searchText, string filterBy)
+        {
+            if (string.IsNullOrEmpty(searchText))
+            {
+                filteredClients = new List<Client>(clients);
+            }
+            else
+            {
+                filteredClients = clients.Where(client =>
+                {
+                    switch (filterBy)
+                    {
+                        case "Имя":
+                            return client.FirstName?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Фамилия":
+                            return client.LastName?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Телефон":
+                            return client.PhoneNumber?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Email":
+                            return client.Email?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Все":
+                        default:
+                            return (client.FirstName?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (client.LastName?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (client.PhoneNumber?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (client.Email?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0);
+                    }
+                }).ToList();
+            }
+
+            DisplayClients();
         }
     }
 }

@@ -17,10 +17,83 @@ namespace coursa4.UserControls
     public partial class OrdersControl : BaseListControl
     {
         private List<Order> orders;
+        private List<Order> filteredOrders;
         public OrdersControl()
         {
             InitializeComponent();
+            SetupDataGridViewColumns();
+            SetupSearchFilter();
             LoadData();
+            SearchFilter.SearchApplied += SearchFilter_SearchApplied;
+        }
+        private void SetupSearchFilter()
+        {
+            string[] filterOptions = { "Все", "Клиент", "Автомобиль", "Статус", "Сотрудник" };
+            SearchFilter.SetFilterOptions(filterOptions);
+        }
+
+        private void SetupDataGridViewColumns()
+        {
+            DataGridView.Columns.Clear();
+
+            DataGridView.Columns.Add("Id", "ID");
+            DataGridView.Columns.Add("Client", "Клиент");
+            DataGridView.Columns.Add("Vehicle", "Автомобиль");
+            DataGridView.Columns.Add("AcceptDate", "Дата приема");
+            DataGridView.Columns.Add("CompleteDate", "Дата завершения");
+            DataGridView.Columns.Add("Status", "Статус");
+            DataGridView.Columns.Add("Price", "Стоимость");
+            DataGridView.Columns.Add("Employee", "Сотрудник");
+            DataGridView.Columns.Add("ServicesCount", "Кол-во услуг");
+
+            DataGridView.Columns["Id"].Visible = false;
+            DataGridView.Columns["Price"].DefaultCellStyle.Format = "C2";
+        }
+
+        private void SearchFilter_SearchApplied(object sender, EventArgs e)
+        {
+            ApplyFilter(SearchFilter.SearchText, SearchFilter.FilterBy);
+        }
+
+        protected override void ApplyFilter(string searchText, string filterBy)
+        {
+            if (string.IsNullOrEmpty(searchText))
+            {
+                filteredOrders = new List<Order>(orders);
+            }
+            else
+            {
+                filteredOrders = orders.Where(order =>
+                {
+                    switch (filterBy)
+                    {
+                        case "Клиент":
+                            var clientName = $"{order.Client?.FirstName} {order.Client?.LastName}";
+                            return clientName.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Автомобиль":
+                            var vehicleInfo = $"{order.Vehicle?.Brand} {order.Vehicle?.Model}";
+                            return vehicleInfo.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Статус":
+                            return order.Status?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Сотрудник":
+                            var employeeName = $"{order.Employee?.FirstName} {order.Employee?.LastName}";
+                            return employeeName.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Все":
+                        default:
+                            var clientNameAll = $"{order.Client?.FirstName} {order.Client?.LastName}";
+                            var vehicleInfoAll = $"{order.Vehicle?.Brand} {order.Vehicle?.Model}";
+                            var employeeNameAll = $"{order.Employee?.FirstName} {order.Employee?.LastName}";
+
+                            return (clientNameAll.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (vehicleInfoAll.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (order.Status?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (employeeNameAll.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                   (order.Price.ToString().IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0);
+                    }
+                }).ToList();
+            }
+
+            DisplayOrders();
         }
         protected override void buttonAdd_Click(object sender, EventArgs e)
         {
@@ -39,8 +112,7 @@ namespace coursa4.UserControls
 
                 try
                 {
-                    //var orderId =
-                    //
+
                 }
                 catch (Exception ex)
                 {
@@ -117,13 +189,14 @@ namespace coursa4.UserControls
                     .AsNoTracking()
                     .ToList();
 
+                filteredOrders = new List<Order>(orders);
+                DisplayOrders();
+
                 if (orders.Count == 0)
                 {
                     MessageBox.Show("В базе данных отсутствуют заказы.", "Информация",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-                DisplayOrders();
             }
             catch (Exception ex)
             {
@@ -136,7 +209,7 @@ namespace coursa4.UserControls
         {
             DataGridView.Rows.Clear();
 
-            foreach (var order in orders)
+            foreach (var order in filteredOrders)
             {
                 DataGridView.Rows.Add(
                     order.Id,

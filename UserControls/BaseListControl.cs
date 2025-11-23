@@ -20,7 +20,7 @@ namespace coursa4.UserControls
             InitializeComponent();
             SetupDataGridView();
         }
-        virtual public void LoadData() {}
+        public virtual void LoadData() { }
         private void SetupDataGridView()
         {
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -47,11 +47,14 @@ namespace coursa4.UserControls
         {
             LoadData();
         }
-
-        protected virtual void buttonAdd_Click(object sender, EventArgs e) {}
-        protected virtual void buttonEdit_Click(object sender, EventArgs e) {}
-        protected virtual void ApplyFilter(string searchText, string filterBy) {}
-        protected virtual void buttonDelete_Click(object sender, EventArgs e) {}
-        protected virtual void buttonUpdate_Click(object sender, EventArgs e) {}
+        protected virtual void buttonAdd_Click(object sender, EventArgs e) { }
+        protected virtual void buttonEdit_Click(object sender, EventArgs e) { }
+        protected virtual void ApplyFilter(string searchText, string filterBy) { }
+        protected virtual void buttonDelete_Click(object sender, EventArgs e) { }
+        protected virtual void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            LoadData();
+            SearchFilter.ResetAll();
+        }
     }
 }
