@@ -48,10 +48,7 @@ namespace coursa4
         private void SetupSearchFilter()
         {
             string[] filterOptions = { "Все", "Имя", "Фамилия", "Телефон", "Email" };
-            string[] sortOptions = { "Имя", "Фамилия", "Телефон", "Email", "Кол-во авто", "Кол-во заказов" };
-
             SearchFilter.SetFilterOptions(filterOptions);
-            SearchFilter.SetSortOptions(sortOptions);
         }
         public override void LoadData()
         {

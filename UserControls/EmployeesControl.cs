@@ -15,6 +15,8 @@ namespace coursa4.UserControls
 {
     public partial class EmployeesControl : BaseListControl
     {
+        private const int PHOTO_SIZE = 80; // Размер фото в пикселях
+
         public EmployeesControl()
         {
             InitializeComponent();
@@ -22,6 +24,7 @@ namespace coursa4.UserControls
             SetupSearchFilter();
             LoadData();
         }
+
         private void SetupDataGridViewColumns()
         {
             DataGridView.Columns.Clear();
@@ -30,8 +33,14 @@ namespace coursa4.UserControls
             {
                 Name = "Photo",
                 HeaderText = "Фото",
-                Width = 80,
-                ImageLayout = DataGridViewImageCellLayout.Zoom
+                Width = PHOTO_SIZE + 20, // +20 для отступов
+                ImageLayout = DataGridViewImageCellLayout.Zoom,
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    NullValue = null,
+                    Alignment = DataGridViewContentAlignment.MiddleCenter,
+                    Padding = new Padding(5)
+                }
             };
             DataGridView.Columns.Add(photoColumn);
 
@@ -40,27 +49,22 @@ namespace coursa4.UserControls
             DataGridView.Columns.Add("LastName", "Фамилия");
             DataGridView.Columns.Add("Specialization", "Специализация");
             DataGridView.Columns.Add("Status", "Статус");
-            DataGridView.Columns.Add("CurrentOrders", "Текущий заказ");
 
             DataGridView.Columns["Id"].Visible = false;
             DataGridView.Columns["FirstName"].Width = 120;
             DataGridView.Columns["LastName"].Width = 120;
-            DataGridView.Columns["Specialization"].Width = 150;
-            DataGridView.Columns["Status"].Width = 100;
-            DataGridView.Columns["CurrentOrders"].Width = 100;
+            DataGridView.Columns["Specialization"].Width = 200; // Увеличим ширину для специализации
+            DataGridView.Columns["Status"].Width = 120; // Немного увеличим для статуса
 
-            DataGridView.Columns["CurrentOrders"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            // Устанавливаем высоту строк
+            DataGridView.RowTemplate.Height = PHOTO_SIZE + 10;
             DataGridView.Columns["Status"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            DataGridView.Columns["CurrentOrders"].HeaderText = "Активный заказы";
         }
+
         private void SetupSearchFilter()
         {
             string[] filterOptions = { "Все", "Имя", "Фамилия", "Специализация", "Статус" };
-            string[] sortOptions = { "Имя", "Фамилия", "Специализация", "Статус", "Активные заказы" };
-
             SearchFilter.SetFilterOptions(filterOptions);
-            SearchFilter.SetSortOptions(sortOptions);
         }
         protected override void buttonAdd_Click(object sender, EventArgs e)
         {
@@ -73,7 +77,7 @@ namespace coursa4.UserControls
                     SearchFilter.ClearSearch();
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 MessageBox.Show($"Не удалось открыть форму добавления: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -103,10 +107,8 @@ namespace coursa4.UserControls
                         var employee = context.Employees.Find(employeeId);
                         if (employee != null)
                         {
-                            // Удаляем фото из папки
                             DeleteEmployeePhoto(employeeId);
 
-                            // Удаляем сотрудника из БД
                             context.Employees.Remove(employee);
                             context.SaveChanges();
 
@@ -147,6 +149,42 @@ namespace coursa4.UserControls
                      MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private Image LoadEmployeePhoto(int employeeId)
+        {
+            try
+            {
+                var photosDir = Path.Combine(Application.StartupPath, "EmployeePhotos");
+
+                if (!Directory.Exists(photosDir))
+                    return null;
+
+                var possibleExtensions = new[] { ".jpg", ".jpeg", ".png", ".bmp" };
+
+                foreach (var extension in possibleExtensions)
+                {
+                    var photoPath = Path.Combine(photosDir, $"employee_{employeeId}{extension}");
+                    if (File.Exists(photoPath))
+                    {
+                        using (var originalImage = Image.FromFile(photoPath))
+                        {
+                            // Создаем копию изображения для DataGridView
+                            var resizedImage = new Bitmap(60, 60);
+                            using (var graphics = Graphics.FromImage(resizedImage))
+                            {
+                                graphics.DrawImage(originalImage, 0, 0, 60, 60);
+                            }
+                            return resizedImage;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при загрузке фото сотрудника {employeeId}: {ex.Message}");
+            }
+
+            return null; // Возвращаем null если фото нет
+        }
         public override void LoadData()
         {
             try
@@ -161,7 +199,10 @@ namespace coursa4.UserControls
 
                 foreach (var employee in employees)
                 {
+                    var employeePhoto = LoadEmployeePhoto(employee.Id);
+
                     DataGridView.Rows.Add(
+                        employeePhoto, // Фото (может быть null)
                         employee.Id,
                         employee.FirstName,
                         employee.LastName,

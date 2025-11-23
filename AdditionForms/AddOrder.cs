@@ -162,11 +162,6 @@ namespace coursa4
                 LoadClientVehicles();
             }
         }
-
-        private void buttonCalculateTotal_Click(object sender, EventArgs e)
-        {
-            CalculateTotalPrice();
-        }
         private void CalculateTotalPrice()
         {
             decimal total = 0;

@@ -30,6 +30,14 @@ namespace coursa4.UserControls
         {
             DataGridView.Columns.Clear();
 
+            DataGridViewImageColumn imageColumn = new DataGridViewImageColumn();
+            imageColumn.Name = "Image";
+            imageColumn.HeaderText = "Фото";
+            imageColumn.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imageColumn.Width = 80;
+            imageColumn.DefaultCellStyle.NullValue = null; 
+            DataGridView.Columns.Add(imageColumn);
+
             DataGridView.Columns.Add("Id", "ID");
             DataGridView.Columns.Add("Brand", "Марка");
             DataGridView.Columns.Add("Model", "Модель");
@@ -38,7 +46,6 @@ namespace coursa4.UserControls
             DataGridView.Columns.Add("LicensePlate", "Гос. номер");
             DataGridView.Columns.Add("Mileage", "Пробег");
             DataGridView.Columns.Add("ClientName", "Владелец");
-            DataGridView.Columns.Add("OrdersCount", "Кол-во заказов");
 
             DataGridView.Columns["Id"].Visible = false;
             DataGridView.Columns["Brand"].Width = 100;
@@ -48,16 +55,14 @@ namespace coursa4.UserControls
             DataGridView.Columns["LicensePlate"].Width = 100;
             DataGridView.Columns["Mileage"].Width = 80;
             DataGridView.Columns["ClientName"].Width = 150;
-            DataGridView.Columns["OrdersCount"].Width = 80;
+
+            DataGridView.RowTemplate.Height = 60;
         }
 
         private void SetupSearchFilter()
         {
             string[] filterOptions = { "Все", "Марка", "Модель", "VIN", "Гос. номер", "Владелец" };
-            string[] sortOptions = { "Марка", "Модель", "Год", "Пробег", "Владелец" };
-
             SearchFilter.SetFilterOptions(filterOptions);
-            SearchFilter.SetSortOptions(sortOptions);
         }
 
         public override void LoadData()
@@ -86,7 +91,10 @@ namespace coursa4.UserControls
 
             foreach (var vehicle in filteredVehicles)
             {
+                Image vehicleImage = LoadVehicleImage(vehicle.Id);
+
                 DataGridView.Rows.Add(
+                    vehicleImage, 
                     vehicle.Id,
                     vehicle.Brand ?? "",
                     vehicle.Model ?? "",
@@ -98,7 +106,51 @@ namespace coursa4.UserControls
                 );
             }
         }
+        private Image LoadVehicleImage(int vehicleId)
+        {
+            try
+            {
+                string imagesFolder = Path.Combine(Application.StartupPath, "VehicleImages");
+                if (!Directory.Exists(imagesFolder))
+                    return null; 
+                string[] possibleExtensions = { "*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif" };
 
+                foreach (string extension in possibleExtensions)
+                {
+                    string searchPattern = $"vehicle_{vehicleId}{extension.Replace("*", "")}";
+                    string[] files = Directory.GetFiles(imagesFolder, searchPattern);
+
+                    if (files.Length > 0)
+                    {
+                        using (var originalImage = Image.FromFile(files[0]))
+                        {
+                            return ResizeImageForGrid(originalImage, 70, 50);
+                        }
+                    }
+                }
+
+                return null; 
+            }
+            catch (Exception)
+            {
+                return null; 
+            }
+        }
+
+        private Image ResizeImageForGrid(Image image, int width, int height)
+        {
+            var newImage = new Bitmap(width, height);
+
+            using (var graphics = Graphics.FromImage(newImage))
+            {
+                graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                graphics.DrawImage(image, 0, 0, width, height);
+            }
+
+            return newImage;
+        }
         protected override void buttonAdd_Click(object sender, EventArgs e)
         {
             try
@@ -119,7 +171,6 @@ namespace coursa4.UserControls
 
         protected override void buttonEdit_Click(object sender, EventArgs e)
         {
-            // Реализация редактирования автомобиля
             MessageBox.Show("Функция редактирования автомобиля будет реализована позже", "Информация",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -146,6 +197,8 @@ namespace coursa4.UserControls
                             context.Vehicles.Remove(vehicle);
                             context.SaveChanges();
 
+                            DeleteVehicleImage(vehicleId);
+
                             LoadData();
                             MessageBox.Show("Автомобиль успешно удален", "Успех",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -164,7 +217,32 @@ namespace coursa4.UserControls
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+        private void DeleteVehicleImage(int vehicleId)
+        {
+            try
+            {
+                string imagesFolder = Path.Combine(Application.StartupPath, "VehicleImages");
+                if (!Directory.Exists(imagesFolder))
+                    return;
 
+                string[] possibleExtensions = { "*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif" };
+
+                foreach (string extension in possibleExtensions)
+                {
+                    string searchPattern = $"vehicle_{vehicleId}{extension.Replace("*", "")}";
+                    string[] files = Directory.GetFiles(imagesFolder, searchPattern);
+
+                    foreach (string file in files)
+                    {
+                        File.Delete(file);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при удалении изображения: {ex.Message}");
+            }
+        }
         protected override void buttonUpdate_Click(object sender, EventArgs e)
         {
             LoadData();

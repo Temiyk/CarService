@@ -52,13 +52,14 @@ namespace coursa4
             if ((int)comboBoxClient.SelectedValue == -1)
             {
                 clientId = CreateNewClient();
-                if (clientId == -1) 
+                if (clientId == -1)
                     return;
             }
             else
             {
                 clientId = (int)comboBoxClient.SelectedValue;
             }
+
 
             if (string.IsNullOrWhiteSpace(textBoxCarBrand.Text) ||
                 string.IsNullOrWhiteSpace(textBoxCarModel.Text) ||
@@ -100,7 +101,6 @@ namespace coursa4
                 context.Vehicles.Add(vehicle);
                 context.SaveChanges();
 
-                // Сохранение изображения, если оно было загружено
                 if (!string.IsNullOrEmpty(imagePath))
                 {
                     SaveVehicleImage(vehicle.Id, imagePath);
@@ -113,7 +113,6 @@ namespace coursa4
             {
                 MessageBox.Show($"Ошибка при добавлении автомобиля: {ex.Message}");
             }
-
         }
 
         private void pictureBoxNewVehicle_Click(object sender, EventArgs e)
@@ -126,32 +125,88 @@ namespace coursa4
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    imagePath = openFileDialog.FileName;
-                    pictureBoxNewVehicle.Image = Image.FromFile(imagePath);
-                    pictureBoxNewVehicle.SizeMode = PictureBoxSizeMode.Zoom;
+                    try
+                    {
+                        imagePath = openFileDialog.FileName;
 
-                    pictureBoxNewVehicle.Cursor = Cursors.Default;
+                        var originalImage = Image.FromFile(imagePath);
+
+                        var previewImage = ResizeImage(originalImage, 400, 300);
+
+                        pictureBoxNewVehicle.Image = previewImage;
+                        pictureBoxNewVehicle.SizeMode = PictureBoxSizeMode.Zoom;
+                        pictureBoxNewVehicle.Cursor = Cursors.Default;
+
+                        originalImage.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка при загрузке изображения: {ex.Message}");
+                    }
                 }
             }
         }
-        private void SaveVehicleImage(int vehicleId, string imagePath)
+        private Image ResizeImage(Image image, int maxWidth, int maxHeight)
+        {
+            var ratioX = (double)maxWidth / image.Width;
+            var ratioY = (double)maxHeight / image.Height;
+            var ratio = Math.Min(ratioX, ratioY);
+
+            var newWidth = (int)(image.Width * ratio);
+            var newHeight = (int)(image.Height * ratio);
+
+            var newImage = new Bitmap(newWidth, newHeight);
+
+            using (var graphics = Graphics.FromImage(newImage))
+            {
+                graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                graphics.DrawImage(image, 0, 0, newWidth, newHeight);
+            }
+
+            return newImage;
+        }
+        private void SaveVehicleImage(int vehicleId, string sourceImagePath)
         {
             try
             {
-                string imagesFolder = Path.Combine(Application.StartupPath, "VehicleImages");
+                // Получаем путь к папке приложения (где находится .exe)
+                string appPath = Application.StartupPath;
+                string imagesFolder = Path.Combine(appPath, "VehicleImages");
+
+                Console.WriteLine($"Путь к папке изображений: {imagesFolder}");
+
                 if (!Directory.Exists(imagesFolder))
                 {
                     Directory.CreateDirectory(imagesFolder);
+                    Console.WriteLine("Папка VehicleImages создана");
                 }
 
-                string extension = Path.GetExtension(imagePath);
-                string newFileName = $"vehicle_{vehicleId}{extension}";
-                string destinationPath = Path.Combine(imagesFolder, newFileName);
+                // Используем оригинальное изображение для сохранения
+                using (var originalImage = Image.FromFile(sourceImagePath))
+                {
+                    // Создаем изображение оптимального размера для отображения (800x600)
+                    var optimizedImage = ResizeImage(originalImage, 800, 600);
 
-                File.Copy(imagePath, destinationPath, true);
+                    string extension = Path.GetExtension(sourceImagePath).ToLower();
+                    string newFileName = $"vehicle_{vehicleId}{extension}";
+                    string destinationPath = Path.Combine(imagesFolder, newFileName);
+
+                    Console.WriteLine($"Сохраняем изображение как: {destinationPath}");
+
+                    // Упрощенное сохранение без использования кодеков
+                    // Просто сохраняем в исходном формате
+                    optimizedImage.Save(destinationPath);
+
+                    optimizedImage.Dispose();
+
+                    Console.WriteLine("Изображение успешно сохранено");
+                }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Ошибка при сохранении изображения: {ex.Message}");
                 MessageBox.Show($"Ошибка при сохранении изображения: {ex.Message}");
             }
         }

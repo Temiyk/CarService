@@ -41,9 +41,12 @@
             buttonAddNewVehicle = new Button();
             groupBoxServices = new GroupBox();
             dataGridViewServices = new DataGridView();
+            colSelect = new DataGridViewCheckBoxColumn();
+            colServiceName = new DataGridViewTextBoxColumn();
+            colPrice = new DataGridViewTextBoxColumn();
+            colSpecialization = new DataGridViewTextBoxColumn();
             labelTotalPrice = new Label();
             textBoxTotalPrice = new TextBox();
-            buttonCalculateTotal = new Button();
             groupBoxDates = new GroupBox();
             dateTimePickerEstimatedDate = new DateTimePicker();
             dateTimePickerAcceptanceDate = new DateTimePicker();
@@ -52,10 +55,6 @@
             groupBoxEmployee = new GroupBox();
             labelAssignedEmployee = new Label();
             buttonAutoAssignEmployee = new Button();
-            colSelect = new DataGridViewCheckBoxColumn();
-            colServiceName = new DataGridViewTextBoxColumn();
-            colPrice = new DataGridViewTextBoxColumn();
-            colSpecialization = new DataGridViewTextBoxColumn();
             groupBoxClient.SuspendLayout();
             groupBoxVehicle.SuspendLayout();
             groupBoxServices.SuspendLayout();
@@ -199,6 +198,37 @@
             dataGridViewServices.CellContentClick += dataGridViewServices_CellContentClick;
             dataGridViewServices.CellValueChanged += dataGridViewServices_CellValueChanged;
             // 
+            // colSelect
+            // 
+            colSelect.FillWeight = 70F;
+            colSelect.HeaderText = "Выбрать";
+            colSelect.MinimumWidth = 6;
+            colSelect.Name = "colSelect";
+            // 
+            // colServiceName
+            // 
+            colServiceName.FillWeight = 164.136459F;
+            colServiceName.HeaderText = "Название услуги";
+            colServiceName.MinimumWidth = 6;
+            colServiceName.Name = "colServiceName";
+            colServiceName.ReadOnly = true;
+            // 
+            // colPrice
+            // 
+            colPrice.FillWeight = 80F;
+            colPrice.HeaderText = "Цена, Br";
+            colPrice.MinimumWidth = 6;
+            colPrice.Name = "colPrice";
+            colPrice.ReadOnly = true;
+            // 
+            // colSpecialization
+            // 
+            colSpecialization.FillWeight = 98.48188F;
+            colSpecialization.HeaderText = "Специализация";
+            colSpecialization.MinimumWidth = 6;
+            colSpecialization.Name = "colSpecialization";
+            colSpecialization.ReadOnly = true;
+            // 
             // labelTotalPrice
             // 
             labelTotalPrice.AutoSize = true;
@@ -216,17 +246,6 @@
             textBoxTotalPrice.Size = new Size(100, 27);
             textBoxTotalPrice.TabIndex = 27;
             textBoxTotalPrice.Text = "0";
-            // 
-            // buttonCalculateTotal
-            // 
-            buttonCalculateTotal.BackColor = Color.Goldenrod;
-            buttonCalculateTotal.Location = new Point(600, 824);
-            buttonCalculateTotal.Name = "buttonCalculateTotal";
-            buttonCalculateTotal.Size = new Size(150, 35);
-            buttonCalculateTotal.TabIndex = 28;
-            buttonCalculateTotal.Text = "Рассчитать итог";
-            buttonCalculateTotal.UseVisualStyleBackColor = false;
-            buttonCalculateTotal.Click += buttonCalculateTotal_Click;
             // 
             // groupBoxDates
             // 
@@ -307,37 +326,6 @@
             buttonAutoAssignEmployee.UseVisualStyleBackColor = false;
             buttonAutoAssignEmployee.Click += buttonAutoAssignEmployee_Click;
             // 
-            // colSelect
-            // 
-            colSelect.FillWeight = 70F;
-            colSelect.HeaderText = "Выбрать";
-            colSelect.MinimumWidth = 6;
-            colSelect.Name = "colSelect";
-            // 
-            // colServiceName
-            // 
-            colServiceName.FillWeight = 164.136459F;
-            colServiceName.HeaderText = "Название услуги";
-            colServiceName.MinimumWidth = 6;
-            colServiceName.Name = "colServiceName";
-            colServiceName.ReadOnly = true;
-            // 
-            // colPrice
-            // 
-            colPrice.FillWeight = 80F;
-            colPrice.HeaderText = "Цена, Br";
-            colPrice.MinimumWidth = 6;
-            colPrice.Name = "colPrice";
-            colPrice.ReadOnly = true;
-            // 
-            // colSpecialization
-            // 
-            colSpecialization.FillWeight = 98.48188F;
-            colSpecialization.HeaderText = "Специализация";
-            colSpecialization.MinimumWidth = 6;
-            colSpecialization.Name = "colSpecialization";
-            colSpecialization.ReadOnly = true;
-            // 
             // AddOrder
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -345,7 +333,6 @@
             ClientSize = new Size(782, 987);
             Controls.Add(groupBoxEmployee);
             Controls.Add(groupBoxDates);
-            Controls.Add(buttonCalculateTotal);
             Controls.Add(textBoxTotalPrice);
             Controls.Add(labelTotalPrice);
             Controls.Add(groupBoxServices);
@@ -386,7 +373,6 @@
         private DataGridView dataGridViewServices;
         private Label labelTotalPrice;
         private TextBox textBoxTotalPrice;
-        private Button buttonCalculateTotal;
         private GroupBox groupBoxDates;
         private DateTimePicker dateTimePickerAcceptanceDate;
         private Label labelEstimatedDate;
