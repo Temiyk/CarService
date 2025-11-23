@@ -1,5 +1,6 @@
 ﻿using coursa4.Data;
 using coursa4.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,13 @@ namespace coursa4
         {
             InitializeComponent();
             context = new Coursa4Context();
+            comboBoxClients.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxVehicles.DropDownStyle = ComboBoxStyle.DropDownList;
+            LoadClients();
+            LoadServices();
+            LoadAvailableEmployees();
+            SetDefaultDates();
+            LoadServices();
         }
         private void SetDefaultDates()
         {
@@ -53,6 +61,8 @@ namespace coursa4
 
                 if (comboBoxClients.Items.Count > 0)
                     comboBoxClients.SelectedIndex = 0;
+                else
+                    comboBoxClients.Text = "Нет клиентов";
             }
             catch (Exception ex)
             {
@@ -70,12 +80,14 @@ namespace coursa4
                 foreach (var service in allServices)
                 {
                     dataGridViewServices.Rows.Add(
-                        false, // Checkbox - не выбран
+                        false,
                         service.Name,
-                        service.Price.ToString("C2"),
+                        service.Price, 
                         service.RequiredSpecialization
                     );
                 }
+
+                CalculateTotalPrice();
             }
             catch (Exception ex)
             {
@@ -143,9 +155,12 @@ namespace coursa4
             }
 
             var clientId = (int)((dynamic)comboBoxClients.SelectedItem).Id;
-            // Здесь нужно создать форму AddVehicle (аналогично AddClient)
-            MessageBox.Show("Форма добавления автомобиля будет реализована позже", "Информация",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var addVehicleForm = new AddVehicle();
+
+            if (addVehicleForm.ShowDialog() == DialogResult.OK)
+            {
+                LoadClientVehicles();
+            }
         }
 
         private void buttonCalculateTotal_Click(object sender, EventArgs e)
@@ -160,8 +175,9 @@ namespace coursa4
             {
                 if (row.Cells[0].Value is bool isSelected && isSelected)
                 {
-                    if (decimal.TryParse(row.Cells[2].Value?.ToString().Replace("₽", "").Replace("$", "").Trim(), out decimal price))
+                    if (row.Cells["colPrice"].Value != null)
                     {
+                        decimal price = Convert.ToDecimal(row.Cells["colPrice"].Value);
                         total += price;
                     }
                 }
@@ -171,11 +187,22 @@ namespace coursa4
         }
         private void dataGridViewServices_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Если кликнули по checkbox
-            if (e.ColumnIndex == 0 && e.RowIndex >= 0)
+            if (e.RowIndex >= 0 && e.ColumnIndex == 0)
             {
-                CalculateTotalPrice();
+                dataGridViewServices.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
+        }
+        private decimal GetCurrentTotalPrice()
+        {
+            if (string.IsNullOrEmpty(textBoxTotalPrice.Text))
+                return 0;
+
+            string priceText = textBoxTotalPrice.Text.Replace("₽", "").Replace("$", "").Replace("€", "").Replace(" ", "").Trim();
+            if (decimal.TryParse(priceText, out decimal result))
+            {
+                return result;
+            }
+            return 0;
         }
         private void buttonAddOrder_Click(object sender, EventArgs e)
         {
@@ -190,9 +217,11 @@ namespace coursa4
 
                 if (assignedEmployee == null)
                 {
-                    MessageBox.Show("Не удалось назначить сотрудника для выполнения заказа", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    var result = MessageBox.Show("Нет доступных сотрудников. Создать заказ без назначения сотрудника?", "Внимание",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result != DialogResult.Yes)
+                        return;
                 }
 
                 var order = new Order
@@ -201,12 +230,10 @@ namespace coursa4
                     VehicleId = (int)((dynamic)comboBoxVehicles.SelectedItem).Id,
                     AcceptionDate = dateTimePickerAcceptanceDate.Value,
                     EstimatedCompletionDate = dateTimePickerEstimatedDate.Value,
-                    Status = "Создан",
+                    Status = "В работе",
                     Price = decimal.Parse(textBoxTotalPrice.Text.Replace("₽", "").Replace("$", "").Trim()),
-                    EmployeeId = assignedEmployee.Id
+                    EmployeeId = assignedEmployee?.Id ?? 0 // Защита от null
                 };
-
-                // Добавляем выбранные услуги
                 foreach (DataGridViewRow row in dataGridViewServices.Rows)
                 {
                     if (row.Cells[0].Value is bool isSelected && isSelected)
@@ -218,11 +245,24 @@ namespace coursa4
                 }
 
                 context.Orders.Add(order);
-                assignedEmployee.Status = "Занят";
+
+                if (assignedEmployee != null)
+                {
+                    assignedEmployee.Status = "Занят";
+                }
+
                 context.SaveChanges();
 
-                MessageBox.Show($"Заказ успешно создан! Назначен сотрудник: {assignedEmployee.FirstName} {assignedEmployee.LastName}", "Успех",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (assignedEmployee != null)
+                {
+                    MessageBox.Show($"Заказ успешно создан! Назначен сотрудник: {assignedEmployee.FirstName} {assignedEmployee.LastName}", "Успех",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Заказ успешно создан! Сотрудник не назначен.", "Успех",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -283,7 +323,6 @@ namespace coursa4
             LoadAvailableEmployees();
             SetDefaultDates();
         }
-
         private void LoadAvailableEmployees()
         {
             try
@@ -295,6 +334,8 @@ namespace coursa4
                     .ToList();
 
                 UpdateAssignedEmployeeLabel();
+
+                Console.WriteLine($"Доступно сотрудников: {availableEmployees.Count}");
             }
             catch (Exception ex)
             {
@@ -307,37 +348,51 @@ namespace coursa4
             if (assignedEmployee != null)
             {
                 labelAssignedEmployee.Text = $"Назначенный сотрудник: {assignedEmployee.FirstName} {assignedEmployee.LastName} ({assignedEmployee.Specialization})";
+                labelAssignedEmployee.ForeColor = Color.Green;
             }
             else
             {
-                labelAssignedEmployee.Text = "Назначенный сотрудник: автоматический подбор при создании";
+                labelAssignedEmployee.Text = "Назначенный сотрудник: не выбран";
+                labelAssignedEmployee.ForeColor = Color.Red;
             }
         }
-        private List<Employee> AssignEmployeesToOrder()
+        public static void ReleaseEmployee(int employeeId)
         {
-            var requiredSpecializations = GetRequiredSpecializations();
-            var assignedEmployees = new List<Employee>();
-
-            foreach (var specialization in requiredSpecializations)
+            try
             {
-                var employee = FindEmployeeForSpecialization(specialization);
+                using var context = new Coursa4Context();
+                var employee = context.Employees.Find(employeeId);
                 if (employee != null)
                 {
-                    assignedEmployees.Add(employee);
+                    // Проверяем, есть ли у сотрудника активные заказы
+                    var hasActiveOrders = context.Orders
+                        .Any(o => o.EmployeeId == employeeId && o.Status == "Занят");
+
+                    if (!hasActiveOrders)
+                    {
+                        employee.Status = "Свободен";
+                        context.SaveChanges();
+                    }
                 }
             }
-
-            return assignedEmployees;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при освобождении сотрудника: {ex.Message}");
+            }
         }
-
         private Employee FindEmployeeForOrder()
         {
             var requiredSpecializations = GetRequiredSpecializations();
 
             if (requiredSpecializations.Count == 0)
+            {
+                MessageBox.Show("Не выбрано ни одной услуги", "Информация",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return null;
+            }
 
-            // 1. Ищем свободного сотрудника с подходящей специализацией
+            LoadAvailableEmployees();
+
             foreach (var specialization in requiredSpecializations)
             {
                 var freeEmployee = availableEmployees
@@ -349,28 +404,42 @@ namespace coursa4
                 }
             }
 
-            // 2. Если нет свободных с нужной специализацией, ищем любого свободного
             var anyFreeEmployee = availableEmployees.FirstOrDefault();
             if (anyFreeEmployee != null)
             {
+                MessageBox.Show($"Сотрудник с нужной специализацией не найден. Назначен: {anyFreeEmployee.FirstName} {anyFreeEmployee.LastName} ({anyFreeEmployee.Specialization})",
+                    "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return anyFreeEmployee;
             }
 
-            // 3. Если все заняты, ищем того кто освободится раньше всех
-            var busyEmployee = context.Employees
-                .Where(e => e.Status == "Занят")
-                .Select(e => new
-                {
-                    Employee = e,
-                    EarliestCompletionDate = e.Orders
-                        .Where(o => o.Status != "Завершен" && o.Status != "Отменен")
-                        .Min(o => o.EstimatedCompletionDate)
-                })
-                .Where(x => x.EarliestCompletionDate != null)
-                .OrderBy(x => x.EarliestCompletionDate)
-                .FirstOrDefault();
+            try
+            {
+                var busyEmployees = context.Employees
+                    .Where(e => e.Status == "Занят")
+                    .Include(e => e.Orders)
+                    .ToList();
 
-            return busyEmployee?.Employee;
+                foreach (var specialization in requiredSpecializations)
+                {
+                    var busyEmployee = busyEmployees
+                        .Where(e => e.Specialization == specialization)
+                        .OrderBy(e => e.Orders.Count)
+                        .FirstOrDefault();
+
+                    if (busyEmployee != null)
+                    {
+                        MessageBox.Show($"Все сотрудники заняты. Рекомендуется: {busyEmployee.FirstName} {busyEmployee.LastName} ({busyEmployee.Specialization})",
+                            "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return busyEmployee;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при поиске занятых сотрудников: {ex.Message}");
+            }
+
+            return null;
         }
         private Employee FindEmployeeForSpecialization(string specialization)
         {
@@ -416,7 +485,6 @@ namespace coursa4
 
             return specializations;
         }
-
         private void buttonAutoAssignEmployee_Click(object sender, EventArgs e)
         {
             try
@@ -440,7 +508,7 @@ namespace coursa4
                 }
                 else
                 {
-                    MessageBox.Show("Не удалось найти подходящего сотрудника", "Внимание",
+                    MessageBox.Show("Не удалось найти подходящего сотрудника. Все сотрудники заняты.", "Внимание",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
@@ -449,6 +517,29 @@ namespace coursa4
                 MessageBox.Show($"Ошибка при подборе сотрудника: {ex.Message}", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private void dataGridViewServices_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex == 0)
+            {
+                CalculateTotalPrice();
+            }
+        }
+        private void UpdateTotalPrice()
+        {
+            decimal total = 0;
+
+            foreach (Control control in groupBoxServices.Controls)
+            {
+                if (control is CheckBox checkBox && checkBox.Checked)
+                {
+                    if (checkBox.Tag is Service service)
+                    {
+                        total += service.Price;
+                    }
+                }
+            }
+            textBoxTotalPrice.Text = total.ToString("C2");
         }
     }
 }

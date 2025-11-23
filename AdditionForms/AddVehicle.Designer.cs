@@ -76,7 +76,7 @@
             // 
             textBoxCarModel.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
             textBoxCarModel.Location = new Point(144, 328);
-            textBoxCarModel.MaxLength = 15;
+            textBoxCarModel.MaxLength = 20;
             textBoxCarModel.Name = "textBoxCarModel";
             textBoxCarModel.PlaceholderText = "Модель*";
             textBoxCarModel.Size = new Size(230, 30);
@@ -106,7 +106,7 @@
             // 
             textBoxCarVIN.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
             textBoxCarVIN.Location = new Point(144, 424);
-            textBoxCarVIN.MaxLength = 12;
+            textBoxCarVIN.MaxLength = 17;
             textBoxCarVIN.Name = "textBoxCarVIN";
             textBoxCarVIN.PlaceholderText = "VIN-номер*";
             textBoxCarVIN.Size = new Size(230, 30);
