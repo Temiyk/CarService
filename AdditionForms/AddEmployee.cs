@@ -15,12 +15,10 @@ namespace coursa4
     public partial class AddEmployee : Form
     {
         private string tempPhotoPath;
-        
         public AddEmployee()
         {
             InitializeComponent();
             CreatePhotosDirectory();
-            var context = new Coursa4Context();
         }
         private void CreatePhotosDirectory()
         {

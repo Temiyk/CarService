@@ -23,6 +23,7 @@ namespace coursa4.EditForms
             this.vehicleId = vehicleId;
             LoadVehicleData();
             LoadClients();
+            LoadVehicleImage();
         }
         private void LoadClients()
         {

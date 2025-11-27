@@ -39,6 +39,7 @@
             textBoxEditCarModel = new TextBox();
             textBoxEditCarBrand = new TextBox();
             labelEditVehicle = new Label();
+            openFileDialog = new OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)pictureBoxEditVehicle).BeginInit();
             SuspendLayout();
             // 
@@ -142,6 +143,10 @@
             labelEditVehicle.TabIndex = 19;
             labelEditVehicle.Text = "Редактирование авто";
             // 
+            // openFileDialog
+            // 
+            openFileDialog.FileName = "openFileDialog1";
+            // 
             // EditVehicle
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -177,5 +182,6 @@
         private TextBox textBoxEditCarModel;
         private TextBox textBoxEditCarBrand;
         private Label labelEditVehicle;
+        private OpenFileDialog openFileDialog;
     }
 }
