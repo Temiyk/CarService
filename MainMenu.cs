@@ -36,6 +36,7 @@ namespace coursa4
             servicesControl.Dock = DockStyle.Fill;
             vehiclesControl.Dock = DockStyle.Fill;
             employeesControl.Dock = DockStyle.Fill;
+            ordersControl.Dock = DockStyle.Fill;
         }
         private void ShowControl(UserControl control, string title)
         {
