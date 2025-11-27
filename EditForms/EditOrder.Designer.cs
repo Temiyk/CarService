@@ -53,8 +53,8 @@
             comboBoxClients = new ComboBox();
             buttonAddNewClient = new Button();
             labelСlient = new Label();
-            labelNewOrder = new Label();
-            buttonAddOrder = new Button();
+            labelEditOrder = new Label();
+            buttonEditOrder = new Button();
             groupBoxEmployee.SuspendLayout();
             groupBoxDates.SuspendLayout();
             groupBoxServices.SuspendLayout();
@@ -95,6 +95,7 @@
             buttonAutoAssignEmployee.TabIndex = 0;
             buttonAutoAssignEmployee.Text = "Подобрать сотрудника";
             buttonAutoAssignEmployee.UseVisualStyleBackColor = false;
+            buttonAutoAssignEmployee.Click += buttonAutoAssignEmployee_Click;
             // 
             // groupBoxDates
             // 
@@ -187,6 +188,7 @@
             dataGridViewServices.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewServices.Size = new Size(694, 224);
             dataGridViewServices.TabIndex = 0;
+            dataGridViewServices.CellValueChanged += dataGridViewServices_CellValueChanged;
             // 
             // colSelect
             // 
@@ -258,6 +260,7 @@
             buttonAddNewVehicle.TabIndex = 0;
             buttonAddNewVehicle.Text = "Добавить...";
             buttonAddNewVehicle.UseVisualStyleBackColor = false;
+            buttonAddNewVehicle.Click += buttonAddNewVehicle_Click;
             // 
             // groupBoxClient
             // 
@@ -279,6 +282,7 @@
             comboBoxClients.Name = "comboBoxClients";
             comboBoxClients.Size = new Size(350, 28);
             comboBoxClients.TabIndex = 2;
+            comboBoxClients.SelectedIndexChanged += comboBoxClients_SelectedIndexChanged;
             // 
             // buttonAddNewClient
             // 
@@ -289,6 +293,7 @@
             buttonAddNewClient.TabIndex = 1;
             buttonAddNewClient.Text = "Добавить...";
             buttonAddNewClient.UseVisualStyleBackColor = false;
+            buttonAddNewClient.Click += buttonAddNewClient_Click;
             // 
             // labelСlient
             // 
@@ -299,25 +304,26 @@
             labelСlient.TabIndex = 0;
             labelСlient.Text = "Клиент";
             // 
-            // labelNewOrder
+            // labelEditOrder
             // 
-            labelNewOrder.AutoSize = true;
-            labelNewOrder.Font = new Font("Garamond", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            labelNewOrder.Location = new Point(241, 20);
-            labelNewOrder.Name = "labelNewOrder";
-            labelNewOrder.Size = new Size(277, 50);
-            labelNewOrder.TabIndex = 31;
-            labelNewOrder.Text = "Новый заказ";
+            labelEditOrder.AutoSize = true;
+            labelEditOrder.Font = new Font("Garamond", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            labelEditOrder.Location = new Point(241, 20);
+            labelEditOrder.Name = "labelEditOrder";
+            labelEditOrder.Size = new Size(277, 50);
+            labelEditOrder.TabIndex = 31;
+            labelEditOrder.Text = "Новый заказ";
             // 
-            // buttonAddOrder
+            // buttonEditOrder
             // 
-            buttonAddOrder.BackColor = Color.SteelBlue;
-            buttonAddOrder.Location = new Point(287, 888);
-            buttonAddOrder.Name = "buttonAddOrder";
-            buttonAddOrder.Size = new Size(200, 50);
-            buttonAddOrder.TabIndex = 32;
-            buttonAddOrder.Text = "Создать заказ";
-            buttonAddOrder.UseVisualStyleBackColor = false;
+            buttonEditOrder.BackColor = Color.SteelBlue;
+            buttonEditOrder.Location = new Point(287, 888);
+            buttonEditOrder.Name = "buttonEditOrder";
+            buttonEditOrder.Size = new Size(200, 50);
+            buttonEditOrder.TabIndex = 32;
+            buttonEditOrder.Text = "Сохранить изменения";
+            buttonEditOrder.UseVisualStyleBackColor = false;
+            buttonEditOrder.Click += buttonEditOrder_Click;
             // 
             // EditOrder
             // 
@@ -331,8 +337,8 @@
             Controls.Add(groupBoxServices);
             Controls.Add(groupBoxVehicle);
             Controls.Add(groupBoxClient);
-            Controls.Add(labelNewOrder);
-            Controls.Add(buttonAddOrder);
+            Controls.Add(labelEditOrder);
+            Controls.Add(buttonEditOrder);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "EditOrder";
             Text = "MotorbreathMaster - Редактирование заказа";
@@ -376,7 +382,7 @@
         private ComboBox comboBoxClients;
         private Button buttonAddNewClient;
         private Label labelСlient;
-        private Label labelNewOrder;
-        private Button buttonAddOrder;
+        private Label labelEditOrder;
+        private Button buttonEditOrder;
     }
 }
