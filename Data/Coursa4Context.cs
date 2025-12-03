@@ -88,12 +88,6 @@ namespace coursa4.Data
                 entity.Property(e => e.LastName).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.Specialization).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Status).IsRequired().HasMaxLength(50);
-
-                // Связи
-                entity.HasMany(e => e.Orders)
-                      .WithOne(o => o.Employee)
-                      .HasForeignKey(o => o.EmployeeId)
-                      .OnDelete(DeleteBehavior.Restrict);
             });
 
             // Конфигурация заказа
@@ -115,11 +109,6 @@ namespace coursa4.Data
                       .WithMany()
                       .HasForeignKey(o => o.VehicleId)
                       .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(o => o.Employee)
-                      .WithMany(e => e.Orders)
-                      .HasForeignKey(o => o.EmployeeId)
-                      .OnDelete(DeleteBehavior.Restrict);
             });
 
             // Конфигурация услуги

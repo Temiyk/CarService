@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditOrder));
-            groupBoxEmployee = new GroupBox();
-            labelAssignedEmployee = new Label();
-            buttonAutoAssignEmployee = new Button();
             groupBoxDates = new GroupBox();
             dateTimePickerEstimatedDate = new DateTimePicker();
             dateTimePickerAcceptanceDate = new DateTimePicker();
@@ -55,47 +52,16 @@
             labelСlient = new Label();
             labelEditOrder = new Label();
             buttonEditOrder = new Button();
-            groupBoxEmployee.SuspendLayout();
+            groupBoxEmployeeSelection = new GroupBox();
+            panelEmployeeControls = new Panel();
+            button1 = new Button();
             groupBoxDates.SuspendLayout();
             groupBoxServices.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewServices).BeginInit();
             groupBoxVehicle.SuspendLayout();
             groupBoxClient.SuspendLayout();
+            groupBoxEmployeeSelection.SuspendLayout();
             SuspendLayout();
-            // 
-            // groupBoxEmployee
-            // 
-            groupBoxEmployee.Controls.Add(labelAssignedEmployee);
-            groupBoxEmployee.Controls.Add(buttonAutoAssignEmployee);
-            groupBoxEmployee.Location = new Point(41, 336);
-            groupBoxEmployee.Name = "groupBoxEmployee";
-            groupBoxEmployee.Size = new Size(700, 100);
-            groupBoxEmployee.TabIndex = 39;
-            groupBoxEmployee.TabStop = false;
-            groupBoxEmployee.Text = "Сотрудник";
-            // 
-            // labelAssignedEmployee
-            // 
-            labelAssignedEmployee.AutoSize = true;
-            labelAssignedEmployee.Location = new Point(160, 72);
-            labelAssignedEmployee.Name = "labelAssignedEmployee";
-            labelAssignedEmployee.Size = new Size(358, 20);
-            labelAssignedEmployee.TabIndex = 1;
-            labelAssignedEmployee.Text = "Назначенный сотрудник: автоматический подбор";
-            // 
-            // buttonAutoAssignEmployee
-            // 
-            buttonAutoAssignEmployee.BackColor = Color.MediumPurple;
-            buttonAutoAssignEmployee.FlatAppearance.BorderSize = 0;
-            buttonAutoAssignEmployee.FlatStyle = FlatStyle.Flat;
-            buttonAutoAssignEmployee.ForeColor = Color.White;
-            buttonAutoAssignEmployee.Location = new Point(240, 24);
-            buttonAutoAssignEmployee.Name = "buttonAutoAssignEmployee";
-            buttonAutoAssignEmployee.Size = new Size(200, 35);
-            buttonAutoAssignEmployee.TabIndex = 0;
-            buttonAutoAssignEmployee.Text = "Подобрать сотрудника";
-            buttonAutoAssignEmployee.UseVisualStyleBackColor = false;
-            buttonAutoAssignEmployee.Click += buttonAutoAssignEmployee_Click;
             // 
             // groupBoxDates
             // 
@@ -103,7 +69,7 @@
             groupBoxDates.Controls.Add(dateTimePickerAcceptanceDate);
             groupBoxDates.Controls.Add(labelEstimatedDate);
             groupBoxDates.Controls.Add(labelAcceptDate);
-            groupBoxDates.Location = new Point(41, 728);
+            groupBoxDates.Location = new Point(41, 776);
             groupBoxDates.Name = "groupBoxDates";
             groupBoxDates.Size = new Size(700, 80);
             groupBoxDates.TabIndex = 38;
@@ -144,7 +110,7 @@
             // 
             // textBoxTotalPrice
             // 
-            textBoxTotalPrice.Location = new Point(221, 826);
+            textBoxTotalPrice.Location = new Point(221, 874);
             textBoxTotalPrice.Name = "textBoxTotalPrice";
             textBoxTotalPrice.ReadOnly = true;
             textBoxTotalPrice.Size = new Size(100, 27);
@@ -154,7 +120,7 @@
             // labelTotalPrice
             // 
             labelTotalPrice.AutoSize = true;
-            labelTotalPrice.Location = new Point(41, 826);
+            labelTotalPrice.Location = new Point(41, 874);
             labelTotalPrice.Name = "labelTotalPrice";
             labelTotalPrice.Size = new Size(136, 20);
             labelTotalPrice.TabIndex = 36;
@@ -163,7 +129,7 @@
             // groupBoxServices
             // 
             groupBoxServices.Controls.Add(dataGridViewServices);
-            groupBoxServices.Location = new Point(41, 458);
+            groupBoxServices.Location = new Point(41, 506);
             groupBoxServices.Name = "groupBoxServices";
             groupBoxServices.Size = new Size(700, 250);
             groupBoxServices.TabIndex = 35;
@@ -317,7 +283,7 @@
             // buttonEditOrder
             // 
             buttonEditOrder.BackColor = Color.SteelBlue;
-            buttonEditOrder.Location = new Point(287, 888);
+            buttonEditOrder.Location = new Point(287, 936);
             buttonEditOrder.Name = "buttonEditOrder";
             buttonEditOrder.Size = new Size(200, 50);
             buttonEditOrder.TabIndex = 32;
@@ -325,12 +291,45 @@
             buttonEditOrder.UseVisualStyleBackColor = false;
             buttonEditOrder.Click += buttonEditOrder_Click;
             // 
+            // groupBoxEmployeeSelection
+            // 
+            groupBoxEmployeeSelection.Controls.Add(button1);
+            groupBoxEmployeeSelection.Controls.Add(panelEmployeeControls);
+            groupBoxEmployeeSelection.Location = new Point(41, 336);
+            groupBoxEmployeeSelection.Name = "groupBoxEmployeeSelection";
+            groupBoxEmployeeSelection.Size = new Size(700, 150);
+            groupBoxEmployeeSelection.TabIndex = 39;
+            groupBoxEmployeeSelection.TabStop = false;
+            groupBoxEmployeeSelection.Text = "Назначение сотрудников";
+            // 
+            // panelEmployeeControls
+            // 
+            panelEmployeeControls.AutoScroll = true;
+            panelEmployeeControls.Location = new Point(20, 50);
+            panelEmployeeControls.Name = "panelEmployeeControls";
+            panelEmployeeControls.Size = new Size(660, 90);
+            panelEmployeeControls.TabIndex = 0;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.MediumPurple;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(20, 20);
+            button1.Name = "button1";
+            button1.Size = new Size(200, 25);
+            button1.TabIndex = 1;
+            button1.Text = "Автоподбор сотрудников";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
             // EditOrder
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(782, 987);
-            Controls.Add(groupBoxEmployee);
+            ClientSize = new Size(782, 1012);
+            Controls.Add(groupBoxEmployeeSelection);
             Controls.Add(groupBoxDates);
             Controls.Add(textBoxTotalPrice);
             Controls.Add(labelTotalPrice);
@@ -342,8 +341,6 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "EditOrder";
             Text = "MotorbreathMaster - Редактирование заказа";
-            groupBoxEmployee.ResumeLayout(false);
-            groupBoxEmployee.PerformLayout();
             groupBoxDates.ResumeLayout(false);
             groupBoxDates.PerformLayout();
             groupBoxServices.ResumeLayout(false);
@@ -352,15 +349,12 @@
             groupBoxVehicle.PerformLayout();
             groupBoxClient.ResumeLayout(false);
             groupBoxClient.PerformLayout();
+            groupBoxEmployeeSelection.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private GroupBox groupBoxEmployee;
-        private Label labelAssignedEmployee;
-        private Button buttonAutoAssignEmployee;
         private GroupBox groupBoxDates;
         private DateTimePicker dateTimePickerEstimatedDate;
         private DateTimePicker dateTimePickerAcceptanceDate;
@@ -384,5 +378,8 @@
         private Label labelСlient;
         private Label labelEditOrder;
         private Button buttonEditOrder;
+        private GroupBox groupBoxEmployeeSelection;
+        private Panel panelEmployeeControls;
+        private Button button1;
     }
 }

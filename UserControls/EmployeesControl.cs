@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using coursa4.EditForms;
 
 namespace coursa4.UserControls
 {
@@ -125,7 +126,32 @@ namespace coursa4.UserControls
             LoadData();
             SearchFilter.ClearSearch();
         }
-
+        protected override void buttonEdit_Click(object sender, EventArgs e)
+        {
+            if (DataGridView.SelectedRows.Count > 0)
+            {
+                var employeeId = (int)DataGridView.SelectedRows[0].Cells["Id"].Value;
+                try
+                {
+                    using var editEmployeeForm = new EditEmployee(employeeId);
+                    if (editEmployeeForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadData();
+                        SearchFilter.ClearSearch();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при открытии формы редактирования: {ex.Message}", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите сотрудника для редактирования", "Информация",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
         protected override void buttonDelete_Click(object sender, EventArgs e)
         {
             if (DataGridView.SelectedRows.Count > 0)
@@ -169,6 +195,9 @@ namespace coursa4.UserControls
             {
                 var photosDir = Path.Combine(Application.StartupPath, "EmployeePhotos");
 
+                if (!Directory.Exists(photosDir))
+                    return;
+
                 var possibleExtensions = new[] { ".jpg", ".jpeg", ".png", ".bmp" };
 
                 foreach (var extension in possibleExtensions)
@@ -177,7 +206,6 @@ namespace coursa4.UserControls
                     if (File.Exists(photoPath))
                     {
                         File.Delete(photoPath);
-                        Console.WriteLine($"Удалено фото: {photoPath}");
                     }
                 }
             }
@@ -221,7 +249,7 @@ namespace coursa4.UserControls
                 Console.WriteLine($"Ошибка при загрузке фото сотрудника {employeeId}: {ex.Message}");
             }
 
-            return null; // Возвращаем null если фото нет
+            return null;
         }
         public override void LoadData()
         {
@@ -229,7 +257,6 @@ namespace coursa4.UserControls
             {
                 using var context = new Coursa4Context();
                 employees = context.Employees
-                    .Include(e => e.Orders)
                     .AsNoTracking()
                     .ToList();
 
@@ -256,8 +283,7 @@ namespace coursa4.UserControls
                     employee.FirstName,
                     employee.LastName,
                     employee.Specialization,
-                    employee.Status,
-                    employee.Orders.Count(o => o.Status != "Завершен" && o.Status != "Отменен")
+                    employee.Status
                 );
             }
         }

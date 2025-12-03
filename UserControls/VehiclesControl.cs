@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using coursa4.EditForms;
 
 namespace coursa4.UserControls
 {
@@ -215,8 +216,30 @@ namespace coursa4.UserControls
 
         protected override void buttonEdit_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Функция редактирования автомобиля будет реализована позже", "Информация",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (DataGridView.SelectedRows.Count > 0)
+            {
+                var vehicleId = (int)DataGridView.SelectedRows[0].Cells["Id"].Value;
+                try
+                {
+                    using var editVehicleForm = new EditVehicle(vehicleId);
+                    if (editVehicleForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadData();
+                        SearchFilter.ClearSearch();
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при открытии формы редактирования: {ex.Message}", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите авто для редактирования", "Информация",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         protected override void buttonDelete_Click(object sender, EventArgs e)

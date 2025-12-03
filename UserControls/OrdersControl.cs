@@ -18,6 +18,7 @@ namespace coursa4.UserControls
     {
         private List<Order> orders;
         private List<Order> filteredOrders;
+
         public OrdersControl()
         {
             InitializeComponent();
@@ -26,9 +27,10 @@ namespace coursa4.UserControls
             LoadData();
             SearchFilter.SearchApplied += SearchFilter_SearchApplied;
         }
+
         private void SetupSearchFilter()
         {
-            string[] filterOptions = { "Все", "Клиент", "Автомобиль", "Статус", "Сотрудник" };
+            string[] filterOptions = { "Все", "Клиент", "Автомобиль", "Статус" };
             SearchFilter.SetFilterOptions(filterOptions);
         }
 
@@ -43,11 +45,18 @@ namespace coursa4.UserControls
             DataGridView.Columns.Add("CompleteDate", "Дата завершения");
             DataGridView.Columns.Add("Status", "Статус");
             DataGridView.Columns.Add("Price", "Стоимость");
-            DataGridView.Columns.Add("Employee", "Сотрудник");
             DataGridView.Columns.Add("ServicesCount", "Кол-во услуг");
 
             DataGridView.Columns["Id"].Visible = false;
             DataGridView.Columns["Price"].DefaultCellStyle.Format = "C2";
+
+            DataGridView.Columns["Client"].Width = 150;
+            DataGridView.Columns["Vehicle"].Width = 150;
+            DataGridView.Columns["AcceptDate"].Width = 100;
+            DataGridView.Columns["CompleteDate"].Width = 100;
+            DataGridView.Columns["Status"].Width = 100;
+            DataGridView.Columns["Price"].Width = 100;
+            DataGridView.Columns["ServicesCount"].Width = 80;
         }
 
         private void SearchFilter_SearchApplied(object sender, EventArgs e)
@@ -75,19 +84,14 @@ namespace coursa4.UserControls
                             return vehicleInfo.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
                         case "Статус":
                             return order.Status?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
-                        case "Сотрудник":
-                            var employeeName = $"{order.Employee?.FirstName} {order.Employee?.LastName}";
-                            return employeeName.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
                         case "Все":
                         default:
                             var clientNameAll = $"{order.Client?.FirstName} {order.Client?.LastName}";
                             var vehicleInfoAll = $"{order.Vehicle?.Brand} {order.Vehicle?.Model}";
-                            var employeeNameAll = $"{order.Employee?.FirstName} {order.Employee?.LastName}";
 
                             return (clientNameAll.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
                                    (vehicleInfoAll.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
                                    (order.Status?.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
-                                   (employeeNameAll.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0) ||
                                    (order.Price.ToString().IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0);
                     }
                 }).ToList();
@@ -102,17 +106,21 @@ namespace coursa4.UserControls
             {
                 LoadData();
                 SearchFilter.ClearSearch();
-                return;
             }
         }
         protected override void buttonEdit_Click(object sender, EventArgs e)
         {
             if (DataGridView.SelectedRows.Count > 0)
             {
-
+                var orderId = (int)DataGridView.SelectedRows[0].Cells["Id"].Value;
                 try
                 {
-
+                    var editOrderForm = new EditForms.EditOrder(orderId);
+                    if (editOrderForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadData();
+                        SearchFilter.ClearSearch();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -120,7 +128,8 @@ namespace coursa4.UserControls
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else {
+            else
+            {
                 MessageBox.Show("Выберите заказ для редактирования", "Информация",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -145,16 +154,13 @@ namespace coursa4.UserControls
                     try
                     {
                         using var context = new Coursa4Context();
-                        var order = context.Orders.Find(orderId);
+                        var order = context.Orders
+                            .Include(o => o.Services)
+                            .FirstOrDefault(o => o.Id == orderId);
 
                         if (order != null)
                         {
-                            var employee = context.Employees.Find(order.EmployeeId);
-                            if (employee != null)
-                            {
-                                employee.Status = "Свободен";
-                            }
-
+                            order.Services.Clear();
                             context.Orders.Remove(order);
                             context.SaveChanges();
 
@@ -184,9 +190,9 @@ namespace coursa4.UserControls
                 orders = context.Orders
                     .Include(o => o.Client)
                     .Include(o => o.Vehicle)
-                    .Include(o => o.Employee)
                     .Include(o => o.Services)
                     .AsNoTracking()
+                    .OrderByDescending(o => o.AcceptionDate)
                     .ToList();
 
                 filteredOrders = new List<Order>(orders);
@@ -211,15 +217,19 @@ namespace coursa4.UserControls
 
             foreach (var order in filteredOrders)
             {
+                string acceptDate = order.AcceptionDate.ToString("dd.MM.yyyy");
+                string completeDate = order.EstimatedCompletionDate.ToString("dd.MM.yyyy");
+                string status = order.Status;
+                string price = order.Price.ToString("C2");
+
                 DataGridView.Rows.Add(
                     order.Id,
                     $"{order.Client?.FirstName} {order.Client?.LastName}",
                     $"{order.Vehicle?.Brand} {order.Vehicle?.Model}",
-                    order.AcceptionDate.ToString("dd.MM.yyyy"),
-                    order.EstimatedCompletionDate.ToString("dd.MM.yyyy"),
-                    order.Status,
-                    order.Price.ToString("C2"),
-                    $"{order.Employee?.FirstName} {order.Employee?.LastName}",
+                    acceptDate,
+                    completeDate,
+                    status,
+                    price,
                     order.Services.Count
                 );
             }

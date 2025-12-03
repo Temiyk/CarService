@@ -39,7 +39,7 @@
             // 
             // buttonAddService
             // 
-            buttonAddService.Location = new Point(104, 424);
+            buttonAddService.Location = new Point(152, 440);
             buttonAddService.Name = "buttonAddService";
             buttonAddService.Size = new Size(152, 48);
             buttonAddService.TabIndex = 13;
@@ -50,39 +50,39 @@
             // textBoxServicePrice
             // 
             textBoxServicePrice.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxServicePrice.Location = new Point(57, 303);
+            textBoxServicePrice.Location = new Point(57, 328);
             textBoxServicePrice.MaxLength = 10;
             textBoxServicePrice.Name = "textBoxServicePrice";
             textBoxServicePrice.PlaceholderText = "Стоимость*";
-            textBoxServicePrice.Size = new Size(248, 30);
+            textBoxServicePrice.Size = new Size(343, 30);
             textBoxServicePrice.TabIndex = 12;
             // 
             // textBoxServiceDescription
             // 
             textBoxServiceDescription.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxServiceDescription.Location = new Point(57, 199);
-            textBoxServiceDescription.MaxLength = 80;
+            textBoxServiceDescription.Location = new Point(57, 182);
+            textBoxServiceDescription.MaxLength = 300;
             textBoxServiceDescription.Multiline = true;
             textBoxServiceDescription.Name = "textBoxServiceDescription";
             textBoxServiceDescription.PlaceholderText = "Описание*";
-            textBoxServiceDescription.Size = new Size(248, 88);
+            textBoxServiceDescription.Size = new Size(343, 130);
             textBoxServiceDescription.TabIndex = 11;
             // 
             // textBoxServiceName
             // 
             textBoxServiceName.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxServiceName.Location = new Point(57, 151);
-            textBoxServiceName.MaxLength = 30;
+            textBoxServiceName.Location = new Point(57, 134);
+            textBoxServiceName.MaxLength = 120;
             textBoxServiceName.Name = "textBoxServiceName";
             textBoxServiceName.PlaceholderText = "Название*";
-            textBoxServiceName.Size = new Size(248, 30);
+            textBoxServiceName.Size = new Size(343, 30);
             textBoxServiceName.TabIndex = 10;
             // 
             // labelNewService
             // 
             labelNewService.AutoSize = true;
             labelNewService.Font = new Font("Garamond", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            labelNewService.Location = new Point(41, 39);
+            labelNewService.Location = new Point(88, 39);
             labelNewService.Name = "labelNewService";
             labelNewService.Size = new Size(281, 50);
             labelNewService.TabIndex = 9;
@@ -91,18 +91,18 @@
             // textBoxSpecialization
             // 
             textBoxSpecialization.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            textBoxSpecialization.Location = new Point(56, 352);
+            textBoxSpecialization.Location = new Point(56, 377);
             textBoxSpecialization.MaxLength = 15;
             textBoxSpecialization.Name = "textBoxSpecialization";
             textBoxSpecialization.PlaceholderText = "Специализация сотрудника*";
-            textBoxSpecialization.Size = new Size(248, 30);
+            textBoxSpecialization.Size = new Size(344, 30);
             textBoxSpecialization.TabIndex = 14;
             // 
             // AddService
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(367, 512);
+            ClientSize = new Size(464, 521);
             Controls.Add(textBoxSpecialization);
             Controls.Add(buttonAddService);
             Controls.Add(textBoxServicePrice);

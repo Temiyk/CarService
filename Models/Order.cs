@@ -16,10 +16,9 @@ namespace coursa4.Models
         public DateTime? ActualCompletionDate { get; set; }
         public string Status { get; set; } = "Создан";
         public decimal Price { get; set; }
-        public int EmployeeId { get; set; }
         public Client Client { get; set; } = null!;
         public Vehicle Vehicle { get; set; } = null!;
-        public Employee Employee { get; set; } = null!;
         public List<Service> Services { get; set; } = new List<Service>();
+        public List<Employee> Employees { get; set; } = new List<Employee>();
     }
 }

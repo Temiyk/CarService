@@ -12,8 +12,8 @@ using coursa4.Data;
 namespace coursa4.Migrations
 {
     [DbContext(typeof(Coursa4Context))]
-    [Migration("20251109144748_FixHash")]
-    partial class FixHash
+    [Migration("20251203071556_DeletedManyToMany")]
+    partial class DeletedManyToMany
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,43 +25,19 @@ namespace coursa4.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ServiceCarPart", b =>
+            modelBuilder.Entity("EmployeeOrder", b =>
                 {
-                    b.Property<int>("CarPartId")
+                    b.Property<int>("EmployeesId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ServiceId")
+                    b.Property<int>("OrdersId")
                         .HasColumnType("integer");
 
-                    b.HasKey("CarPartId", "ServiceId");
+                    b.HasKey("EmployeesId", "OrdersId");
 
-                    b.HasIndex("ServiceId");
+                    b.HasIndex("OrdersId");
 
-                    b.ToTable("ServiceCarPart");
-                });
-
-            modelBuilder.Entity("coursa4.Models.CarPart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("QuantityInStock")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CarParts");
+                    b.ToTable("EmployeeOrder");
                 });
 
             modelBuilder.Entity("coursa4.Models.Client", b =>
@@ -149,9 +125,6 @@ namespace coursa4.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("EstimatedCompletionDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -169,8 +142,6 @@ namespace coursa4.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
-
-                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("VehicleId");
 
@@ -289,17 +260,17 @@ namespace coursa4.Migrations
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("ServiceCarPart", b =>
+            modelBuilder.Entity("EmployeeOrder", b =>
                 {
-                    b.HasOne("coursa4.Models.CarPart", null)
+                    b.HasOne("coursa4.Models.Employee", null)
                         .WithMany()
-                        .HasForeignKey("CarPartId")
+                        .HasForeignKey("EmployeesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("coursa4.Models.Service", null)
+                    b.HasOne("coursa4.Models.Order", null)
                         .WithMany()
-                        .HasForeignKey("ServiceId")
+                        .HasForeignKey("OrdersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -312,12 +283,6 @@ namespace coursa4.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("coursa4.Models.Employee", "Employee")
-                        .WithMany("Orders")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("coursa4.Models.Vehicle", "Vehicle")
                         .WithMany()
                         .HasForeignKey("VehicleId")
@@ -325,8 +290,6 @@ namespace coursa4.Migrations
                         .IsRequired();
 
                     b.Navigation("Client");
-
-                    b.Navigation("Employee");
 
                     b.Navigation("Vehicle");
                 });
@@ -354,11 +317,6 @@ namespace coursa4.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("Vehicles");
-                });
-
-            modelBuilder.Entity("coursa4.Models.Employee", b =>
-                {
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("coursa4.Models.Order", b =>
