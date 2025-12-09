@@ -12,8 +12,8 @@ using coursa4.Data;
 namespace coursa4.Migrations
 {
     [DbContext(typeof(Coursa4Context))]
-    [Migration("20251203071556_DeletedManyToMany")]
-    partial class DeletedManyToMany
+    [Migration("20251205231041_AddOrderServicesTable")]
+    partial class AddOrderServicesTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,19 +25,38 @@ namespace coursa4.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("EmployeeOrder", b =>
+            modelBuilder.Entity("OrderEmployee", b =>
                 {
-                    b.Property<int>("EmployeesId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("OrdersId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("integer");
 
-                    b.HasKey("EmployeesId", "OrdersId");
+                    b.HasKey("OrderId", "EmployeeId");
 
-                    b.HasIndex("OrdersId");
+                    b.HasIndex(new[] { "EmployeeId" }, "IX_OrderEmployees_EmployeeId");
 
-                    b.ToTable("EmployeeOrder");
+                    b.HasIndex(new[] { "OrderId" }, "IX_OrderEmployees_OrderId");
+
+                    b.ToTable("OrderEmployees", (string)null);
+                });
+
+            modelBuilder.Entity("OrderService", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("OrderId", "ServiceId");
+
+                    b.HasIndex(new[] { "OrderId" }, "IX_OrderServices_OrderId");
+
+                    b.HasIndex(new[] { "ServiceId" }, "IX_OrderServices_ServiceId");
+
+                    b.ToTable("OrderServices", (string)null);
                 });
 
             modelBuilder.Entity("coursa4.Models.Client", b =>
@@ -165,9 +184,6 @@ namespace coursa4.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("integer");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -177,8 +193,6 @@ namespace coursa4.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Services");
                 });
@@ -260,19 +274,38 @@ namespace coursa4.Migrations
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("EmployeeOrder", b =>
+            modelBuilder.Entity("OrderEmployee", b =>
                 {
                     b.HasOne("coursa4.Models.Employee", null)
                         .WithMany()
-                        .HasForeignKey("EmployeesId")
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_OrderEmployee_Employees");
 
                     b.HasOne("coursa4.Models.Order", null)
                         .WithMany()
-                        .HasForeignKey("OrdersId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_OrderEmployee_Orders");
+                });
+
+            modelBuilder.Entity("OrderService", b =>
+                {
+                    b.HasOne("coursa4.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_OrderService_Orders");
+
+                    b.HasOne("coursa4.Models.Service", null)
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_OrderService_Services");
                 });
 
             modelBuilder.Entity("coursa4.Models.Order", b =>
@@ -294,13 +327,6 @@ namespace coursa4.Migrations
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("coursa4.Models.Service", b =>
-                {
-                    b.HasOne("coursa4.Models.Order", null)
-                        .WithMany("Services")
-                        .HasForeignKey("OrderId");
-                });
-
             modelBuilder.Entity("coursa4.Models.Vehicle", b =>
                 {
                     b.HasOne("coursa4.Models.Client", "Client")
@@ -317,11 +343,6 @@ namespace coursa4.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("Vehicles");
-                });
-
-            modelBuilder.Entity("coursa4.Models.Order", b =>
-                {
-                    b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
         }

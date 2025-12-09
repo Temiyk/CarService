@@ -81,8 +81,8 @@ namespace coursa4
                         "Успешная регистрация", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            LoadUsers();
             this.Show();
+            LoadUsers();
         }
     }
 }

@@ -123,7 +123,7 @@
             Controls.Add(labelNewService);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "EditService";
-            Text = "MotorbreathMaster";
+            Text = "Редактирование услуги";
             ResumeLayout(false);
             PerformLayout();
         }

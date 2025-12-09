@@ -18,7 +18,8 @@ namespace coursa4.Data
         public DbSet<UserAccount> UserAccounts { get; set; }
 
         public Coursa4Context() 
-        { 
+        {
+            //Database.EnsureDeleted(); // Удалить существующую БД
             Database.EnsureCreated();
         }
 
@@ -96,6 +97,7 @@ namespace coursa4.Data
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.AcceptionDate).IsRequired();
                 entity.Property(e => e.EstimatedCompletionDate).IsRequired();
+                entity.Property(e => e.ActualCompletionDate).IsRequired(false);
                 entity.Property(e => e.Status).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.Price).IsRequired().HasColumnType("decimal(18,2)");
 
@@ -110,6 +112,57 @@ namespace coursa4.Data
                       .HasForeignKey(o => o.VehicleId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
+
+            modelBuilder.Entity<Order>()
+        .HasMany(o => o.Employees)
+        .WithMany(e => e.Orders)
+        .UsingEntity<Dictionary<string, object>>(
+            "OrderEmployee",
+            j => j
+                .HasOne<Employee>()
+                .WithMany()
+                .HasForeignKey("EmployeeId")
+                .HasConstraintName("FK_OrderEmployee_Employees")
+                .OnDelete(DeleteBehavior.Cascade),
+            j => j
+                .HasOne<Order>()
+                .WithMany()
+                .HasForeignKey("OrderId")
+                .HasConstraintName("FK_OrderEmployee_Orders")
+                .OnDelete(DeleteBehavior.Cascade),
+            j =>
+            {
+                j.HasKey("OrderId", "EmployeeId");
+                j.ToTable("OrderEmployees");
+                j.HasIndex(new[] { "EmployeeId" }, "IX_OrderEmployees_EmployeeId");
+                j.HasIndex(new[] { "OrderId" }, "IX_OrderEmployees_OrderId");
+            });
+
+            // НАСТРОЙКА СВЯЗИ МНОГИЕ-КО-МНОГИМ ДЛЯ Order И Service
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.Services)
+                .WithMany()
+                .UsingEntity<Dictionary<string, object>>(
+                    "OrderService",
+                    j => j
+                        .HasOne<Service>()
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .HasConstraintName("FK_OrderService_Services")
+                        .OnDelete(DeleteBehavior.Cascade),
+                    j => j
+                        .HasOne<Order>()
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .HasConstraintName("FK_OrderService_Orders")
+                        .OnDelete(DeleteBehavior.Cascade),
+                    j =>
+                    {
+                        j.HasKey("OrderId", "ServiceId");
+                        j.ToTable("OrderServices");
+                        j.HasIndex(new[] { "ServiceId" }, "IX_OrderServices_ServiceId");
+                        j.HasIndex(new[] { "OrderId" }, "IX_OrderServices_OrderId");
+                    });
 
             // Конфигурация услуги
             modelBuilder.Entity<Service>(entity =>

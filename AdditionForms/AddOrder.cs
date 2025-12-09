@@ -296,8 +296,13 @@ namespace coursa4
             if (string.IsNullOrEmpty(textBoxTotalPrice.Text))
                 return 0;
 
-            string priceText = textBoxTotalPrice.Text.Replace("₽", "").Replace("$", "").Replace("€", "").Replace(" ", "").Trim();
-            if (decimal.TryParse(priceText, out decimal result))
+            string priceText = textBoxTotalPrice.Text;
+            priceText = System.Text.RegularExpressions.Regex.Replace(priceText, @"[^\d.,]", "");
+
+            priceText = priceText.Replace(',', '.');
+
+            if (decimal.TryParse(priceText, System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture, out decimal result))
             {
                 return result;
             }
@@ -309,54 +314,69 @@ namespace coursa4
 
             try
             {
-                var order = new Order
+                // Используем новый контекст для создания заказа
+                using (var transactionContext = new Coursa4Context())
                 {
-                    ClientId = (int)((dynamic)comboBoxClients.SelectedItem).Id,
-                    VehicleId = (int)((dynamic)comboBoxVehicles.SelectedItem).Id,
-                    AcceptionDate = dateTimePickerAcceptanceDate.Value,
-                    EstimatedCompletionDate = dateTimePickerEstimatedDate.Value,
-                    Status = "В работе",
-                    Price = GetCurrentTotalPrice()
-                };
-
-                foreach (DataGridViewRow row in dataGridViewServices.Rows)
-                {
-                    if (row.Cells[0].Value is bool isSelected && isSelected)
+                    var order = new Order
                     {
-                        var serviceName = row.Cells[1].Value.ToString();
-                        var service = allServices.First(s => s.Name == serviceName);
-                        order.Services.Add(service);
-                    }
-                }
+                        ClientId = (int)((dynamic)comboBoxClients.SelectedItem).Id,
+                        VehicleId = (int)((dynamic)comboBoxVehicles.SelectedItem).Id,
+                        // Преобразуем даты в UTC
+                        AcceptionDate = DateTime.UtcNow,
+                        EstimatedCompletionDate = dateTimePickerEstimatedDate.Value.ToUniversalTime(),
+                        Status = "В работе",
+                        Price = GetCurrentTotalPrice()
+                    };
 
-                foreach (var comboBox in specializationComboBoxes.Values)
-                {
-                    if (comboBox.SelectedItem != null && comboBox.Enabled)
+                    // Добавляем услуги
+                    foreach (DataGridViewRow row in dataGridViewServices.Rows)
                     {
-                        var selectedItem = (dynamic)comboBox.SelectedItem;
-                        var employee = selectedItem.Employee;
-
-                        order.Employees.Add(employee);
-                        if (employee.Status == "Свободен")
+                        if (row.Cells[0].Value is bool isSelected && isSelected)
                         {
-                            employee.Status = "Занят";
+                            var serviceName = row.Cells[1].Value.ToString();
+                            var service = transactionContext.Services.First(s => s.Name == serviceName);
+                            order.Services.Add(service);
                         }
                     }
+
+                    // Добавляем сотрудников
+                    foreach (var comboBox in specializationComboBoxes.Values)
+                    {
+                        if (comboBox.SelectedItem != null && comboBox.Enabled)
+                        {
+                            var selectedItem = (dynamic)comboBox.SelectedItem;
+                            int employeeId = selectedItem.Id;
+
+                            // Загружаем сотрудника из текущего контекста
+                            var employee = transactionContext.Employees
+                                .FirstOrDefault(emp => emp.Id == employeeId);
+
+                            if (employee != null)
+                            {
+                                order.Employees.Add(employee);
+                                if (employee.Status == "Свободен")
+                                {
+                                    employee.Status = "Занят";
+                                }
+                            }
+                        }
+                    }
+
+                    transactionContext.Orders.Add(order);
+                    transactionContext.SaveChanges();
+
+                    MessageBox.Show("Заказ успешно создан!", "Успех",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
-
-                context.Orders.Add(order);
-                context.SaveChanges();
-
-                MessageBox.Show("Заказ успешно создан!", "Успех",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                this.DialogResult = DialogResult.OK;
-                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при создании заказа: {ex.Message}", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка при создании заказа: {ex.Message}\n\n" +
+                               $"Внутренняя ошибка: {ex.InnerException?.Message}",
+                               "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private bool ValidateInput()

@@ -53,8 +53,8 @@
             labelEditOrder = new Label();
             buttonEditOrder = new Button();
             groupBoxEmployeeSelection = new GroupBox();
-            panelEmployeeControls = new Panel();
             button1 = new Button();
+            panelEmployeeControls = new Panel();
             groupBoxDates.SuspendLayout();
             groupBoxServices.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewServices).BeginInit();
@@ -302,14 +302,6 @@
             groupBoxEmployeeSelection.TabStop = false;
             groupBoxEmployeeSelection.Text = "Назначение сотрудников";
             // 
-            // panelEmployeeControls
-            // 
-            panelEmployeeControls.AutoScroll = true;
-            panelEmployeeControls.Location = new Point(20, 50);
-            panelEmployeeControls.Name = "panelEmployeeControls";
-            panelEmployeeControls.Size = new Size(660, 90);
-            panelEmployeeControls.TabIndex = 0;
-            // 
             // button1
             // 
             button1.BackColor = Color.MediumPurple;
@@ -323,6 +315,14 @@
             button1.Text = "Автоподбор сотрудников";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
+            // 
+            // panelEmployeeControls
+            // 
+            panelEmployeeControls.AutoScroll = true;
+            panelEmployeeControls.Location = new Point(20, 50);
+            panelEmployeeControls.Name = "panelEmployeeControls";
+            panelEmployeeControls.Size = new Size(660, 90);
+            panelEmployeeControls.TabIndex = 0;
             // 
             // EditOrder
             // 
@@ -340,7 +340,7 @@
             Controls.Add(buttonEditOrder);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "EditOrder";
-            Text = "MotorbreathMaster - Редактирование заказа";
+            Text = "Редактирование заказа";
             groupBoxDates.ResumeLayout(false);
             groupBoxDates.PerformLayout();
             groupBoxServices.ResumeLayout(false);

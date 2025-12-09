@@ -58,6 +58,7 @@
             pictureBoxNewVehicle.Location = new Point(168, 112);
             pictureBoxNewVehicle.Name = "pictureBoxNewVehicle";
             pictureBoxNewVehicle.Size = new Size(183, 125);
+            pictureBoxNewVehicle.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBoxNewVehicle.TabIndex = 13;
             pictureBoxNewVehicle.TabStop = false;
             pictureBoxNewVehicle.Click += pictureBoxNewVehicle_Click;
@@ -159,7 +160,7 @@
             Controls.Add(labelNewVehicle);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddVehicle";
-            Text = "MotorbreathMaster";
+            Text = "Новый авто";
             ((System.ComponentModel.ISupportInitialize)pictureBoxNewVehicle).EndInit();
             ResumeLayout(false);
             PerformLayout();

@@ -100,7 +100,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Authorization";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "MotorbreathMaster";
+            Text = "Авторизация";
             ResumeLayout(false);
             PerformLayout();
         }

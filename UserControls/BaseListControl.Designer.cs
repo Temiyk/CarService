@@ -148,12 +148,12 @@
 
         #endregion
 
-        private Panel panelControls;
-        private Button buttonAdd;
-        private Button buttonEdit;
-        private Button buttonDelete;
-        private Button buttonUpdate;
-        private SearchFilterControl searchFilterControl1;
-        private DataGridView dataGridView1;
-    }
+        protected Panel panelControls;
+        protected Button buttonAdd;
+        protected Button buttonDelete;
+        protected Button buttonEdit;
+        protected Button buttonUpdate;
+        protected SearchFilterControl searchFilterControl1;
+        protected DataGridView dataGridView1;
+    }     
 }

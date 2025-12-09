@@ -36,8 +36,6 @@ namespace coursa4
                     textBoxClientLN.Text = client.LastName;
                     textBoxEMail.Text = client.Email ?? "";
                     textBoxPhoneNumber.Text = client.PhoneNumber;
-
-                    labelEditClient.Text = $"Редактирование {client.FirstName} {client.LastName}";
                 }
                 else {
                     MessageBox.Show("Клиент не найден!", "Ошибка редактирования", 
@@ -65,7 +63,7 @@ namespace coursa4
                 textBoxClientLN.Focus();
                 return false;
             }
-            if (string.IsNullOrWhiteSpace(textBoxPhoneNumber.Text) || textBoxPhoneNumber.Text.Length != 12) {
+            if (string.IsNullOrWhiteSpace(textBoxPhoneNumber.Text) || textBoxPhoneNumber.Text.Length != 13) {
                 MessageBox.Show("Телефон не может быть пустым!", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;

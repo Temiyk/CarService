@@ -343,7 +343,7 @@
             Name = "MainMenu";
             RightToLeftLayout = true;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "MotorbreathMaster - Главное меню";
+            Text = "Главное меню";
             FormClosing += MainMenu_FormClosing;
             panelSideBar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

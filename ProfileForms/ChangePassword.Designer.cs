@@ -104,7 +104,7 @@
             Controls.Add(labelAddClient);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ChangePassword";
-            Text = "MotorbreathMaster";
+            Text = "Смена пароля";
             ResumeLayout(false);
             PerformLayout();
         }

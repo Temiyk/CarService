@@ -70,8 +70,6 @@ namespace coursa4.EditForms
                     textBoxEditCarVIN.Text = vehicle.VIN;
                     textBoxEditCarPlate.Text = vehicle.LicensePlate;
                     textBoxEditCarMileage.Text = vehicle.Mileage.ToString();
-
-                    labelEditVehicle.Text = $"Редактирование {vehicle.Brand} {vehicle.Model}";
                 }
                 else
                 {

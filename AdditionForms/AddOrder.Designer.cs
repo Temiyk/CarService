@@ -53,8 +53,8 @@
             labelEstimatedDate = new Label();
             labelAcceptDate = new Label();
             groupBoxEmployeeSelection = new GroupBox();
-            panelEmployeeControls = new Panel();
             buttonAutoAssignEmployees = new Button();
+            panelEmployeeControls = new Panel();
             groupBoxClient.SuspendLayout();
             groupBoxVehicle.SuspendLayout();
             groupBoxServices.SuspendLayout();
@@ -303,14 +303,6 @@
             groupBoxEmployeeSelection.TabStop = false;
             groupBoxEmployeeSelection.Text = "Назначение сотрудники";
             // 
-            // panelEmployeeControls
-            // 
-            panelEmployeeControls.AutoScroll = true;
-            panelEmployeeControls.Location = new Point(20, 50);
-            panelEmployeeControls.Name = "panelEmployeeControls";
-            panelEmployeeControls.Size = new Size(660, 90);
-            panelEmployeeControls.TabIndex = 0;
-            // 
             // buttonAutoAssignEmployees
             // 
             buttonAutoAssignEmployees.BackColor = Color.MediumPurple;
@@ -324,6 +316,14 @@
             buttonAutoAssignEmployees.Text = "Автоподбор сотрудников";
             buttonAutoAssignEmployees.UseVisualStyleBackColor = false;
             buttonAutoAssignEmployees.Click += buttonAutoAssignEmployees_Click;
+            // 
+            // panelEmployeeControls
+            // 
+            panelEmployeeControls.AutoScroll = true;
+            panelEmployeeControls.Location = new Point(20, 50);
+            panelEmployeeControls.Name = "panelEmployeeControls";
+            panelEmployeeControls.Size = new Size(660, 90);
+            panelEmployeeControls.TabIndex = 0;
             // 
             // AddOrder
             // 
@@ -342,7 +342,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddOrder";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "MotorbreathMaster - Новый заказ";
+            Text = "Новый заказ";
             groupBoxClient.ResumeLayout(false);
             groupBoxClient.PerformLayout();
             groupBoxVehicle.ResumeLayout(false);

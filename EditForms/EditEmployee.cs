@@ -21,8 +21,8 @@ namespace coursa4.EditForms
         {
             InitializeComponent();
             CreatePhotosDirectory();
-            LoadEmployee();
             this.employeeId = employeeId;
+            LoadEmployee();
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
             openFileDialog.Title = "Выберите фото сотрудника";
         }
@@ -210,14 +210,6 @@ namespace coursa4.EditForms
                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
-            }
-            if (IsEmployeeExists(textBoxEditEmployeeFN.Text.Trim(), textBoxEditEmloyeeLN.Text.Trim()))
-            {
-                MessageBox.Show("Сотрудник с таким именем и фамилией уже существует", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                textBoxEditEmployeeFN.Focus();
-                textBoxEditEmployeeFN.SelectAll();
-                return false;
             }
             return true;
         }

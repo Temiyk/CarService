@@ -65,7 +65,7 @@
             // 
             textBoxPhoneNumber.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
             textBoxPhoneNumber.Location = new Point(339, 136);
-            textBoxPhoneNumber.MaxLength = 12;
+            textBoxPhoneNumber.MaxLength = 13;
             textBoxPhoneNumber.Name = "textBoxPhoneNumber";
             textBoxPhoneNumber.PlaceholderText = "+37512345678*";
             textBoxPhoneNumber.Size = new Size(184, 30);
@@ -118,7 +118,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
+            BackColor = Color.White;
             ClientSize = new Size(582, 353);
             Controls.Add(buttonCancel);
             Controls.Add(buttonApplyChanges);
@@ -129,7 +129,7 @@
             Controls.Add(labelEditClient);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "EditClient";
-            Text = "MotorbreathMaster";
+            Text = "Редактирование клиента";
             FormClosing += EditClient_FormClosing;
             ResumeLayout(false);
             PerformLayout();

@@ -85,6 +85,7 @@
             pictureBoxEmployee.Location = new Point(192, 112);
             pictureBoxEmployee.Name = "pictureBoxEmployee";
             pictureBoxEmployee.Size = new Size(125, 125);
+            pictureBoxEmployee.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBoxEmployee.TabIndex = 6;
             pictureBoxEmployee.TabStop = false;
             pictureBoxEmployee.Click += pictureBoxEmployee_Click;
@@ -118,7 +119,7 @@
             Controls.Add(labelNewEmployee);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddEmployee";
-            Text = "MotorbreathMaster";
+            Text = "Новый сотрудник";
             ((System.ComponentModel.ISupportInitialize)pictureBoxEmployee).EndInit();
             ResumeLayout(false);
             PerformLayout();

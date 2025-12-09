@@ -123,7 +123,7 @@
             Controls.Add(labelNewUser);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Registration";
-            Text = "MotorbreathMaster";
+            Text = "Регистрация";
             ResumeLayout(false);
             PerformLayout();
         }

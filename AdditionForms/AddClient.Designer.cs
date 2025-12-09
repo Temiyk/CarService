@@ -71,7 +71,7 @@
             // 
             textBoxPhoneNumber.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
             textBoxPhoneNumber.Location = new Point(336, 136);
-            textBoxPhoneNumber.MaxLength = 12;
+            textBoxPhoneNumber.MaxLength = 13;
             textBoxPhoneNumber.Name = "textBoxPhoneNumber";
             textBoxPhoneNumber.PlaceholderText = "+37512345678*";
             textBoxPhoneNumber.Size = new Size(184, 30);
@@ -89,19 +89,22 @@
             // 
             // buttonCompleteAdding
             // 
-            buttonCompleteAdding.Location = new Point(208, 256);
+            buttonCompleteAdding.BackColor = Color.SpringGreen;
+            buttonCompleteAdding.FlatAppearance.BorderSize = 0;
+            buttonCompleteAdding.FlatStyle = FlatStyle.Flat;
+            buttonCompleteAdding.Location = new Point(224, 272);
             buttonCompleteAdding.Name = "buttonCompleteAdding";
-            buttonCompleteAdding.Size = new Size(152, 48);
+            buttonCompleteAdding.Size = new Size(128, 32);
             buttonCompleteAdding.TabIndex = 6;
             buttonCompleteAdding.Text = "Добавить";
-            buttonCompleteAdding.UseVisualStyleBackColor = true;
+            buttonCompleteAdding.UseVisualStyleBackColor = false;
             buttonCompleteAdding.Click += buttonCompleteAdding_Click;
             // 
             // AddClient
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
+            BackColor = Color.White;
             ClientSize = new Size(582, 353);
             Controls.Add(buttonCompleteAdding);
             Controls.Add(textBoxEMail);
@@ -111,7 +114,7 @@
             Controls.Add(labelAddClient);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddClient";
-            Text = "MotorbreathMaster";
+            Text = "Новый клиент";
             ResumeLayout(false);
             PerformLayout();
         }

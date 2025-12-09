@@ -19,6 +19,8 @@ namespace coursa4
         private VehiclesControl vehiclesControl;
         private EmployeesControl employeesControl;
         private OrdersControl ordersControl;
+        private ReportsControl reportsControl;
+
         public MainMenu()
         {
             InitializeComponent();
@@ -32,11 +34,13 @@ namespace coursa4
             vehiclesControl = new VehiclesControl();
             employeesControl = new EmployeesControl();
             ordersControl = new OrdersControl();
+            reportsControl = new ReportsControl();
             clientsControl.Dock = DockStyle.Fill;
             servicesControl.Dock = DockStyle.Fill;
             vehiclesControl.Dock = DockStyle.Fill;
             employeesControl.Dock = DockStyle.Fill;
             ordersControl.Dock = DockStyle.Fill;
+            reportsControl.Dock = DockStyle.Fill;
         }
         private void ShowControl(UserControl control, string title)
         {
@@ -94,6 +98,7 @@ namespace coursa4
             }
         }
 
+
         private void buttonVehicles_Click(object sender, EventArgs e)
         {
             ShowControl(vehiclesControl, "MotorbreathMaster - Автомобили");
@@ -116,7 +121,7 @@ namespace coursa4
 
         private void buttonReports_Click(object sender, EventArgs e)
         {
-
+            ShowControl(reportsControl, "MotorbreathMaster - Отчёты");
         }
 
         private void buttonChangePassword_Click(object sender, EventArgs e)

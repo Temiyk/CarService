@@ -20,5 +20,14 @@ namespace coursa4.Models
         public Vehicle Vehicle { get; set; } = null!;
         public List<Service> Services { get; set; } = new List<Service>();
         public List<Employee> Employees { get; set; } = new List<Employee>();
+        public void CompleteOrder()
+        {
+            this.Status = "Завершен";
+            this.ActualCompletionDate = DateTime.Now;
+            foreach (var employee in Employees)
+            {
+                employee.Status = "Свободен";
+            }
+        }
     }
 }

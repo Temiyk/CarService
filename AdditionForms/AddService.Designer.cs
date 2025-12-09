@@ -111,7 +111,7 @@
             Controls.Add(labelNewService);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddService";
-            Text = "MotorbreathMaster";
+            Text = "Новая услуга";
             ResumeLayout(false);
             PerformLayout();
         }

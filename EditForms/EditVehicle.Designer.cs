@@ -99,6 +99,7 @@
             pictureBoxEditVehicle.Location = new Point(168, 112);
             pictureBoxEditVehicle.Name = "pictureBoxEditVehicle";
             pictureBoxEditVehicle.Size = new Size(183, 125);
+            pictureBoxEditVehicle.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBoxEditVehicle.TabIndex = 23;
             pictureBoxEditVehicle.TabStop = false;
             pictureBoxEditVehicle.Click += pictureBoxEditVehicle_Click;
@@ -164,7 +165,7 @@
             Controls.Add(labelEditVehicle);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "EditVehicle";
-            Text = "MotorbreathMaster - Редактирование авто";
+            Text = "Редактирование авто";
             ((System.ComponentModel.ISupportInitialize)pictureBoxEditVehicle).EndInit();
             ResumeLayout(false);
             PerformLayout();
