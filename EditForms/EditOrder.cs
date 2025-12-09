@@ -32,10 +32,10 @@ namespace coursa4.EditForms
             comboBoxVehicles.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxClients.SelectedIndexChanged += comboBoxClients_SelectedIndexChanged;
             dataGridViewServices.CellValueChanged += dataGridViewServices_CellValueChanged;
-            LoadOrderData();
             LoadClients();
-            LoadServices();
             LoadAllEmployees();
+            LoadServices();
+            LoadOrderData();
         }
         private void LoadAllEmployees()
         {
@@ -186,6 +186,16 @@ namespace coursa4.EditForms
                     comboBox.ValueMember = "Id";
 
                     var employees = employeesBySpecialization[specialization];
+
+                    // Добавляем пустой элемент ПЕРВЫМ
+                    comboBox.Items.Add(new
+                    {
+                        Id = 0,
+                        DisplayName = "Не назначено",
+                        Employee = (Employee)null
+                    });
+
+                    // Затем добавляем сотрудников
                     foreach (var employee in employees)
                     {
                         comboBox.Items.Add(new
@@ -196,18 +206,11 @@ namespace coursa4.EditForms
                         });
                     }
 
-                    // Добавляем пустой элемент
-                    comboBox.Items.Insert(0, new
-                    {
-                        Id = 0,
-                        DisplayName = "Не назначено",
-                        Employee = (Employee)null
-                    });
-
                     comboBox.SelectedIndex = 0;
                 }
                 else
                 {
+                    // Если нет сотрудников, добавляем только информационную строку
                     comboBox.Items.Add("Нет доступных сотрудников");
                     comboBox.SelectedIndex = 0;
                     comboBox.Enabled = false;
@@ -235,13 +238,40 @@ namespace coursa4.EditForms
                 if (specializationComboBoxes.ContainsKey(specialization))
                 {
                     var comboBox = specializationComboBoxes[specialization];
+
+                    // Ищем элемент с нужным ID сотрудника
                     for (int i = 0; i < comboBox.Items.Count; i++)
                     {
-                        var item = (dynamic)comboBox.Items[i];
-                        if (item.Employee != null && item.Id == employee.Id)
+                        var item = comboBox.Items[i];
+
+                        // Пропускаем строковые элементы (например, "Нет доступных сотрудников")
+                        if (item is string)
                         {
-                            comboBox.SelectedIndex = i;
-                            break;
+                            continue;
+                        }
+
+                        try
+                        {
+                            // Пытаемся получить Id элемента с помощью dynamic-доступа.
+                            // Если элемент не является анонимным типом с Id, может сработать исключение.
+                            var dynamicItem = (dynamic)item;
+
+                            // Сравниваем Id элемента с Id сотрудника.
+                            if (dynamicItem.Id == employee.Id)
+                            {
+                                comboBox.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                        catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)
+                        {
+                            // Игнорируем элементы, которые не имеют ожидаемых свойств (например, "Id")
+                            continue;
+                        }
+                        catch (Exception)
+                        {
+                            // Игнорируем другие ошибки при попытке доступа к свойству
+                            continue;
                         }
                     }
                 }
