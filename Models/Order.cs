@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using coursa4.ReportControls;
 
 namespace coursa4.Models
 {
@@ -24,10 +25,8 @@ namespace coursa4.Models
         {
             this.Status = "Завершен";
             this.ActualCompletionDate = DateTime.Now;
-            foreach (var employee in Employees)
-            {
-                employee.Status = "Свободен";
-            }
+            var reportGenerator = new ReportGenerator();
+            reportGenerator.GenerateOrderReport(this.Id);
         }
     }
 }

@@ -219,7 +219,8 @@
             // 
             // buttonAddNewVehicle
             // 
-            buttonAddNewVehicle.BackColor = Color.LightSeaGreen;
+            buttonAddNewVehicle.BackColor = Color.ForestGreen;
+            buttonAddNewVehicle.ForeColor = Color.White;
             buttonAddNewVehicle.Location = new Point(550, 40);
             buttonAddNewVehicle.Name = "buttonAddNewVehicle";
             buttonAddNewVehicle.Size = new Size(120, 35);
@@ -252,7 +253,8 @@
             // 
             // buttonAddNewClient
             // 
-            buttonAddNewClient.BackColor = Color.LightSeaGreen;
+            buttonAddNewClient.BackColor = Color.ForestGreen;
+            buttonAddNewClient.ForeColor = Color.White;
             buttonAddNewClient.Location = new Point(550, 40);
             buttonAddNewClient.Name = "buttonAddNewClient";
             buttonAddNewClient.Size = new Size(120, 35);
@@ -282,7 +284,8 @@
             // 
             // buttonEditOrder
             // 
-            buttonEditOrder.BackColor = Color.SteelBlue;
+            buttonEditOrder.BackColor = Color.RoyalBlue;
+            buttonEditOrder.ForeColor = Color.White;
             buttonEditOrder.Location = new Point(287, 936);
             buttonEditOrder.Name = "buttonEditOrder";
             buttonEditOrder.Size = new Size(200, 50);
@@ -304,7 +307,7 @@
             // 
             // button1
             // 
-            button1.BackColor = Color.MediumPurple;
+            button1.BackColor = Color.Teal;
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
             button1.ForeColor = Color.White;

@@ -65,7 +65,8 @@
             // 
             // buttonAddOrder
             // 
-            buttonAddOrder.BackColor = Color.SteelBlue;
+            buttonAddOrder.BackColor = Color.RoyalBlue;
+            buttonAddOrder.ForeColor = Color.White;
             buttonAddOrder.Location = new Point(296, 936);
             buttonAddOrder.Name = "buttonAddOrder";
             buttonAddOrder.Size = new Size(200, 50);
@@ -108,7 +109,8 @@
             // 
             // buttonAddNewClient
             // 
-            buttonAddNewClient.BackColor = Color.LightSeaGreen;
+            buttonAddNewClient.BackColor = Color.ForestGreen;
+            buttonAddNewClient.ForeColor = Color.White;
             buttonAddNewClient.Location = new Point(550, 40);
             buttonAddNewClient.Name = "buttonAddNewClient";
             buttonAddNewClient.Size = new Size(120, 35);
@@ -158,7 +160,8 @@
             // 
             // buttonAddNewVehicle
             // 
-            buttonAddNewVehicle.BackColor = Color.LightSeaGreen;
+            buttonAddNewVehicle.BackColor = Color.ForestGreen;
+            buttonAddNewVehicle.ForeColor = Color.White;
             buttonAddNewVehicle.Location = new Point(550, 40);
             buttonAddNewVehicle.Name = "buttonAddNewVehicle";
             buttonAddNewVehicle.Size = new Size(120, 35);
@@ -305,7 +308,7 @@
             // 
             // buttonAutoAssignEmployees
             // 
-            buttonAutoAssignEmployees.BackColor = Color.MediumPurple;
+            buttonAutoAssignEmployees.BackColor = Color.Teal;
             buttonAutoAssignEmployees.FlatAppearance.BorderSize = 0;
             buttonAutoAssignEmployees.FlatStyle = FlatStyle.Flat;
             buttonAutoAssignEmployees.ForeColor = Color.White;

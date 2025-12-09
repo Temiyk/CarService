@@ -1,5 +1,9 @@
 ﻿using coursa4.Data;
 using coursa4.Models;
+using coursa4.ReportControls;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,9 +11,6 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace coursa4.UserControls
 {
@@ -55,7 +56,98 @@ namespace coursa4.UserControls
 
                 if (result == DialogResult.Yes)
                 {
-                    CompleteOrder(orderId);
+                    try
+                    {
+                        using (var context = new Coursa4Context())
+                        {
+                            // Находим заказ в базе данных
+                            var order = context.Orders
+                                .Include(o => o.Client)
+                                .Include(o => o.Vehicle)
+                                .Include(o => o.Services)
+                                .Include(o => o.Employees)
+                                .FirstOrDefault(o => o.Id == orderId);
+
+                            if (order != null)
+                            {
+                                // Проверяем текущий статус
+                                if (order.Status == "Завершен")
+                                {
+                                    MessageBox.Show("Этот заказ уже завершен",
+                                        "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    return;
+                                }
+
+                                // Обновляем свойства заказа
+                                order.Status = "Завершен";
+                                // Преобразуем Local в UTC для PostgreSQL
+                                order.ActualCompletionDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+
+                                // Обновляем статус сотрудников на "Свободен"
+                                foreach (var employee in order.Employees)
+                                {
+                                    employee.Status = "Свободен";
+                                    context.Entry(employee).State = EntityState.Modified;
+                                }
+
+                                // Сохраняем изменения в БД
+                                context.SaveChanges();
+
+                                // Обновляем данные на форме
+                                LoadData();
+
+                                // Генерируем отчет в отдельном потоке
+                                Task.Run(() =>
+                                {
+                                    try
+                                    {
+                                        var reportGenerator = new ReportGenerator();
+                                        bool reportGenerated = reportGenerator.GenerateOrderReport(orderId);
+
+                                        this.Invoke((MethodInvoker)delegate
+                                        {
+                                            if (reportGenerated)
+                                            {
+                                                MessageBox.Show($"Заказ №{orderId} успешно завершен. Отчет сгенерирован.",
+                                                    "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show($"Заказ №{orderId} завершен, но отчет не был сгенерирован.",
+                                                    "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                            }
+                                        });
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        this.Invoke((MethodInvoker)delegate
+                                        {
+                                            MessageBox.Show($"Ошибка при генерации отчета: {ex.Message}",
+                                                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        });
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                MessageBox.Show("Заказ не найден в базе данных",
+                                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Показываем полную информацию об ошибке
+                        string errorMessage = $"Ошибка при завершении заказа: {ex.Message}";
+
+                        if (ex.InnerException != null)
+                        {
+                            errorMessage += $"\nВнутренняя ошибка: {ex.InnerException.Message}";
+                        }
+
+                        MessageBox.Show(errorMessage,
+                            "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             else
@@ -63,170 +155,6 @@ namespace coursa4.UserControls
                 MessageBox.Show("Выберите заказ для завершения", "Информация",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        }
-
-        private void CompleteOrder(int orderId)
-        {
-            try
-            {
-                using var context = new Coursa4Context();
-
-                // Загружаем заказ со всеми связанными данными
-                var order = context.Orders
-                    .Include(o => o.Client)
-                    .Include(o => o.Vehicle)
-                    .Include(o => o.Services)
-                    .Include(o => o.Employees)
-                    .FirstOrDefault(o => o.Id == orderId);
-
-                if (order != null)
-                {
-                    // Используем DateTime.UtcNow вместо DateTime.Now
-                    order.Status = "Завершен";
-                    order.ActualCompletionDate = DateTime.UtcNow;  // <-- ИСПРАВЛЕНО
-
-                    foreach (var employee in order.Employees)
-                    {
-                        employee.Status = "Свободен";
-                    }
-
-                    context.SaveChanges();
-
-                    GenerateOrderReport(order);
-
-                    MessageBox.Show("Заказ успешно завершен и отчет создан", "Успех",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadData();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при завершении заказа: {ex.Message}", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void GenerateOrderReport(Order order)
-        {
-            try
-            {
-                // Создаем папку Reports, если ее нет
-                string reportsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports");
-                if (!Directory.Exists(reportsFolder))
-                {
-                    Directory.CreateDirectory(reportsFolder);
-                }
-
-                // Создаем имя файла
-                string fileName = Path.Combine(reportsFolder, $"{order.Id}.docx");
-
-                // Создаем документ Word
-                using (WordprocessingDocument wordDocument =
-                    WordprocessingDocument.Create(fileName, WordprocessingDocumentType.Document))
-                {
-                    // Добавляем главную часть документа
-                    MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
-                    mainPart.Document = new Document();
-                    Body body = new Body();
-
-                    // Заголовок отчета
-                    Paragraph titleParagraph = CreateParagraph($"Отчет по заказу №{order.Id}", true, 28);
-                    body.Append(titleParagraph);
-
-                    // Добавляем пустую строку
-                    body.Append(CreateParagraph(""));
-
-                    // Добавляем информацию о заказе
-                    body.Append(CreateParagraph($"Клиент: {order.Client?.LastName} {order.Client?.FirstName}"));
-                    body.Append(CreateParagraph($"Автомобиль: {order.Vehicle?.Brand} {order.Vehicle?.Model}, VIN: {order.Vehicle?.VIN}"));
-                    body.Append(CreateParagraph($"Дата приема: {order.AcceptionDate:dd.MM.yyyy}"));
-
-                    string completionDate = order.ActualCompletionDate.HasValue
-                        ? order.ActualCompletionDate.Value.ToString("dd.MM.yyyy")
-                        : "Не завершен";
-                    body.Append(CreateParagraph($"Дата завершения: {completionDate}"));
-
-                    body.Append(CreateParagraph($"Статус: {order.Status}"));
-                    body.Append(CreateParagraph($"Стоимость: {order.Price:C2}"));
-
-                    // Добавляем пустую строку
-                    body.Append(CreateParagraph(""));
-
-                    // Заголовок для услуг
-                    Paragraph servicesTitle = CreateParagraph("Выполненные услуги:", true, 24);
-                    body.Append(servicesTitle);
-
-                    // Список услуг
-                    if (order.Services != null && order.Services.Any())
-                    {
-                        foreach (var service in order.Services)
-                        {
-                            body.Append(CreateParagraph($"• {service.Name} - {service.Price:C2}"));
-
-                            if (!string.IsNullOrEmpty(service.Description))
-                            {
-                                body.Append(CreateParagraph($"  Описание: {service.Description}"));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        body.Append(CreateParagraph("Нет услуг"));
-                    }
-
-                    // Добавляем пустую строку
-                    body.Append(CreateParagraph(""));
-
-                    // Заголовок для сотрудников
-                    Paragraph employeesTitle = CreateParagraph("Ответственные сотрудники:", true, 24);
-                    body.Append(employeesTitle);
-
-                    // Список сотрудников
-                    if (order.Employees != null && order.Employees.Any())
-                    {
-                        foreach (var employee in order.Employees)
-                        {
-                            body.Append(CreateParagraph($"• {employee.LastName} {employee.FirstName}"));
-                            body.Append(CreateParagraph($"  Специализация: {employee.Specialization}"));
-                            body.Append(CreateParagraph($"  Статус: {employee.Status}"));
-                        }
-                    }
-                    else
-                    {
-                        body.Append(CreateParagraph("Нет назначенных сотрудников"));
-                    }
-
-                    // Сохраняем документ
-                    mainPart.Document.Append(body);
-                    wordDocument.Save();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при создании отчета: {ex.Message}", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private Paragraph CreateParagraph(string text, bool isBold = false, int fontSize = 11)
-        {
-            Paragraph paragraph = new Paragraph();
-            Run run = new Run();
-            RunProperties runProperties = new RunProperties();
-
-            if (isBold)
-            {
-                runProperties.Append(new Bold());
-            }
-
-            if (fontSize > 0)
-            {
-                runProperties.Append(new FontSize() { Val = (fontSize * 2).ToString() }); // Word использует half-points
-            }
-
-            run.Append(runProperties);
-            run.Append(new Text(text));
-            paragraph.Append(run);
-
-            return paragraph;
         }
         private void SetupSearchFilter()
         {

@@ -93,7 +93,6 @@ namespace coursa4
                         }
                     }
 
-                    // Сотрудники
                     listBoxEmployees.Items.Clear();
                     if (order.Employees != null)
                     {
@@ -101,7 +100,7 @@ namespace coursa4
                         {
                             listBoxEmployees.Items.Add($"{employee.LastName} {employee.FirstName}");
                             listBoxEmployees.Items.Add($"  Специализация: {employee.Specialization}");
-                            listBoxEmployees.Items.Add($"  Статус: {employee.Status}");
+                            // Убираем отображение статуса сотрудника
                             listBoxEmployees.Items.Add(""); // Пустая строка для разделения
                         }
                     }
