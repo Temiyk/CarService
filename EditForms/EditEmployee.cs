@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace coursa4.EditForms
 {
     public partial class EditEmployee : Form
@@ -25,6 +26,37 @@ namespace coursa4.EditForms
             LoadEmployee();
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
             openFileDialog.Title = "Выберите фото сотрудника";
+            LoadEmployeeImage();
+        }
+        private void LoadEmployeeImage()
+        {
+            try
+            {
+                string imagesFolder = Path.Combine(Application.StartupPath, "EmployeePhotos");
+                if (!Directory.Exists(imagesFolder))
+                    return;
+
+                string[] possibleExtensions = { "*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif" };
+
+                foreach (string extension in possibleExtensions)
+                {
+                    var photoPath = Path.Combine(imagesFolder, $"employee_{employeeId}{extension.Replace("*", "")}");
+                    if (File.Exists(photoPath))
+                    {
+                        using (var originalImage = Image.FromFile(photoPath))
+                        {
+                            pictureBoxEditEmployee.Image = new Bitmap(originalImage);
+                        } 
+
+                        pictureBoxEditEmployee.SizeMode = PictureBoxSizeMode.Zoom;
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке изображения для EditEmployee: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void LoadEmployee()
         {

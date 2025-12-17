@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using coursa4.Data;
@@ -11,9 +12,11 @@ using coursa4.Data;
 namespace coursa4.Migrations
 {
     [DbContext(typeof(Coursa4Context))]
-    partial class Coursa4ContextModelSnapshot : ModelSnapshot
+    [Migration("20251217074847_NewLength")]
+    partial class NewLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

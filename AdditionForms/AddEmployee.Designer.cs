@@ -85,7 +85,7 @@
             pictureBoxEmployee.Location = new Point(192, 112);
             pictureBoxEmployee.Name = "pictureBoxEmployee";
             pictureBoxEmployee.Size = new Size(125, 125);
-            pictureBoxEmployee.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBoxEmployee.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBoxEmployee.TabIndex = 6;
             pictureBoxEmployee.TabStop = false;
             pictureBoxEmployee.Click += pictureBoxEmployee_Click;

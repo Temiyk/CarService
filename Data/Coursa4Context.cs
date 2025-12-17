@@ -19,7 +19,6 @@ namespace coursa4.Data
 
         public Coursa4Context() 
         {
-            //Database.EnsureDeleted(); // Удалить существующую БД
             Database.EnsureCreated();
         }
 
@@ -85,8 +84,8 @@ namespace coursa4.Data
             modelBuilder.Entity<Employee>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.LastName).IsRequired().HasMaxLength(50);
+                entity.Property(e => e.FirstName).IsRequired().HasMaxLength(25);
+                entity.Property(e => e.LastName).IsRequired().HasMaxLength(25);
                 entity.Property(e => e.Specialization).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Status).IsRequired().HasMaxLength(50);
             });
