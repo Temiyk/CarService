@@ -30,12 +30,30 @@
         {
             SuspendLayout();
             // 
+            // buttonAdd
+            // 
+            buttonAdd.FlatAppearance.BorderSize = 0;
+            // 
+            // buttonDelete
+            // 
+            buttonDelete.FlatAppearance.BorderSize = 0;
+            // 
+            // buttonEdit
+            // 
+            buttonEdit.FlatAppearance.BorderSize = 0;
+            // 
+            // buttonUpdate
+            // 
+            buttonUpdate.FlatAppearance.BorderSize = 0;
+            // 
+            // searchFilterControl1
+            // 
+            // 
             // ClientsControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Name = "ClientsControl";
-            Size = new Size(900, 600);
             ResumeLayout(false);
         }
 

@@ -135,7 +135,7 @@ namespace coursa4
                     {
                         LoadData();
                         SearchFilter.ClearSearch();
-                        
+
                     }
                 }
                 catch (Exception ex)

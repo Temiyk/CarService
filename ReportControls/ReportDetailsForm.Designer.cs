@@ -36,18 +36,18 @@
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
-            groupBox1 = new GroupBox();
-            groupBox2 = new GroupBox();
-            listBoxServices = new ListBox();
-            listBoxEmployees = new ListBox();
             labelClientValue = new Label();
             labelVehicleValue = new Label();
             labelAcceptDateValue = new Label();
             labelCompleteDateValue = new Label();
             labelPriceValue = new Label();
+            groupBox1 = new GroupBox();
+            listBoxServices = new ListBox();
+            groupBox2 = new GroupBox();
+            listBoxEmployees = new ListBox();
             groupBox3 = new GroupBox();
-            labelFileInfo = new Label();
             buttonOpenFile = new Button();
+            labelFileInfo = new Label();
             tableLayoutPanel1.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -141,46 +141,6 @@
             label5.TabIndex = 4;
             label5.Text = "Стоимость:";
             // 
-            // groupBox1
-            // 
-            groupBox1.Controls.Add(listBoxServices);
-            groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            groupBox1.Location = new Point(20, 220);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(350, 200);
-            groupBox1.TabIndex = 2;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Выполненные услуги";
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(listBoxEmployees);
-            groupBox2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            groupBox2.Location = new Point(400, 220);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(350, 200);
-            groupBox2.TabIndex = 3;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Ответственные сотрудники";
-            // 
-            // listBoxServices
-            // 
-            listBoxServices.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            listBoxServices.FormattingEnabled = true;
-            listBoxServices.Location = new Point(10, 25);
-            listBoxServices.Name = "listBoxServices";
-            listBoxServices.Size = new Size(330, 164);
-            listBoxServices.TabIndex = 0;
-            // 
-            // listBoxEmployees
-            // 
-            listBoxEmployees.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            listBoxEmployees.FormattingEnabled = true;
-            listBoxEmployees.Location = new Point(10, 25);
-            listBoxEmployees.Name = "listBoxEmployees";
-            listBoxEmployees.Size = new Size(330, 164);
-            listBoxEmployees.TabIndex = 0;
-            // 
             // labelClientValue
             // 
             labelClientValue.AutoSize = true;
@@ -231,6 +191,46 @@
             labelPriceValue.Text = "label10";
             labelPriceValue.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(listBoxServices);
+            groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            groupBox1.Location = new Point(20, 220);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(364, 200);
+            groupBox1.TabIndex = 2;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Выполненные услуги";
+            // 
+            // listBoxServices
+            // 
+            listBoxServices.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            listBoxServices.FormattingEnabled = true;
+            listBoxServices.Location = new Point(10, 25);
+            listBoxServices.Name = "listBoxServices";
+            listBoxServices.Size = new Size(342, 164);
+            listBoxServices.TabIndex = 0;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(listBoxEmployees);
+            groupBox2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            groupBox2.Location = new Point(392, 220);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(358, 200);
+            groupBox2.TabIndex = 3;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Ответственные сотрудники";
+            // 
+            // listBoxEmployees
+            // 
+            listBoxEmployees.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            listBoxEmployees.FormattingEnabled = true;
+            listBoxEmployees.Location = new Point(10, 25);
+            listBoxEmployees.Name = "listBoxEmployees";
+            listBoxEmployees.Size = new Size(334, 164);
+            listBoxEmployees.TabIndex = 0;
+            // 
             // groupBox3
             // 
             groupBox3.Controls.Add(buttonOpenFile);
@@ -242,15 +242,6 @@
             groupBox3.TabIndex = 4;
             groupBox3.TabStop = false;
             groupBox3.Text = "Файл отчета";
-            // 
-            // labelFileInfo
-            // 
-            labelFileInfo.AutoSize = true;
-            labelFileInfo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            labelFileInfo.Location = new Point(10, 25);
-            labelFileInfo.Name = "labelFileInfo";
-            labelFileInfo.Size = new Size(0, 20);
-            labelFileInfo.TabIndex = 0;
             // 
             // buttonOpenFile
             // 
@@ -264,6 +255,15 @@
             buttonOpenFile.Text = "Открыть файл";
             buttonOpenFile.UseVisualStyleBackColor = false;
             buttonOpenFile.Click += buttonOpenFile_Click;
+            // 
+            // labelFileInfo
+            // 
+            labelFileInfo.AutoSize = true;
+            labelFileInfo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            labelFileInfo.Location = new Point(10, 25);
+            labelFileInfo.Name = "labelFileInfo";
+            labelFileInfo.Size = new Size(0, 20);
+            labelFileInfo.TabIndex = 0;
             // 
             // ReportDetailsForm
             // 
