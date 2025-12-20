@@ -128,7 +128,7 @@ namespace coursa4
         {
             try
             {
-                var changePasswordForm = new ChangePassword();
+                var changePasswordForm = new ChangePassword(Program.CurrentUser.Id);
                 changePasswordForm.ShowDialog();
             }
             catch (Exception ex)

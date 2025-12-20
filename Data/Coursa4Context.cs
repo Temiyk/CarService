@@ -22,6 +22,9 @@ namespace coursa4.Data
             Database.EnsureCreated();
         }
 
+        public Coursa4Context(DbContextOptions<Coursa4Context> options) : base(options)
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

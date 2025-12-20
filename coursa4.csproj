@@ -43,4 +43,7 @@
     </EmbeddedResource>
   </ItemGroup>
 
+    <ItemGroup>
+		<InternalsVisibleTo Include="Coursa4.Tests" />
+	</ItemGroup>
 </Project>
